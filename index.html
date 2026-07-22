@@ -1,0 +1,2817 @@
+<html>
+    <head>
+        <title>
+            Calculator
+        </title>
+		<meta charset="utf-8"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
+    </head>
+    <body>
+        <div class="modal fade" id="whatsappFormModal" tabindex="-1" role="dialog" aria-labelledby="whatsappFormModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Напишите свой номер WhatsApp для отправки отчета</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-container">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="whatsappNumber" placeholder="+7 XXX XX XX">
+                        <label for="floatingInput">Номер WhatsApp</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                  <button type="button" class="send-otchet-to-whatsapp-btn btn atc-def-btn">Отправить отчет на WhatsApp</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="steps">
+            <div class="step">
+              <div class="step-header">
+                <div class="header">Тип транспортного средства</div>
+              </div>
+              <div class="step-content two">
+                <div class="step-label">Выберите тип транспортного средства</div>
+                <div class="form-container">
+                    <div class="row mt-2">
+                        <div class="col mb-2">
+                            <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
+                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="single" hidden>
+                                <img src="calc-atc-type/single.png" alt="">
+                                <span for="flexRadioDefault1" class="col-label text-uppercase">Одиночный АТС</span>
+                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="col mb-2">
+                            <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
+                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="polupricep" hidden>
+                                <img src="calc-atc-type/polupricep.png" alt="">
+                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Автопоезд в составе тягача и полуприцепа</span>
+                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col mb-2">
+                            <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
+                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="pricep" hidden>
+                                <img src="calc-atc-type/pricep.png" alt="">
+                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Автопоезд в составе тягача и прицепа</span>
+                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="col mb-2">
+                            <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
+                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="trall" hidden>
+                                <img src="calc-atc-type/trall.png" alt="">
+                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Автопоезд в составе тягача и трала</span>
+                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-container">
+                    <button class="step-two-btn next-btn disabled">Продолжить</button>
+                    <button class="prev-btn">Назад</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="step minimized">
+              <div class="step-header">
+                <div class="header">Конструктор колесной формулы</div>
+              </div>
+              <div class="step-content three">
+                <div class="form-container">
+                    <div class="step-label">Выберите тип группы осей</div>
+                    <div class="row mt-2">
+                        <div class="col mb-2 first-os-group">
+                            <div class="os-container">
+                                <div class="step-label mb-2">Рулевая группа осей</div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-1os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-1os" data-kol-os="1" hidden>
+                                    <img src="os/1os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-2os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-2os" data-kol-os="2" hidden>
+                                    <img src="os/2os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="form-floating first-os-distance-container d-none" data-step="3">
+                                    <select name="first-os-distance" id="firstOsDistance" class="form-select" data-os="1" data-step="3">
+                                        <option value="none" selected disabled>Выберите расстояние</option>
+                                        <option value="1">до 1 метра</option>
+                                        <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                        <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                        <option value="4">от 1,8 метра включительно до 2 метров</option>
+                                    </select>  
+                                    <label class="text-dark" for="firstOsDistance">Расстояние между осями</label>
+                                </div>
+                                <div class="step-label mb-2">Скатность колёс</div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="first-os-skat" id="first-1skat" hidden checked>
+                                    <img src="skat/1skat.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon"><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 disabled" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="first-os-skat" id="first-2skat" hidden>
+                                    <img src="skat/2skat.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Двускатные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col mb-2 second-os-group">
+                            <div class="os-container">
+                                <div class="step-label mb-2">Ведущая группа осей</div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-1os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-1os"  data-kol-os="1"hidden>
+                                    <img src="os/1os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-2os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-2os"  data-kol-os="2"hidden>
+                                    <img src="os/2os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-21os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-21os" data-kol-os="2" hidden>
+                                    <img src="os/21os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные с ленивцом</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-3os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-3os"  data-kol-os="3" hidden>
+                                    <img src="os/3os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-4os-group" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-3os"  data-kol-os="4" hidden>
+                                    <img src="os/4os.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="form-floating second-os-distance-container d-none" data-step="3">
+                                    <select name="second-os-distance" id="secondOsDistance" class="form-select" data-os="2" data-step="3">
+                                        <option value="none" selected disabled>Выберите расстояние</option>
+                                        <option value="1">до 1 метра</option>
+                                        <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                        <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                        <option value="4">от 1,8 метра включительно до 2 метров</option>
+                                    </select>  
+                                    <label class="text-dark" for="secondOsDistance">Расстояние между осями</label>
+                                </div> 
+                                <div class="step-label mb-2">Скатность колёс</div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-1skat" hidden>
+                                    <img src="skat/1skat.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-2skat" hidden>
+                                    <img src="skat/2skat.png" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Двускатные</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col mb-2 third-os-group">
+                            <div class="os-container">
+                                <div class="step-label mb-2">Первая группа осей на прицепе</div>
+                                <div class="third-os-tral-container form-container d-none">
+                                    <div class="container mb-2">
+                                        <label class="text-dark" for="tralType">Выберите тип трала</label>
+                                        <div class="row">
+                                            <div class="btn col col-btn third-tral-type" style="width:80px;height:100px;margin-right: 10px;" data-tral-type="1" data-step="3">
+                                                <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeDefault" data-tral-type="1" hidden>
+                                                <img src="tral-type/default.png" style="width: 100%; height:40%;" alt="">
+                                                <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
+                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </div>
+                                            <div class="btn col col-btn third-tral-type ml-2" data-tral-type="2" data-step="3" style="width:80px;height:100px;margin-left:10px">
+                                                <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeModule" data-tral-type="2" hidden>
+                                                <img src="tral-type/module.png" style="width: 100%; height:35%;" alt="">
+                                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
+                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating os-tral mb-2 d-none">
+                                        <select name="third-tral-os-num" class="form-select" id="thirdTralOsNum" data-step="3">
+                                            <option value="none" selected disabled>Выберите количество осей</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                        <label for="">Количество осей</label>
+                                    </div>
+                                    <div class="form-floating module-tral mb-2 d-none">
+                                        <select name="third-tral-row-num" class="form-select" id="thirdTralRowNum" data-step="3">
+                                            <option value="none" selected disabled>Выберите количество рядов</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                        <label for="">Количество рядов</label>
+                                    </div>
+                                </div>
+                                <div class="third-os-group-container">
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-1os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-1os" data-kol-os="1" hidden>
+                                        <img src="os/1os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-2os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-2os" data-kol-os="2" hidden>
+                                        <img src="os/2os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-3os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-3os" data-kol-os="3" hidden>
+                                        <img src="os/3os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-4os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-4os" data-kol-os="4" hidden>
+                                        <img src="os/4os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                </div>
+                                <div class="form-floating third-os-distance-container d-none">
+                                    <select name="third-os-distance" id="thirdOsDistance" class="form-select" data-os="3" data-step="3">
+                                        <option value="none" selected disabled>Выберите расстояние</option>
+                                        <option value="1">до 1 метра</option>
+                                        <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                        <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                        <option value="4">от 1,8 метра включительно до 2 метров</option>
+                                    </select>  
+                                    <label class="text-dark" for="thirdOsDistance">Расстояние между осями</label>
+                                </div>
+                                <div class="third-os-group-container third-os-skat-container">
+                                    <div class="step-label mb-2">Скатность колёс</div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="third-os-skat" id="third-1skat" hidden>
+                                        <img src="skat/1skat.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="third-os-skat" id="third-2skat" hidden>
+                                        <img src="skat/2skat.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Двускатные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col mb-2 fourth-os-group">
+                            <div class="btn add-os-btn fourth">
+                                Добавить вторую группу осей на прицепе...
+                            </div>
+                            <div class="os-container" style="display: none;">
+                                <div class="fourth-os-tral-container form-container d-none">
+                                    <div class="mb-2 container">
+                                        <!-- <select name="fourth-tral-type" class="form-select" id="fourthTralType" data-step="3">
+                                            <option value="none" selected disabled>Выберите тип трала</option>
+                                            <option value="1">Обычный</option>
+                                            <option value="2">Модульный</option>
+                                        </select> -->
+                                        <label class="text-dark" for="tralType">Выберите тип трала</label>
+                                        <div class="row">
+                                            <div class="btn col col-btn fourth-tral-type" style="width:80px;height:100px;margin-right: 10px;" data-tral-type="1" data-step="3">
+                                                <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeDefault" data-tral-type="1" hidden>
+                                                <img src="tral-type/default.png" style="width: 100%; height:40%;" alt="">
+                                                <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
+                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </div>
+                                            <div class="btn col col-btn fourth-tral-type ml-2" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2">
+                                                <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeModule" data-tral-type="2" hidden>
+                                                <img src="tral-type/module.png" style="width: 100%; height:30%;" alt="">
+                                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
+                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-floating os-tral mb-2 d-none">
+                                        <select name="fourth-tral-os-num" class="form-select" id="fourthTralOsNum" data-step="3">
+                                            <option value="0" selected disabled>Выберите количество осей</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                        <label for="">Количество осей</label>
+                                    </div>
+                                    <div class="form-floating module-tral mb-2 d-none">
+                                        <select name="fourth-tral-row-num" class="form-select" id="fourthTralRowNum" data-step="3">
+                                            <option value="none" selected disabled>Выберите количество рядов</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                        <label for="">Количество рядов</label>
+                                    </div>
+                                </div>
+                                <div class="fourth-os-group-container">
+                                    <div class="step-label mb-2">Вторая группа осей на прицепе</div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-1os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-1os" data-kol-os="1" hidden>
+                                        <img src="os/1os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-2os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-2os" data-kol-os="2" hidden>
+                                        <img src="os/2os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-3os-group" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-3os" data-kol-os="3" hidden>
+                                        <img src="os/3os.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating fourth-os-distance-container d-none">
+                                    <select name="fourth-os-distance" id="fourthOsDistance" class="form-select" data-os="4" data-step="3">
+                                        <option value="none" selected disabled>Выберите расстояние</option>
+                                        <option value="1">до 1 метра</option>
+                                        <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                        <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                        <option value="4">от 1,8 метра включительно до 2 метров</option>
+                                    </select>  
+                                    <label class="text-dark" for="fourthOsDistance">Расстояние между осями</label>
+                                </div>
+                                <div class="fourth-os-group-container fourth-os-skat-container">
+                                    <div class="step-label mb-2">Скатность колёс</div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fourth-os-skat" id="fourth-1skat" hidden>
+                                        <img src="skat/1skat.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fourth-os-skat" id="fourth-2skat" hidden>
+                                        <img src="skat/2skat.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Двускатные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col mb-2 fifth-os-group">
+                            <div class="btn add-os-btn fifth">
+                                Добавить третью группу осей на трале...
+                            </div>
+                            <div class="os-container" style="display: none;">
+                                <div class="fifth-os-tral-container form-container">
+                                    <div class="container mb-2">
+                                        <label class="text-dark" for="tralType">Выберите тип трала</label>
+                                        <div class="row">
+                                            <div class="btn col col-btn fifth-tral-type" style="width:80px;height:100px;margin-right: 10px;" data-tral-type="1" data-step="3">
+                                                <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeDefault" data-tral-type="1" hidden>
+                                                <img src="tral-type/default.png" style="width: 100%; height:40%;" alt="">
+                                                <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
+                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </div>
+                                            <div class="btn col col-btn fifth-tral-type ml-2" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2">
+                                                <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeModule" data-tral-type="2" hidden>
+                                                <img src="tral-type/module.png" style="width: 100%; height:30%;" alt="">
+                                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
+                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating os-tral mb-2 d-none">
+                                        <select name="fifth-tral-os-num" class="form-select" id="fifthTralOsNum" data-step="3">
+                                            <option value="0" selected disabled>Выберите количество осей</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                        <label for="">Количество осей</label>
+                                    </div>
+                                    <div class="form-floating module-tral mb-2 d-none">
+                                        <select name="fifth-tral-row-num" class="form-select" id="fifthTralRowNum" data-step="3">
+                                            <option value="none" selected disabled>Выберите количество рядов</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                        </select>
+                                        <label for="">Количество рядов</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating fifth-os-distance-container d-none">
+                                    <select name="fifth-os-distance" id="fifthOsDistance" class="form-select" data-os="5" data-step="3">
+                                        <option value="none" selected disabled>Выберите расстояние</option>
+                                        <option value="1">до 1 метра</option>
+                                        <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                        <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                        <option value="4">от 1,8 метра включительно до 2 метров</option>
+                                    </select>  
+                                    <label class="text-dark" for="fifthOsDistance">Расстояние между осями</label>
+                                </div>
+                                <div class="fifth-os-group-container fifth-os-skat-container">
+                                    <div class="step-label mb-2">Скатность колёс</div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fifth-os-skat" id="fifth-1skat" hidden>
+                                        <img src="skat/1skat.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                    <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
+                                        <input class="form-check calc-atc-type" type="radio" name="fifth-os-skat" id="fifth-2skat" hidden>
+                                        <img src="skat/2skat.png" alt="">
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Двускатные</span>
+                                        <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation-container">
+                    <button class="step-three-btn next-btn disabled">Продолжить</button>
+                    <button class="prev-btn">Назад</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="step minimized">
+                <div class="step-header">
+                  <div class="header">Весовые параметры</div>
+                </div>
+                <div class="step-content four">
+                    <div class="form-container">
+                        <div class="row my-2">
+                            <div class="col">
+                                <label>Весовые параметры для рулевой группы осей</label>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control os-weight" id="first-os-weight" placeholder="0">
+                                    <label for="floatingInput">Введите вес, в тоннах</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label>Весовые параметры для ведущей группы осей</label>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control os-weight" id="second-os-weight" placeholder="0">
+                                    <label for="floatingInput">Введите вес, в тоннах</label>
+                                </div>
+                            </div>
+                            <div class="col three-os-weight-group">
+                                <label>Весовые параметры для третьей группы осей</label>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control os-weight" id="third-os-weight" placeholder="0">
+                                    <label for="floatingInput">Введите вес, в тоннах</label>
+                                </div>
+                            </div>
+                            <div class="col four-os-weight-group">
+                                <label>Весовые параметры для четвертой группы осей</label>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control os-weight" id="four-os-weight" placeholder="0">
+                                    <label for="floatingInput">Введите вес, в тоннах</label>
+                                </div>
+                            </div>
+                            <div class="col five-os-weight-group">
+                                <label>Весовые параметры для пятой группы осей</label>
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control os-weight" id="five-os-weight" placeholder="0">
+                                    <label for="floatingInput">Введите вес, в тоннах</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-secondary mb-2">Весовые параметры "долли" ("тёща") вводятся отдельном в пункте</div>
+                    </div>
+                    <div class="navigation-container">
+                        <button class="step-four-btn next-btn disabled">Продолжить</button>
+                        <button class="prev-btn">Назад</button>
+                    </div>
+                </div>
+            </div>
+            <div class="step minimized step-tesha d-none">
+                <div class="step-header">Долли (тёща)</div>
+                <div class="step-content tesha">
+                    
+                    <div class="container mb-2">
+                        <div class="step-label">Добавить долии (тёща) да/нет</div>
+                        <div class="container w-50 m-0">
+                            <div class="row">
+                                <div class="btn col-btn d-flex flex-col col-md-auto m-2 mb-2 est-tesha-group" style="height:80px;" data-step="21">
+                                    <input class="form-check est-tesha" type="radio" name="est-tesha" id="est-tesha-1" value="1" hidden>
+                                    <img src="tesha/0ryad.png" class="mx-2 my-auto" style="width:50px;height: 82%;" alt="">
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col-btn d-flex flex-col col-md-auto m-2 mb-2 est-tesha-group" style="height:80px;" data-step="21">
+                                    <input class="form-check est-tesha" type="radio" name="est-tesha" id="est-tesha-0" value="0" hidden>
+                                    <img src="tesha/noryad.png" class="mx-2 my-auto" style="width:50px;height:85%;" alt="">
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="tesha-row-container d-none">
+                            <div class="step-label">Ряды в долли</div>
+                            <div class="row tesha-row-container">
+                                <div class="btn col col-btn d-flex flex-col col-md-auto m-2 mb-2 tesha-row-group" style="height:100px;" data-step="21">
+                                    <input class="form-check tesha-row" type="radio" name="tesha-row-num" id="teshaRowNum-1" value="1" hidden>
+                                    <img src="tesha/1ryad.png" class="mx-2 my-auto" style="width:40px;height: 50%;" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Однорядный</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col col-btn d-flex flex-col col-md-auto m-2 mb-2 tesha-row-group" style="height:100px;" data-step="21">
+                                    <input class="form-check tesha-row" type="radio" name="tesha-row-num" id="teshaRowNum-2" value="2" hidden>
+                                    <img src="tesha/2ryad.png" class="mx-2 my-auto" style="width:60px;height: 50%;" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Двухрядный</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                                <div class="btn col col-btn d-flex flex-col col-md-auto m-2 mb-2 tesha-row-group" style="height:100px;" data-step="21">
+                                    <input class="form-check tesha-row" type="radio" name="tesha-row-num" id="teshaRowNum-1" value="3" hidden>
+                                    <img src="tesha/3ryad.png" class="mx-2 my-auto" style="width:100px;height: 50%;" alt="">
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Трехрядный</span>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-floating tesha-os-distance-container d-none">
+                            <select name="tesha-os-distance" id="teshaOsDistance" class="form-select" data-os="3" data-step="21">
+                                <option value="none" selected disabled>Выберите расстояние</option>
+                                <option value="1">до 1 метра</option>
+                                <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                <option value="4">от 1,8 метра включительно до 2 метров</option>
+                            </select>  
+                            <label class="text-dark" for="teshaOsDistance">Расстояние между осями</label>
+                        </div>
+                        <div class="tesha-weight-container d-none">
+                            <div class="step-label">Вес долли (тёщи)</div>
+                            <div class="form-floating">
+                                <input type="number" name="tesha-ves" class="form-control" id="teshaWeight" data-step="21">
+                                <label for="tesha-ves">Вес долии (тёщи) в тоннах</label>
+                            </div>
+                        </div>
+                        <!-- <select name="est-tesha" id="estTesha" class="form-select mb-2" data-step="21">
+                            <option value="none" selected disabled>Добавить долли</option>
+                            <option value="1">Да</option>
+                            <option value="0">Нет</option>
+                        </select>
+                        
+                        <div class="form-floating tesha-os-distance-container d-none">
+                            <select name="tesha-os-distance" id="teshaOsDistance" class="form-select" data-os="3" data-step="3">
+                                <option value="none" selected disabled>Выберите расстояние</option>
+                                <option value="1">до 1 метра</option>
+                                <option value="2">от 1 метра включительно до 1,3 метра</option>
+                                <option value="3">от 1,3 метра включительно до 1,8 метра</option>
+                                <option value="4">от 1,8 метра включительно до 2 метров</option>
+                            </select>  
+                            <label class="text-dark" for="teshaOsDistance">Расстояние между осями</label>
+                        </div>
+                        <div class="tesha-weight-container d-none">
+                            <div class="step-label">Вес долли (тёщи)</div>
+                            <div class="form-floating">
+                                <input type="number" name="tesha-ves" class="form-control" id="teshaWeight" data-step="21">
+                                <label for="tesha-ves">Вес долии (тёщи) в тоннах</label>
+                            </div>
+                        </div> -->
+                        
+                    </div>
+                    
+                    <div class="navigation-container">
+                        <button class="step-tesha-btn next-btn disabled">Продолжить</button>
+                        <button class="prev-btn">Назад</button>
+                    </div>
+                </div>
+            </div>
+            <div class="step minimized">
+                <div class="step-header">
+                    <div class="header">Габаритные параметры</div>
+                </div>
+                <div class="step-content five">
+                    <div class="form-container mb-2">
+                        <div class="form-group">
+                            <label for="">Длина АТС</label>
+                            <div class="form-floating">
+                                <input type="number" class="form-control atc-msrmnt" id="atc_length" placeholder="0">
+                                <label for="floatingInput">Длина АТС с грузом, в метрах</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Ширина АТС</label>
+                            <div class="form-floating">
+                                <input type="number" class="form-control atc-msrmnt" id="atc_width" placeholder="0">
+                                <label for="floatingInput">Ширина АТС с грузом, в метрах</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Высота АТС</label>
+                            <div class="form-floating">
+                                <input type="number" class="form-control atc-msrmnt" id="atc_height" placeholder="0">
+                                <label for="floatingInput">Высота АТС с грузом, в метрах</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="navigation-container">
+                        <button class="step-five-btn next-btn disabled">Продолжить</button>
+                        <button class="prev-btn">Назад</button>
+                    </div>
+                </div>
+            </div>
+            <div class="step minimized">
+                <div class="step-header">
+                  <div class="header">Маршрут</div>
+                </div>
+                <div class="step-content one">
+                  <div class="step-label">Расстояние маршрута</div>
+                  <div class="form-floating mb-3">
+                      <input type="number" class="form-control step-one-form" name="distance" placeholder="0">
+                      <label for="floatingInput">Введите расстояние, в километрах</label>
+                      <div class="form-check form-switch mt-3">
+                          <input class="form-check-input step-one-form" type="checkbox" role="switch" id="restrictionSeason">
+                          <label class="form-check-label" for="flexSwitchCheckChecked">Сезон весенних ограничений</label>
+                      </div>
+                  </div>
+                  <div class="navigation-container">
+                      <button class="calc-btn disabled">Рассчитать стоимость</button>
+                      <button class="step-one-btn prev-btn disabled">Назад</button>
+                  </div>
+                </div>
+              </div>
+            <div class="step minimized">
+                <div class="step-content">
+                    <img src="/step/erl.png" alt="">
+                    <div class="final-text">
+                        <h4>Сумма сбора за проезд:</h4>
+                        <h4 id="totalSum"></h4>
+                    </div>
+                    <button class="reset-btn">Перерасчитать</button>
+                    <button type="button" class="show-whatsapp-btn btn atc-def-btn" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">Отправить отчёт на WhatsApp</button>
+                </div>
+            </div>  
+          </div>
+        <style>
+            :root {
+                --background-color: #FFFFFF;
+                --background-dark-color: rgba(0, 0, 0, 0.1);
+                --background-text-dark-color: rgba(0, 0, 0, 0.5);
+                --primary-background-color: rgb(202, 0, 0);
+                --primary-light-color: rgba(218, 54, 54, 0.829);
+                --primary-light-btn-color: rgba(218, 54, 54, 0.388);
+                --primary-color: rgb(194, 13, 14);
+            }
+
+            *{
+                box-sizing: border-box;
+            }
+            .col-label{
+                color:var(--primary-color);
+                font-size: 14px;
+                font-weight: bold;
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+            body {
+                margin: 0;
+                height: 100%;
+                width: 100vw;
+                background-color: rgba(0, 0, 0, 0.08);
+                font-family: Arial;
+                display: flex;
+            }
+
+            .steps {
+                width: 100%;
+                box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.3);
+                background-color: #FFF;
+                padding: 24px 0;
+                position: relative;
+                margin: auto;
+            }
+
+            .steps::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                height: 24px;
+                width: 1px;
+                background-color: rgba(0, 0, 0, 0.2);
+                left: calc(50px / 2);
+                z-index: 1;
+            }
+
+            .step {
+                padding: 0 20px 24px 50px;
+                position: relative;
+                transition: all 0.4s ease-in-out;
+                background-color: #FFF;
+            }
+
+            .step::before {
+                content: '';
+                position: absolute;
+                height: 13px;
+                width: 13px;
+                background-color: var(--primary-color);
+                border-radius: 15px;
+                left: calc(50px / 2);
+                transform: translateX(-45%);
+                z-index: 2;
+            }
+
+            .step::after {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 1px;
+                background-color: var(--primary-color);
+                left: calc(50px / 2);
+                top: 0;
+                z-index: 1;
+            }
+            
+            .step.minimized {
+                background-color: #FFF;
+                transition: background-color 0.3s ease-in-out;
+                cursor: pointer;
+            }
+            .step.minimized::before {
+                background-color: rgb(198, 198, 198);
+            }
+            .step.minimized::after {
+                background-color: rgb(198, 198, 198);
+            }
+
+            .step.step-completed::before {
+                background-color: var(--primary-color);
+            }
+            .step.step-completed::after {
+                background-color: var(--primary-color);
+            }
+
+            .atc-def-btn{
+                border: 0;
+                padding: 10px 20px;
+                border-radius: 4px;
+                background-color: var(--primary-color);
+                color: #FFF;
+                transition: background-color 0.3s ease-in-out;
+                cursor: pointer;
+            }
+
+            .header {
+                user-select: none;
+                font-size: 16px;
+                color: rgba(0, 0, 0, 0.6);
+            }
+
+            .subheader {
+                user-select: none;
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.4);
+            }
+
+            .step-content {
+                transition: all 0.3s ease-in-out;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .step.minimized > .step-content {
+                height: 0px;
+            }
+            .btn.col-btn{
+                border-color: var(--primary-color);
+                border-radius: 4px!important;
+            }
+            .step-content.one {
+                height: 200px;
+                width: 100%;
+                background-color: rgba(255,255,255,1);
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+
+            .step-content.two {
+                height: 250px;
+                width: 100%;
+                background-color: rgba(255,255,255,1);
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+            .step-content.tesha{
+                height: 450px;
+                width: 100%;
+                background-color: rgba(255,255,255,1);
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+            .step-content.three {
+                height: 750px;
+                width: 100%;
+                background-color: rgba(255,255,255,1);
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+            @media (max-width: 1199.98px) { 
+                .step-content.three {
+                    height: 1200px;
+                }
+             }
+
+            .step-content.four {
+                height: 250px;
+                width: 100%;
+                background-color: rgba(255,255,255,1);
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+            .step-content.five {
+                height: 400px;
+                width: 100%;
+                background-color: rgba(255,255,255,1);
+                border-radius: 4px;
+                margin-top: 10px;
+            }
+
+            .next-btn {
+                border: 0;
+                padding: 10px 20px;
+                border-radius: 4px;
+                background-color: var(--primary-color);
+                color: #FFF;
+                transition: background-color 0.3s ease-in-out;
+                cursor: pointer;
+            }
+
+            .prev-btn {
+                border: 0;
+                padding: 10px 20px;
+                border-radius: 4px;
+                background-color: var(--background-color);
+                color: var(--primary-background-color);
+                transition:  0.3s ease-in-out;
+                cursor: pointer;
+            }
+
+            .calc-btn {
+                border: 0;
+                padding: 10px 20px;
+                border-radius: 4px;
+                background-color: rgb(227, 43, 43);
+                color: #FFF;
+                cursor: pointer;
+            }
+            .reset-btn {
+                border: 0;
+                padding: 10px 20px;
+                border-radius: 4px;
+                background-color: var(--background-color);
+                color: var(--primary-color);
+                cursor: pointer;
+            }
+
+            .disabled{
+                background-color: var(--background-dark-color);
+                color: var(--background-text-dark-color);
+            }
+            .prev-btn.disabled{
+                background-color: var(--background-color);
+            }
+            
+            /* Irrelevant styling things */
+            .close-btn:hover {
+                background-color: rgba(255, 0, 255, 0.6);
+            }
+
+            .close-btn:focus {
+                outline: 0;
+            }
+
+            .next-btn:hover {
+                background-color: var(--primary-background-color);
+            }
+            .atc-def-btn:hover{
+                background-color: var(--primary-light-color);
+            }
+            .prev-btn:hover {
+                background-color: var(--primary-light-color);
+            }
+            .disabled:hover{
+                background-color: var(--background-dark-color);
+                cursor: default;
+            }
+            
+            .prev-btn.disabled:hover{
+                background-color: var(--background-color);
+            }
+            .reset-btn:hover {
+                background-color: var(--primary-light-btn-color);
+            }
+            .next-btn:focus {
+                outline: 0;
+            }
+
+            .step.minimized:hover {
+                background-color: rgba(0, 0, 0, 0.06);
+            }
+            .form-control{
+                border-color: #C20d0e;
+            }
+            .form-control:focus{
+                border-color: #C20d0e;
+                box-shadow: 0 0 0 0.25rem rgba(194, 13, 14, 0.25);
+            }
+        </style>
+        <script>
+            const MRP = Number(3692) ;
+            const masses = {
+                "O0": 10,
+                "O1": 18,
+                "O2": 25,
+                "O2A": 28,
+                "O21": 26,
+                "O211": 25,
+                "O3": 32,
+                "O3A": 36,
+                "O4": 38,
+                "O4A": 40,
+                "O5": 44
+
+            }
+            const gabarity = {
+                "height": [0,0.009,0.018,0.036],
+                "width": [0,0.009,0.019,0.038],
+                "length": [0,0.004],
+            }
+            const coefficients = [
+                0,0.011,0.014,0.19,0.38,0.5,1
+            ]
+            let cf_ofm = 0;
+            let sum = 0;
+            const ofm = Number(0.005);
+            let curOpen;
+            function numberWithSpaces(x) {
+                var parts = x.toString().split(".");
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                return parts.join(".");
+            }
+            $(document).ready(function() {
+            curOpen = $('.step')[0];
+            
+            $('.next-btn').on('click', function() {
+                if($(this).hasClass('disabled')){
+                    return;
+                }
+                let cur = $(this).closest('.step');
+                let next = $(cur).next();
+                if($(cur).find('.step-content').hasClass('two')){
+                    let atc_type = $('.col-btn').find('input:checked').attr('id');
+                    let bum = $(next);
+                    if(atc_type == 'single'){
+                        $('.three-os-weight-group').addClass('d-none');
+                        $('.four-os-weight-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.first-os-group').find('.os-container').find('.first-2os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-21os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-3os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').hide();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').hide();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fifth-os-group').hide();
+                    }else if(atc_type == 'pricep'){
+                        $('.four-os-weight-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.first-os-group').find('.os-container').find('.first-2os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-21os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-3os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-4os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-1os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-3os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-4os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-group-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-tral-container').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-tral-container').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-group-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').show();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').show();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').hide();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fifth-os-group').hide();
+                    }else if(atc_type == 'polupricep'){
+                        console.log('polupricep');
+                        $('.four-os-weight-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.first-os-group').find('.os-container').find('.first-2os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-21os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-3os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-4os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-1os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-3os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-4os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-group-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-tral-container').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-tral-container').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-group-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').show();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').hide();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fifth-os-group').hide();
+                    }else if(atc_type == 'trall'){
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.first-os-group').find('.os-container').find('.first-2os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-21os-group').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-3os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.second-os-group').find('.os-container').find('.second-4os-group').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-group-container').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-tral-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-tral-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-group-container').addClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').find('.os-container').find('.third-os-skat-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').find('.os-container').find('.fourth-os-skat-container').removeClass('d-none');
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.third-os-group').show();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fourth-os-group').show();
+                        $(bum).find('.step-content').find('.form-container').find('.row').find('.fifth-os-group').show();
+                    }
+                }else if($(cur).find('.step-content').hasClass('three')){
+                    if($('.add-os-btn.fourth').hasClass('os-active')){
+                        $('.four-os-weight-group').removeClass('d-none');
+                    }else{
+                        $('.four-os-weight-group').addClass('d-none');
+                    }
+                    if($('.add-os-btn.fifth').hasClass('os-active')){
+                        $('.five-os-weight-group').removeClass('d-none');
+                    }else{
+                        $('.five-os-weight-group').addClass('d-none');
+                    }
+                }
+                $(cur).addClass('minimized');
+                $(cur).addClass('step-completed');
+                if($(next).hasClass('d-none')){
+                    next = $(next).next();
+                }
+                setTimeout(function() {
+                $(next).removeClass('minimized');
+                curOpen = $(next);
+                }, 400);
+            });
+            $('.prev-btn').on('click', function() {
+                if($(this).hasClass('disabled')){
+                    return;
+                }
+                let cur = $(this).closest('.step');
+                let prev = $(cur).prev();
+                $(cur).addClass('minimized');
+                if($(prev).hasClass('d-none')){
+                    prev = $(prev).prev();
+                }
+                setTimeout(function() {
+                $(prev).removeClass('minimized');
+                $(prev).removeClass('step-completed');
+                curOpen = $(prev);
+                }, 400);
+            });
+            $('.calc-btn').on('click', function() {
+                if($(this).hasClass('disabled')){
+                    return;
+                }
+                let cur = $(this).closest('.step');
+                let next = $(cur).next();
+                $(cur).addClass('minimized');
+                $(cur).addClass('step-completed');
+                
+                let distance = Number($('input[name="distance"]').val());
+                let atc_type = $('.col-btn').find('input:checked').attr('id');
+                let first_os = $('input[name="first-os"]:checked').attr('id');
+                let second_os = $('input[name="second-os"]:checked').attr('id');
+                let first_os_skat = $('input[name="first-os-skat"]:checked').attr('id');
+                let second_os_skat = $('input[name="second-os-skat"]:checked').attr('id');
+                let opt_first_os = Number($('select[name="first-os-distance"]').val());
+                let opt_second_os = Number($('select[name="second-os-distance"]').val());
+                
+                let third_os = $('input[name="third-os"]:checked').attr('id');
+                let third_os_skat = $('input[name="third-os-skat"]:checked').attr('id');
+                let opt_third_os = Number($('select[name="third-os-distance"]').val());
+                let fourth_os = ($('.add-os-btn.fourth').hasClass('os-active')) ? $('input[name="fourth-os"]:checked').attr('id') : null;
+                let fourth_os_skat = ($('.add-os-btn.fourth').hasClass('os-active')) ? $('input[name="fourth-os-skat"]:checked').attr('id') : null;
+                let opt_fourth_os = ($('.add-os-btn.fourth').hasClass('os-active')) ? Number($('select[name="fourth-os-distance"]').val()) : null;
+                let fifth_os = ($('.add-os-btn.fifth').hasClass('os-active')) ? $('input[name="fifth-os"]:checked').attr('id') : null;
+                let fifth_os_skat = ($('.add-os-btn.fifth').hasClass('os-active')) ? $('input[name="fifth-os-skat"]:checked').attr('id') : null;
+                let opt_fifth_os = ($('.add-os-btn.fifth').hasClass('os-active')) ? Number($('select[name="fifth-os-distance"]').val()) : null;
+                let kol_os = Number($('input[name="first-os"]:checked').data('kol-os'))+Number($('input[name="second-os"]:checked').data('kol-os'));
+                let X = Number($('#first-os-weight').val());  //ведомая ось (рулевая)
+                let Y = Number($('#second-os-weight').val());  //ведущая ось
+                let y1 = Number($('#second-os-weight').val());  //первая ось
+                let y2 = Number($('#third-os-weight').val());  //вторая ось
+                let y3 = ($('.add-os-btn.fourth').hasClass('os-active')) ? Number($('#four-os-weight').val()) : 0;  //третья ось
+                let y4 = ($('.add-os-btn.fifth').hasClass('os-active')) ? Number($('#fifth-os-weight').val()) : 0;  //четвертая ось
+                let restrictionSeason = $('#restrictionSeason').is(':checked');
+                let height = Number($('#atc_height').val());
+                let width = Number($('#atc_width').val());
+                let length = Number($('#atc_length').val());
+                let allCoefficients = 0;
+                
+                if(atc_type == 'single'){
+                    if(second_os == 'second-1os'&& first_os == 'first-1os'){
+                        cf_ofm = masses['O1'];   
+                    }else if(first_os=="first-2os" || second_os=="second-2os" || second_os=="second-21os"){
+                        if(second_os_skat == "second-1skat"){
+                            cf_ofm = masses['O2'];
+                        }else{
+
+                            if(Y<=19 && second_os=="second-2os"){
+                                cf_ofm = masses['O21'];
+                            }else if(Y>19 && second_os=="second-2os"){
+                                cf_ofm = masses['O211'];
+                            }else{
+                                cf_ofm = masses['O2'];
+                            }
+                        }
+                    }else{
+                        if(kol_os == 4){
+                            cf_ofm = masses['O3'];
+                        }else{
+                            cf_ofm = masses['O4'];
+                        }
+                    }
+                    if(restrictionSeason){
+                        cf_ofm *= 0.8;
+                    }
+
+                    let total_ofm = ((X+Y)-cf_ofm)*ofm;
+                    if(total_ofm<0){
+                        total_ofm = 0;
+                    }
+                    allCoefficients += total_ofm;
+                    let osi = [[first_os,opt_first_os],[second_os,opt_second_os]];
+                    for(let i = 0;i<2;i++){
+                        let os = osi[i][0].split('-');
+                        let opt_os = osi[i][1];
+                        console.log(os,opt_os);
+                        if(os[1]=="1os"){
+                            let predel = 10;
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            let os_nagruzka = (os[0]=="first") ? 100*(X-predel)/predel : 100*(Y-predel)/predel;
+                            if(os_nagruzka <=0){
+                                allCoefficients += coefficients[0];
+                            }else if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                        }else if(os[1]=="2os" || os[1]=="21os"){
+                            let predel = 0
+                            let os_nagruzka = 0;
+                            if(opt_os==1){
+                                predel = 12;
+                            }else if(opt_os==2){
+                                predel=14;
+                            }else if(opt_os==3){
+                                predel=16;
+                            }else if(opt_os==4){
+                                predel=18;
+                            }
+
+                            console.log(os[0],opt_os,kol_os,os[1]);
+                            if(os[0]=="second" && second_os_skat == "second-2skat" && kol_os == 3 && os[1]=="2os"){    
+                                if(Y<=19){
+                                    predel+=1;
+                                }
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = (os[0]=="first") ? 100*(X-predel)/predel : 100*(Y-predel)/predel;
+                            if(os_nagruzka <=0){
+                                allCoefficients += coefficients[0];
+                            }else if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                            
+                        }else if(os[1]=="3os"){
+                            let predel = 0
+                            let os_nagruzka= 0;
+                            if(opt_os==1){
+                                predel = 18;
+                            }else if(opt_os==2){
+                                predel=21;
+                            }else if(opt_os==3){
+                                predel=24;
+                            }else if(opt_os==4){
+                                predel=27;
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(Y-predel)/predel
+
+                            if(Y<=predel){
+                                allCoefficients += coefficients[0];
+                            }else{
+                                if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    if(height<=4){
+                        allCoefficients += gabarity['height'][0];
+                    }else if(height>4 && height<=4.5){
+                        allCoefficients += gabarity['height'][1];
+                    }else if(height>4.5 && height<=5){
+                        allCoefficients += gabarity['height'][2];
+                    }else if(height>5){
+                        allCoefficients += gabarity['height'][3];
+                    }
+                    if(width<=2.55){
+                        allCoefficients += gabarity['width'][0];
+                    }else if(width>2.55 && width<=3){
+                        allCoefficients += gabarity['width'][1];
+                    }else if(width>3 && width<=3.75){
+                        allCoefficients += gabarity['width'][2];
+                    }else if(width>3.75){
+                        allCoefficients += gabarity['width'][3];
+                    }
+                    if(length<=12){
+                        allCoefficients += gabarity['length'][0];
+                    }else if(length>12){
+                        allCoefficients += (length-12) * gabarity['length'][1];
+                    }
+                }else if(atc_type == 'pricep'){
+                    kol_os = Number($('input[name="first-os"]:checked').data('kol-os'))+Number($('input[name="second-os"]:checked').data('kol-os'))+Number($('input[name="third-os"]:checked').data('kol-os'))+Number($('input[name="fourth-os"]:checked').data('kol-os'));
+                    console.log(kol_os);
+                    if(kol_os==4){
+                        cf_ofm = masses['O3A'];
+                    }else if(kol_os==5){
+                        cf_ofm = masses['O4A'];
+                    }else if(kol_os==6){
+                        cf_ofm = masses['O5'];
+                    }else{
+                        let kol_os_1 = Number($('input[name="first-os"]:checked').data('kol-os'))+Number($('input[name="second-os"]:checked').data('kol-os'));
+                        let kol_os_2 = Number($('input[name="third-os"]:checked').data('kol-os'))+Number($('input[name="fourth-os"]:checked').data('kol-os'));
+                        switch(kol_os_1){
+                            case 2:
+                                cf_ofm = masses['O2'];
+                                break;
+                            case 3:
+                                if(second_os_skat == "second-1skat"){
+                                    cf_ofm = masses['O2'];
+                                }else{
+                                    if(Y<=19 && second_os=="second-2os"){
+                                        cf_ofm = masses['O21'];
+                                    }else if(Y>19 && second_os=="second-2os"){
+                                        cf_ofm = masses['O211'];
+                                    }else{
+                                        cf_ofm = masses['O2'];
+                                    }
+                                }
+                                break;
+                            case 4:
+                                cf_ofm = masses['O3'];
+                                break;
+                        }
+                        switch(kol_os_2){
+                            case 2:
+                                cf_ofm += masses['O1'];
+                                break;
+                            case 3:
+                                cf_ofm += masses['O2'];
+                                break;
+                            case 4:
+                                cf_ofm += masses['O3'];
+                                break;
+                            case 5:
+                                cf_ofm += masses['O4'];
+                                break;
+                            case 6:
+                                cf_ofm += masses['O5'];
+                                break;
+                        }
+
+                    }
+                    if(restrictionSeason){
+                        cf_ofm *= 0.8;
+                    }
+                    let total_ofm = ((X+y1+y2+y3)-cf_ofm)*ofm;
+                    console.log(cf_ofm,total_ofm);
+                    if(total_ofm<0){
+                        total_ofm = 0;
+                    }
+                    allCoefficients += total_ofm;
+                    let kol_ved_os = Number($('input[name="first-os"]:checked').data('kol-os')) + Number($('input[name="second-os"]:checked').data('kol-os'));
+                    let osi = [[first_os,opt_first_os],[second_os,opt_second_os],[third_os,opt_third_os],[fourth_os,opt_fourth_os]];
+                    for(let i = 0;i<4;i++){
+                        if(osi[i][0] == null){
+                            continue;
+                        }
+                        let os = osi[i][0].split('-');
+                        let opt_os = osi[i][1];
+                        let ves = 0;
+                        if(os[0]=="first"){
+                            ves = X;
+                        }else if(os[0]=="second"){
+                            ves = y1;
+                        }else if(os[0]=="third"){
+                            ves = y2;
+                        }else if(os[0]=="fourth"){
+                            ves = y3;
+                        }
+                        console.log(os,opt_os);
+                        if(os[1]=="1os"){
+                            let predel = 10;
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            let os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(os_nagruzka <=0){
+                                allCoefficients += coefficients[0];
+                            }else if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                        }else if(os[1]=="2os" || os[1]=="21os"){
+                            let predel = 0
+                            let os_nagruzka = 0;
+                            if(opt_os==1){
+                                predel = 12;
+                            }else if(opt_os==2){
+                                predel=14;
+                            }else if(opt_os==3){
+                                predel=16;
+                            }else if(opt_os==4){
+                                predel=18;
+                            }
+                            
+                            console.log(kol_ved_os)
+                            if(os[0]=="second" && second_os_skat == "second-2skat" && kol_ved_os == 3 && os[1]=="2os"){
+                                if(ves<=19){
+                                    predel+=1;
+                                }
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(os_nagruzka <=0){
+                                allCoefficients += coefficients[0];
+                            }else if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                            
+                        }else if(os[1]=="3os"){
+                            let predel = 0
+                            let os_nagruzka= 0;
+                            if(opt_os==1){
+                                predel = 18;
+                            }else if(opt_os==2){
+                                predel=21;
+                            }else if(opt_os==3){
+                                predel=24;
+                            }else if(opt_os==4){
+                                predel=27;
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(ves<=predel){
+                                allCoefficients += coefficients[0];
+                            }else{
+                                if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    if(height<=4){
+                        allCoefficients += gabarity['height'][0];
+                    }else if(height>4 && height<=4.5){
+                        allCoefficients += gabarity['height'][1];
+                    }else if(height>4.5 && height<=5){
+                        allCoefficients += gabarity['height'][2];
+                    }else if(height>5){
+                        allCoefficients += gabarity['height'][3];
+                    }
+                    if(width<=2.55){
+                        allCoefficients += gabarity['width'][0];
+                    }else if(width>2.55 && width<=3){
+                        allCoefficients += gabarity['width'][1];
+                    }else if(width>3 && width<=3.75){
+                        allCoefficients += gabarity['width'][2];
+                    }else if(width>3.75){
+                        allCoefficients += gabarity['width'][3];
+                    }
+                    if(length<=20){
+                        allCoefficients += gabarity['length'][0];
+                    }else if(length>20){
+                        allCoefficients += (length-20) * gabarity['length'][1];
+                    }
+                }else if(atc_type=="polupricep"){
+                    kol_os = Number($('input[name="first-os"]:checked').data('kol-os'))+Number($('input[name="second-os"]:checked').data('kol-os'))+Number($('input[name="third-os"]:checked').data('kol-os'));
+                    console.log(kol_os);
+                    if(kol_os==4){
+                        cf_ofm = masses['O3A'];
+                    }else if(kol_os==5){
+                        cf_ofm = masses['O4A'];
+                    }else if(kol_os==6){
+                        cf_ofm = masses['O5'];
+                    }else{
+                        let kol_os_1 = Number($('input[name="first-os"]:checked').data('kol-os'))+Number($('input[name="second-os"]:checked').data('kol-os'));
+                        let kol_os_2 = Number($('input[name="third-os"]:checked').data('kol-os'))+Number($('input[name="fourth-os"]:checked').data('kol-os'));
+                        switch(kol_os_1){
+                            case 2:
+                                cf_ofm = masses['O2'];
+                                break;
+                            case 3:
+                                if(second_os_skat == "second-1skat"){
+                                    cf_ofm = masses['O2'];
+                                }else{
+
+                                    if(Y<=19 && second_os=="second-2os"){
+                                        cf_ofm = masses['O21'];
+                                    }else if(Y>19 && second_os=="second-2os"){
+                                        cf_ofm = masses['O211'];
+                                    }else{
+                                        cf_ofm = masses['O2'];
+                                    }
+                                }
+                                break;
+                            case 4:
+                                cf_ofm = masses['O3'];
+                                break;
+                        }
+                        switch(kol_os_2){
+                            case 2:
+                                cf_ofm += masses['O1'];
+                                break;
+                            case 3:
+                                cf_ofm += masses['O2'];
+                                break;
+                            case 4:
+                                cf_ofm += masses['O3'];
+                                break;
+                            case 5:
+                                cf_ofm += masses['O4'];
+                                break;
+                            case 6:
+                                cf_ofm += masses['O5'];
+                                break;
+                        }
+
+                    }
+                    if(restrictionSeason){
+                        cf_ofm *= 0.8;
+                    }
+                    let total_ofm = ((X+y1+y2+y3)-cf_ofm)*ofm;
+                    console.log(cf_ofm,total_ofm);
+                    if(total_ofm<0){
+                        total_ofm = 0;
+                    }
+                    allCoefficients += total_ofm;
+                    let kol_ved_os = Number($('input[name="first-os"]:checked').data('kol-os')) + Number($('input[name="second-os"]:checked').data('kol-os'));
+                    let osi = [[first_os,opt_first_os],[second_os,opt_second_os],[third_os,opt_third_os]];
+                    for(let i = 0;i<3;i++){
+                        if(osi[i][0] == null){
+                            continue;
+                        }
+                        let os = osi[i][0].split('-');
+                        let opt_os = osi[i][1];
+                        let ves = 0;
+                        if(os[0]=="first"){
+                            ves = X;
+                        }else if(os[0]=="second"){
+                            ves = y1;
+                        }else if(os[0]=="third"){
+                            ves = y2;
+                        }else if(os[0]=="fourth"){
+                            ves = y3;
+                        }
+                        console.log(os,opt_os);
+                        if(os[1]=="1os"){
+                            let predel = 10;
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            let os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(os_nagruzka <=0){
+                                allCoefficients += coefficients[0];
+                            }else if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                        }else if(os[1]=="2os" || os[1]=="21os"){
+                            let predel = 0
+                            let os_nagruzka = 0;
+                            if(opt_os==1){
+                                predel = 12;
+                            }else if(opt_os==2){
+                                predel=14;
+                            }else if(opt_os==3){
+                                predel=16;
+                            }else if(opt_os==4){
+                                predel=18;
+                            }
+                            
+                            console.log(kol_ved_os)
+                            console.log(os[0],opt_os,kol_ved_os,os[1]);
+                            if(os[0]=="second" && second_os_skat == "second-2skat" && kol_ved_os == 3 && os[1]=="2os"){
+                                if(ves<=19){
+                                    predel+=1;
+                                }
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(os_nagruzka <=0){
+                                allCoefficients += coefficients[0];
+                            }else if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                            
+                        }else if(os[1]=="3os"){
+                            let predel = 0
+                            let os_nagruzka= 0;
+                            if(opt_os==1){
+                                predel = 18;
+                            }else if(opt_os==2){
+                                predel=21;
+                            }else if(opt_os==3){
+                                predel=24;
+                            }else if(opt_os==4){
+                                predel=27;
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(ves<=predel){
+                                allCoefficients += coefficients[0];
+                            }else{
+                                if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }
+                        }else if(os[1]=="4os"){
+                            let predel = 0
+                            let os_nagruzka= 0;
+                            if(opt_os==1){
+                                predel = (6*4);
+                            }else if(opt_os==2){
+                                predel = (7*4);
+                            }else if(opt_os==3){
+                                predel = (8*4);
+                            }else if(opt_os==4){
+                                predel = (9*4);
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(ves-predel)/predel;
+                            console.log(os[0],os[1],os_nagruzka);
+                            if(ves<=predel){
+                                allCoefficients += coefficients[0];
+                            }else{
+                                if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }
+                        }
+                        
+                    }
+                    
+                    if(height<=4){
+                        allCoefficients += gabarity['height'][0];
+                    }else if(height>4 && height<=4.5){
+                        allCoefficients += gabarity['height'][1];
+                    }else if(height>4.5 && height<=5){
+                        allCoefficients += gabarity['height'][2];
+                    }else if(height>5){
+                        allCoefficients += gabarity['height'][3];
+                    }
+                    if(width<=2.55){
+                        allCoefficients += gabarity['width'][0];
+                    }else if(width>2.55 && width<=3){
+                        allCoefficients += gabarity['width'][1];
+                    }else if(width>3 && width<=3.75){
+                        allCoefficients += gabarity['width'][2];
+                    }else if(width>3.75){
+                        allCoefficients += gabarity['width'][3];
+                    }
+                    if(length<=20){
+                        allCoefficients += gabarity['length'][0];
+                    }else if(length>20){
+                        allCoefficients += (length-20) * gabarity['length'][1];
+                    }
+                }else if(atc_type=="trall"){
+                    let tesha = $('input.est-tesha:checked').val();
+                    let tesha_os = Number($('input.tesha-row:checked').val())*2;
+                    let tesha_weight = Number($('#teshaWeight').val());
+                    let tesha_distance = $('#teshaOsDistance').val();
+                    kol_os = Number($('input[name="first-os"]:checked').data('kol-os'))+Number($('input[name="second-os"]:checked').data('kol-os'));
+                    third_os = $('input.third-tral-type:checked').data('tral-type')==1 ? Number($('#thirdTralOsNum').val()) : Number($('#thirdTralRowNum').val()*2);
+                    let third_kol_os = third_os;
+                    opt_third_os = Number($('select[name="third-os-distance"]').val());
+                    fourth_os = $('input.fourth-tral-type:checked').data('tral-type')==1 ? Number($('#fourthTralOsNum').val()) : Number($('#fourthTralRowNum').val())*2;
+                    opt_fourth_os = Number($('select[name="fourth-os-distance"]').val());
+                    let fourth_kol_os = $(".add-os-btn.fourth").hasClass('os-active') ? fourth_os : 0;
+                    fifth_os = $('input.fifth-tral-type:checked').data('tral-type')==1 ? Number($('#fifthTralOsNum').val()) : Number($('#fifthTralRowNum').val())*2;
+                    opt_fifth_os = Number($('select[name="fifth-os-distance"]').val());
+                    let fifth_kol_os = $(".add-os-btn.fifth").hasClass('os-active') ? fifth_os : 0;
+                    
+                    kol_os += third_os+fourth_os+fifth_os;
+                    console.log(kol_os);
+                    if(kol_os == 2){
+                        cf_ofm = masses['O1'];
+                    }else if(kol_os == 3){
+                        cf_ofm = masses['O2A'];
+                    }else if(kol_os == 4){
+                        cf_ofm = masses['O3A'];
+                    }else if(kol_os == 5){
+                        cf_ofm = masses['O4A'];
+                    }else if(kol_os == 6){
+                        cf_ofm = masses['O5'];
+                    }else{
+                        kol_os -= (third_os + fourth_os+fifth_os);
+                        console.log(kol_os);
+                        switch(kol_os){
+                            case 2:
+                                cf_ofm = masses['O2'];
+                                
+                                break;
+                            case 3:
+                                if(second_os_skat == "second-1skat"){
+                                    cf_ofm = masses['O2'];
+                                }else{
+
+                                    if(Y<=19 && second_os=="second-2os"){
+                                        cf_ofm = masses['O21'];
+                                    }else if(Y>19 && second_os=="second-2os"){
+                                        cf_ofm = masses['O211'];
+                                    }else{
+                                        cf_ofm = masses['O2'];
+                                    }
+                                }
+                                console.log(cf_ofm);
+                                break;
+                            case 4:
+                                cf_ofm = masses['O3'];
+                                break;
+                            case 5:
+                                cf_ofm = masses['O4'];
+                                break;
+                        }
+                        console.log(third_os)
+                        let num_osi = [third_os,fourth_os,fifth_os];
+                        for(let i = 0;i<3;i++){
+                            if(num_osi[i] == 0){
+                                continue;
+                            }
+                            switch(num_osi[i]){
+                                case 1:
+                                    cf_ofm += masses['O0'];
+                                    break;
+                                case 2:
+                                    cf_ofm += masses['O1'];
+                                    break;
+                                case 3:
+                                    cf_ofm += masses['O2'];
+                                    break;
+                                case 4:
+                                    cf_ofm += masses['O3'];
+                                    break;
+                                case 5:
+                                    cf_ofm += masses['O4'];
+                                    break;
+                                case 6:
+                                    cf_ofm += masses['O5'];
+                                    break;
+                                default:
+                                    cf_ofm += masses['O5'];
+                                    console.log(cf_ofm);
+                                    break;
+                            }
+                        }
+                        
+                    }
+                    let total_ofm = (X+y1+y2+y3+y4)
+                    console.log(total_ofm);
+                    if(tesha == 1){
+                        total_ofm += tesha_weight;
+                        if(tesha_os == 2){
+                            cf_ofm += masses['O1'];
+                        }else if(tesha_os == 4){
+                            cf_ofm += masses['O3'];
+                        }else if(tesha_os == 6){
+                            cf_ofm += masses['O5'];
+                        }
+                    }
+                    if(restrictionSeason){
+                        cf_ofm *= 0.8;
+                    }
+                    total_ofm = (total_ofm-cf_ofm)*ofm;
+                    console.log(cf_ofm,total_ofm);
+                    if(total_ofm<0){
+                        total_ofm = 0;
+                    }
+                    allCoefficients += total_ofm;
+                    let kol_ved_os = Number($('input[name="first-os"]:checked').data('kol-os')) + Number($('input[name="second-os"]:checked').data('kol-os'));
+                    let osi = [[first_os,opt_first_os],[second_os,opt_second_os],[third_kol_os,opt_third_os],[fourth_kol_os,opt_fourth_os],[fifth_kol_os,opt_fifth_os]];
+                    for(let i = 0;i<5;i++){
+                        if(osi[i][0] == null || osi[i][0] == 0){
+                            console.log('pass')
+                            console.log(osi[i][0]);
+
+                            continue;
+                        }
+                        if(typeof(osi[i][0])=='string'){
+                            let os = osi[i][0].split('-');
+                            let opt_os = osi[i][1];
+                            let ves = 0;
+                            if(os[0]=="first"){
+                                ves = X;
+                            }else if(os[0]=="second"){
+                                ves = y1;
+                            }
+                            console.log(os,opt_os);
+                            if(os[1]=="1os"){
+                                let predel = 10;
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                let os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os[0],os[1],os_nagruzka);
+                                if(os_nagruzka <=0){
+                                    allCoefficients += coefficients[0];
+                                }else if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }else if(os[1]=="2os" || os[1]=="21os"){
+                                let predel = 0
+                                let os_nagruzka = 0;
+                                if(opt_os==1){
+                                    predel = 12;
+                                }else if(opt_os==2){
+                                    predel=14;
+                                }else if(opt_os==3){
+                                    predel=16;
+                                }else if(opt_os==4){
+                                    predel=18;
+                                }
+                                console.log(kol_ved_os)
+                                if(os[0]=="second" && second_os_skat == "second-2skat" && kol_ved_os == 3 && os[1]=="2os"){
+                                    if(ves<=19){
+                                        predel+=1;
+                                    }
+                                }
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os[0],os[1],os_nagruzka);
+                                if(os_nagruzka <=0){
+                                    allCoefficients += coefficients[0];
+                                }else if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                                
+                            }else if(os[1]=="3os"){
+                                let predel = 0
+                                let os_nagruzka= 0;
+                                if(opt_os==1){
+                                    predel = 18;
+                                }else if(opt_os==2){
+                                    predel=21;
+                                }else if(opt_os==3){
+                                    predel=24;
+                                }else if(opt_os==4){
+                                    predel=27;
+                                }
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os[0],os[1],os_nagruzka);
+                                if(ves<=predel){
+                                    allCoefficients += coefficients[0];
+                                }else{
+                                    if(os_nagruzka<=10){
+                                        allCoefficients += coefficients[1];
+                                    }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                        allCoefficients += coefficients[2];
+                                    }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                        allCoefficients += coefficients[3];
+                                    }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                        allCoefficients += coefficients[4];
+                                    }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                        allCoefficients += coefficients[5];
+                                    }else if(os_nagruzka>50){
+                                        allCoefficients += coefficients[6];
+                                    }
+                                }
+                            }else if(os[1]=="4os"){
+                                let predel = 0
+                                let os_nagruzka= 0;
+                                if(opt_os==1){
+                                    predel = (6*4);
+                                }else if(opt_os==2){
+                                    predel = (7*4);
+                                }else if(opt_os==3){
+                                    predel = (8*4);
+                                }else if(opt_os==4){
+                                    predel = (9*4);
+                                }
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os[0],os[1],os_nagruzka);
+                                if(ves<=predel){
+                                    allCoefficients += coefficients[0];
+                                }else{
+                                    if(os_nagruzka<=10){
+                                        allCoefficients += coefficients[1];
+                                    }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                        allCoefficients += coefficients[2];
+                                    }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                        allCoefficients += coefficients[3];
+                                    }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                        allCoefficients += coefficients[4];
+                                    }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                        allCoefficients += coefficients[5];
+                                    }else if(os_nagruzka>50){
+                                        allCoefficients += coefficients[6];
+                                    }
+                                }
+                            }
+                        } else {
+                            let os = osi[i][0];
+                            let opt_os = osi[i][1];
+                            let ves = 0;
+                            if(i == 2){
+                                ves = y2;
+                            }else if(i == 3){
+                                ves = y3;
+                            }
+                            console.log(os,opt_os);
+                            if(os == 1){
+                                let predel = 10;
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                let os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os,os_nagruzka);
+                                if(os_nagruzka <=0){
+                                    allCoefficients += coefficients[0];
+                                }else if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }else if(os == 2){
+                                let predel = 0
+                                let os_nagruzka = 0;
+                                if(opt_os==1){
+                                    predel = 12;
+                                }else if(opt_os==2){
+                                    predel=14;
+                                }else if(opt_os==3){
+                                    predel=16;
+                                }else if(opt_os==4){
+                                    predel=18;
+                                }
+                                console.log(kol_ved_os)
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os,os_nagruzka);
+                                if(os_nagruzka <=0){
+                                    allCoefficients += coefficients[0];
+                                }else if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }else if(os == 3){
+                                ///console.log("os-3")
+                                let predel = 0
+                                let os_nagruzka= 0;
+                                if(opt_os==1){
+                                    predel = 18;
+                                }else if(opt_os==2){
+                                    predel=21;
+                                }else if(opt_os==3){
+                                    predel=24;
+                                }else if(opt_os==4){
+                                    predel=27;
+                                }
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os,os_nagruzka);
+                                if(ves<=predel){
+                                    allCoefficients += coefficients[0];
+                                }else{
+                                    if(os_nagruzka<=10){
+                                        allCoefficients += coefficients[1];
+                                    }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                        allCoefficients += coefficients[2];
+                                    }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                        allCoefficients += coefficients[3];
+                                    }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                        allCoefficients += coefficients[4];
+                                    }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                        allCoefficients += coefficients[5];
+                                    }else if(os_nagruzka>50){
+                                        allCoefficients += coefficients[6];
+                                    }
+                                }
+                            }else if(os>=4){
+                                let predel = 0
+                                let os_nagruzka= 0;
+                                if(opt_os==1){
+                                    predel = os*6;
+                                }else if(opt_os==2){
+                                    predel=os*7;
+                                }else if(opt_os==3){
+                                    predel=os*8;
+                                }else if(opt_os==4){
+                                    predel=os*9;
+                                }
+                                if(restrictionSeason){
+                                    predel *= 0.8;
+                                }
+                                os_nagruzka = 100*(ves-predel)/predel;
+                                console.log(os,os_nagruzka);
+                                if(ves<=predel){
+                                    allCoefficients += coefficients[0];
+                                }else{
+                                    if(os_nagruzka<=10){
+                                        allCoefficients += coefficients[1];
+                                    }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                        allCoefficients += coefficients[2];
+                                    }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                        allCoefficients += coefficients[3];
+                                    }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                        allCoefficients += coefficients[4];
+                                    }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                        allCoefficients += coefficients[5];
+                                    }else if(os_nagruzka>50){
+                                        allCoefficients += coefficients[6];
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    if(tesha == 1){
+                        console.log("rabotaet");
+                        if(tesha_os == 2){
+                            let predel = 0;
+                            if(tesha_distance == 1){
+                                predel = 12;
+                            }else if(tesha_distance == 2){
+                                predel = 14;
+                            }else if(tesha_distance == 3){
+                                predel = 16;
+                            }else if(tesha_distance == 4){
+                                predel = 18;
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            let os_nagruzka= 100*(tesha_weight-predel)/predel;
+                            if(os_nagruzka<=10){
+                                allCoefficients += coefficients[1];
+                            }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                allCoefficients += coefficients[2];
+                            }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                allCoefficients += coefficients[3];
+                            }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                allCoefficients += coefficients[4];
+                            }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                allCoefficients += coefficients[5];
+                            }else if(os_nagruzka>50){
+                                allCoefficients += coefficients[6];
+                            }
+                            console.log(tesha_os,os_nagruzka);
+                        }else {
+                            let predel = 0
+                            let os_nagruzka= 0;
+                            if(tesha_distance==1){
+                                predel = tesha_os*6;
+                            }else if(tesha_distance==2){
+                                predel=tesha_os*7;
+                            }else if(tesha_distance==3){
+                                predel=tesha_os*8;
+                            }else if(tesha_distance==4){
+                                predel=tesha_os*9;
+                            }
+                            if(restrictionSeason){
+                                predel *= 0.8;
+                            }
+                            os_nagruzka = 100*(tesha_weight-predel)/predel;
+                            console.log(tesha_os,os_nagruzka);
+                            if(tesha_weight<=predel){
+                                allCoefficients += coefficients[0];
+                            }else{
+                                if(os_nagruzka<=10){
+                                    allCoefficients += coefficients[1];
+                                }else if(os_nagruzka>10 && os_nagruzka<=20){
+                                    allCoefficients += coefficients[2];
+                                }else if(os_nagruzka>20 && os_nagruzka<=30){
+                                    allCoefficients += coefficients[3];
+                                }else if(os_nagruzka>30 && os_nagruzka<=40){
+                                    allCoefficients += coefficients[4];
+                                }else if(os_nagruzka>40 && os_nagruzka<=50){
+                                    allCoefficients += coefficients[5];
+                                }else if(os_nagruzka>50){
+                                    allCoefficients += coefficients[6];
+                                }
+                            }
+                        }
+                    }
+                    if(height<=4){
+                        allCoefficients += gabarity['height'][0];
+                    }else if(height>4 && height<=4.5){
+                        allCoefficients += gabarity['height'][1];
+                    }else if(height>4.5 && height<=5){
+                        allCoefficients += gabarity['height'][2];
+                    }else if(height>5){
+                        allCoefficients += gabarity['height'][3];
+                    }
+                    if(width<=2.55){
+                        allCoefficients += gabarity['width'][0];
+                    }else if(width>2.55 && width<=3){
+                        allCoefficients += gabarity['width'][1];
+                    }else if(width>3 && width<=3.75){
+                        allCoefficients += gabarity['width'][2];
+                    }else if(width>3.75){
+                        allCoefficients += gabarity['width'][3];
+                    }
+                    if(length<=20){
+                        allCoefficients += gabarity['length'][0];                      
+                    }else if(length>20){
+                        allCoefficients += (length-20) * gabarity['length'][1];
+                    }
+                    
+                }else{
+                    sum = NaN;
+                }
+                console.log(allCoefficients);
+                sum = allCoefficients * MRP * distance;
+                $('#totalSum').html(numberWithSpaces(sum.toFixed(2))+' тенге');
+                setTimeout(function() {
+                $(next).removeClass('minimized');
+                curOpen = $(next);
+                }, 400);
+            });
+            $('.atc-msrmnt').on('input', function(){
+                let height = $('#atc_height').val();
+                let width = $('#atc_width').val();
+                let length = $('#atc_length').val();
+                if(height == 0 || width == 0 || length == 0){
+                    $('.step-five-btn').addClass('disabled');
+                }else{
+                    $('.step-five-btn').removeClass('disabled');
+                }
+            });
+            $('.col-btn').on('click', function(){
+                if($(this).hasClass('disabled')){
+                    return;
+                }
+                let type = $(this).find('input').attr('name');
+                $('.col-btn').each(function(){
+                    if($(this).find('input').attr('name') == type){
+                        $(this).find('input').prop('checked', false);
+                        $(this).find('svg').attr('hidden', true);
+                    }
+                });
+                if(type=="calc-atc-type"){
+                    if($(this).find('input').attr('id')=="trall"){
+                        $(".step-tesha").removeClass('d-none');
+                    }else{
+                        $(".step-tesha").addClass('d-none');
+                    }
+                }
+                if(type=="first-os"){
+                    if($(this).find('input').attr('id') != 'first-1os'){
+                        $('.first-os-distance-container').removeClass('d-none');
+                    }else{
+                        $('.first-os-distance-container').addClass('d-none');
+                    }
+                }else if(type=="second-os"){
+                    if($(this).find('input').attr('id') != 'second-1os'){
+                        $('.second-os-distance-container').removeClass('d-none');
+                    }else{
+                        $('.second-os-distance-container').addClass('d-none');
+                    }
+                }else if(type=="third-os"){
+                    if($(this).find('input').attr('id') != 'third-1os'){
+                        $('.third-os-distance-container').removeClass('d-none');
+                    }else{
+                        $('.third-os-distance-container').addClass('d-none');
+                    }
+                }else if(type=="fourth-os"){
+                    console.log($(this).find('input').attr('id'));
+                    if($(this).find('input').attr('id') != 'fourth-1os'){
+                        $('.fourth-os-distance-container').removeClass('d-none');
+                    }else{
+                        $('.fourth-os-distance-container').addClass('d-none');
+                    }
+                }
+
+                $(this).find('input').prop('checked', true);
+                $(this).find('svg').removeAttr('hidden');
+                let step = $(this).data('step');
+                console.log(type);
+                if(step == 2){
+                    $('.step-two-btn.next-btn').removeClass('disabled');
+                }else if(step == 3){
+                    let os = $(this).data('os');
+                    let atc_type = $('input[name="calc-atc-type"]:checked').attr('id');
+                    let first_os = $('input[name="first-os"]:checked').attr('id');
+                    let second_os = $('input[name="second-os"]:checked').attr('id');
+                    let third_os = $('input[name="third-os"]:checked').attr('id');
+                    let fourth_os = $('input[name="fourth-os"]:checked').attr('id');
+                    let fifth_os = $('input[name="fifth-os"]:checked').attr('id');
+                    let first_os_skat = $('input[name="first-os-skat"]:checked').attr('id');
+                    let second_os_skat = $('input[name="second-os-skat"]:checked').attr('id');
+                    let third_os_skat = $('input[name="third-os-skat"]:checked').attr('id');
+                    let fourth_os_skat = $('input[name="fourth-os-skat"]:checked').attr('id');
+                    let fifth_os_skat = $('input[name="fifth-os-skat"]:checked').attr('id');
+                    let opt_first_os = $('select[name="first-os-distance"]').val();
+                    let opt_second_os = $('select[name="second-os-distance"]').val();
+                    let opt_third_os = $('select[name="third-os-distance"]').val();
+                    let opt_fourth_os = $('select[name="fourth-os-distance"]').val();
+                    let opt_fifth_os = $('select[name="fifth-os-distance"]').val();
+                    if(atc_type == 'single'){
+                        if(first_os && second_os && first_os_skat && second_os_skat){
+                            if(first_os == "first-2os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os == "second-2os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }else if(atc_type == 'pricep'){
+
+                        if(first_os && second_os && third_os && first_os_skat && second_os_skat && third_os_skat && ($('.add-os-btn').hasClass('os-active') ? fourth_os && fourth_os_skat : true)){
+                            if(first_os != "first-1os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os != "second-1os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(third_os != "third-1os" && opt_third_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fourth_os != "fourth-1os" && opt_fourth_os == null && $('.add-os-btn').hasClass('os-active')){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }else if(atc_type == 'polupricep'){
+                        if(first_os && second_os && third_os && first_os_skat && second_os_skat && third_os_skat ){
+                            if(first_os != "first-1os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os != "second-1os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(third_os != "third-1os" && opt_third_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }else if(atc_type == 'trall'){
+                        
+                        if(type=="third-tral-type"){
+                            if($(this).data('tral-type') == 1){
+                                $($('#thirdTralRowNum').parent()).addClass('d-none');
+                                $($('#thirdTralOsNum').parent()).removeClass('d-none');
+                                $('.add-os-btn.third').removeClass('os-active');
+                                $('.add-os-btn.third').html('Добавить...');
+                                $('.fourth-os-group>.os-container').hide();
+                                $('.five-os-group>.os-container').hide();
+                            }else if($(this).data('tral-type') == 2){
+                                $($('#thirdTralRowNum').parent()).removeClass('d-none');
+                                $($('#thirdTralOsNum').parent()).addClass('d-none');      
+                                $('.fourth-os-group').removeClass('d-none');
+                                $('.five-os-group').removeClass('d-none');                   
+                            }
+                            let third_os_num = ($(this).data('tral-type') == 1) ? $('#thirdTralOsNum').val() : $('#thirdTralRowNum').val();
+                            if(third_os_num>1&&($(this).data('tral-type') == 1)){
+                                $('.third-os-distance-container').removeClass('d-none');
+                            }else{
+                                $('.third-os-distance-container').addClass('d-none');
+                            }
+                            
+                        }else if(type=="fourth-tral-type"){
+                            if($(this).data('tral-type') == 1){
+                                $($('#fourthTralRowNum').parent()).addClass('d-none');
+                                $($('#fourthTralOsNum').parent()).removeClass('d-none');
+                            }else if($(this).data('tral-type') == 2){
+                                $($('#fourthTralRowNum').parent()).removeClass('d-none');
+                                $($('#fourthTralOsNum').parent()).addClass('d-none');                         
+                            }
+                            let fourth_os_num = ($(this).data('tral-type') == 1) ? $('#fourthTralOsNum').val() : $('#fourthTralRowNum').val();
+                            if(fourth_os_num>1){
+                                $('.fourth-os-distance-container').removeClass('d-none');
+                            }else{
+                                $('.fourth-os-distance-container').addClass('d-none');
+                            }
+                        }else if(type=="fifth-tral-type"){
+                            if($(this).data('tral-type') == 1){
+                                $($('#fifthTralRowNum').parent()).addClass('d-none');
+                                $($('#fifthTralOsNum').parent()).removeClass('d-none');
+                            }else if($(this).data('tral-type') == 2){
+                                $($('#fifthTralRowNum').parent()).removeClass('d-none');
+                                $($('#fifthTralOsNum').parent()).addClass('d-none');                         
+                            }
+                            let fifth_os_num = ($(this).data('tral-type') == 1) ? $('#fifthTralOsNum').val() : $('#fifthTralRowNum').val();
+                            if(fourth_os_num>1){
+                                $('.fourth-os-distance-container').removeClass('d-none');
+                            }else{
+                                $('.fourth-os-distance-container').addClass('d-none');
+                            }
+                        }
+                        third_os = $('input.third-tral-type:checked').data('tral-type')==1 ? $('#thirdTralOsNum').val() : $('#thirdTralRowNum').val();
+                        fourth_os = $('input.fourth-tral-type:checked').data('tral-type')==1 ? $('#fourthTralOsNum').val() : $('#fourthTralRowNum').val();
+                        fifth_os = $('input.fifth-tral-type:checked').data('tral-type')==1 ? $('#fifthTralOsNum').val() : $('#fifthTralRowNum').val();
+                        if(first_os && second_os && third_os && first_os_skat && second_os_skat && third_os_skat && ($('.add-os-btn.fourth').hasClass('os-active') ? fourth_os && fourth_os_skat : true) && ($('.add-os-btn.fifth').hasClass('os-active') ? fifth_os && fifth_os_skat : true)){
+                            if(first_os != "first-1os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os != "second-1os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(third_os != 1 && opt_third_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fourth_os != 1 && opt_fourth_os == null  && $('.add-os-btn.fourth').hasClass('os-active')){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fifth_os != 1 && opt_fifth_os == null  && $('.add-os-btn.fifth').hasClass('os-active')){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }
+
+                }else{
+                    
+                    if(type=="est-tesha" || type=="tesha-row-num" || type=="tesha-os-distance"){
+                        if($('input.est-tesha:checked').val() == null || $('input.tesha-row:checked').val() == null || $('#teshaWeight').val() == 0){
+                            if($('input.est-tesha:checked').val() == '0'){
+                                $('.tesha-row-container').addClass('d-none');
+                                $('.tesha-weight-container').addClass('d-none');
+                                $('.tesha-os-distance-container').addClass('d-none');
+                                $('.step-tesha-btn.next-btn').removeClass('disabled');
+                            }else{
+                                $('.tesha-row-container').removeClass('d-none');
+                                $('.tesha-weight-container').removeClass('d-none');
+                                $('.tesha-os-distance-container').removeClass('d-none');
+                                $('.step-tesha-btn.next-btn').addClass('disabled');
+                            }
+                            
+                        }else{
+                            if($('input.est-tesha:checked').val() == '0'){
+                                $('.tesha-row-container').addClass('d-none');
+                                $('.tesha-weight-container').addClass('d-none');
+                                $('.tesha-os-distance-container').addClass('d-none');
+                                $('.step-tesha-btn.next-btn').removeClass('disabled');
+                            }else{
+                                $('.tesha-row-container').removeClass('d-none');
+                                $('.tesha-weight-container').removeClass('d-none');
+                                $('.tesha-os-distance-container').removeClass('d-none');
+                                $('.step-tesha-btn.next-btn').addClass('disabled');
+                            }
+                            if($('#teshaWeight').val() == null && $('#teshaOsDistance').val() == null){
+                                $('.step-tesha-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-tesha-btn.next-btn').removeClass('disabled');
+                            }
+                        }
+                    }
+                }
+            });
+            $('#teshaWeight').on('input', function(){
+                let tesha = $(this).val();
+                if(tesha == 0 && $('#teshaRowNum').val() == 0){
+                    $('.step-tesha-btn.next-btn').addClass('disabled');
+                }else{
+                    $('.step-tesha-btn.next-btn').removeClass('disabled');
+                }
+            });
+            $('select').on('change',function(){
+                let step = $(this).data('step');
+                let name = $(this).attr('name');
+                if(step == 3){
+                    
+                    let atc_type = $('input[name="calc-atc-type"]:checked').attr('id');
+                    let first_os = $('input[name="first-os"]:checked').attr('id');
+                    let second_os = $('input[name="second-os"]:checked').attr('id');
+                    let third_os = $('input[name="third-os"]:checked').attr('id');
+                    let fourth_os = $('input[name="fourth-os"]:checked').attr('id');
+                    let first_os_skat = $('input[name="first-os-skat"]:checked').attr('id');
+                    let second_os_skat = $('input[name="second-os-skat"]:checked').attr('id');
+                    let third_os_skat = $('input[name="third-os-skat"]:checked').attr('id');
+                    let fourth_os_skat = $('input[name="fourth-os-skat"]:checked').attr('id');
+                    let opt_first_os = $('select[name="first-os-distance"]').val();
+                    let opt_second_os = $('select[name="second-os-distance"]').val();
+                    let opt_third_os = $('select[name="third-os-distance"]').val();
+                    let opt_fourth_os = $('select[name="fourth-os-distance"]').val();
+                    let opt_fifth_os = $('select[name="fifth-os-distance"]').val();
+                    if(name=="third-tral-os-num"||name=="third-tral-row-num"){
+                        if($(this).val()>1){
+                            $('.third-os-distance-container').removeClass('d-none');
+                        }else{
+                            $('.third-os-distance-container').addClass('d-none');
+                        }
+                    }else if(name=="fourth-tral-os-num"||name=="fourth-tral-row-num"){
+                        if($(this).val()>1){
+                            $('.fourth-os-distance-container').removeClass('d-none');
+                        }else{
+                            $('.fourth-os-distance-container').addClass('d-none');
+                        }
+                    }else if(name=="fifth-tral-os-num"||name=="fifth-tral-row-num"){
+                        if($(this).val()>1){
+                            $('.fifth-os-distance-container').removeClass('d-none');
+                        }else{
+                            $('.fifth-os-distance-container').addClass('d-none');
+                        }
+                    }
+                    if(atc_type == 'single'){
+                        if(first_os && second_os && first_os_skat && second_os_skat){
+                            if(first_os == "first-2os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os == "second-2os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }else if(atc_type == 'pricep'){
+
+                        if(first_os && second_os && third_os && first_os_skat && second_os_skat && third_os_skat && ($('.add-os-btn').hasClass('os-active') ? fourth_os && fourth_os_skat : true)){
+                            if(first_os != "first-1os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os != "second-1os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(third_os != "third-1os" && opt_third_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fourth_os != "fourth-1os" && opt_fourth_os == null  && $('.add-os-btn').hasClass('os-active')){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }else if(atc_type == 'polupricep'){
+                        if(first_os && second_os && third_os && first_os_skat && second_os_skat && third_os_skat ){
+                            if(first_os != "first-1os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os != "second-1os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(third_os != "third-1os" && opt_third_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fourth_os != "fourth-1os" && opt_fourth_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }else if(atc_type == 'trall'){
+                        third_os = $('input.third-tral-type:checked').data('tral-type')==1 ? $('#thirdTralOsNum').val() : $('#thirdTralRowNum').val();
+                        fourth_os = $('input.fourth-tral-type:checked').data('tral-type')==1 ? $('#fourthTralOsNum').val() : $('#fourthTralRowNum').val();
+                        fifth_os = $('input.fifth-tral-type:checked').data('tral-type')==1 ? $('#fifthTralOsNum').val() : $('#fifthTralRowNum').val();
+                        if(first_os && second_os && third_os && first_os_skat && second_os_skat && third_os_skat && ($('.add-os-btn.fourth').hasClass('os-active') ? fourth_os && fourth_os_skat : true) && ($('.add-os-btn.fifth').hasClass('os-active') ? fifth_os && fifth_os_skat : true)){
+                            if(first_os != "first-1os" && opt_first_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(second_os != "second-1os" && opt_second_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(third_os != 1 && opt_third_os == null){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fourth_os != 1 && opt_fourth_os == null  && $('.add-os-btn.fourth').hasClass('os-active')){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else if(fifth_os != 1 && opt_fifth_os == null && $('.add-os-btn.fifth').hasClass('os-active')){
+                                $('.step-three-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-three-btn.next-btn').removeClass('disabled');
+                            }
+                        }else{
+                            $('.step-three-btn.next-btn').addClass('disabled');
+                        }
+                    }
+                    
+                }else{
+                    
+                    if(name=="est-tesha" || name=="tesha-row-num" || name=="tesha-os-distance"){
+                        if($('#estTesha').val() == null || $('#teshaRowNum').val() == null || $('#teshaWeight').val() == 0){
+                            if($('#estTesha').val() == '0'){
+                                $('.tesha-row-container').addClass('d-none');
+                                $('.tesha-weight-container').addClass('d-none');
+                                $('.tesha-os-distance-container').addClass('d-none');
+                                $('.step-tesha-btn.next-btn').removeClass('disabled');
+                            }else{
+                                $('.tesha-row-container').removeClass('d-none');
+                                $('.tesha-weight-container').removeClass('d-none');
+                                $('.tesha-os-distance-container').removeClass('d-none');
+                                $('.step-tesha-btn.next-btn').addClass('disabled');
+                            }
+                            
+                        }else{
+                            if($('#estTesha').val() == '0'){
+                                $('.tesha-row-container').addClass('d-none');
+                                $('.tesha-weight-container').addClass('d-none');
+                                $('.tesha-os-distance-container').addClass('d-none');
+                                $('.step-tesha-btn.next-btn').removeClass('disabled');
+                            }else{
+                                $('.tesha-row-container').removeClass('d-none');
+                                $('.tesha-weight-container').removeClass('d-none');
+                                $('.tesha-os-distance-container').removeClass('d-none');
+                                $('.step-tesha-btn.next-btn').addClass('disabled');
+                            }
+                            if($('#teshaWeight').val() == null && $('#teshaOsDistance').val() == null){
+                                $('.step-tesha-btn.next-btn').addClass('disabled');
+                            }else{
+                                $('.step-tesha-btn.next-btn').removeClass('disabled');
+                            }
+                        }
+                    }
+                }
+            })
+            $('.os-weight').on('input', function(){
+                let atc_type = $('input[name="calc-atc-type"]:checked').attr('id');
+                let first_os_weight = $('#first-os-weight').val();
+                let second_os_weight = $('#second-os-weight').val();
+                let third_os_weight = $('#third-os-weight').val();
+                let fourth_os_weight = $('#fourth-os-weight').val();
+                console.log(atc_type);
+                if(atc_type == "single"){
+                    console.log(first_os_weight, second_os_weight);
+
+                    if(first_os_weight == 0 || second_os_weight == 0){
+                        console.log('disabled')
+                        $('.step-four-btn.next-btn').addClass('disabled');
+                    }else{
+                        console.log('enabled')
+                        $('.step-four-btn.next-btn').removeClass('disabled');
+                    }
+                }else if(atc_type == 'pricep'){
+                    if(first_os_weight == 0 || second_os_weight == 0 || third_os_weight == 0 || ($('.add-os-btn').hasClass('os-active') ? fourth_os_weight == 0 : false)){
+                        $('.step-four-btn.next-btn').addClass('disabled');
+                    }else{
+                        $('.step-four-btn.next-btn').removeClass('disabled');
+                    }
+                }else if(atc_type == 'polupricep'){
+                    if(first_os_weight == 0 || second_os_weight == 0 || third_os_weight == 0){
+                        $('.step-four-btn.next-btn').addClass('disabled');
+                    }else{
+                        $('.step-four-btn.next-btn').removeClass('disabled');
+                    }
+                }else if(atc_type == 'trall'){
+                    if(first_os_weight == 0 || second_os_weight == 0 || third_os_weight == 0 || ($('.add-os-btn').hasClass('os-active') ? fourth_os_weight == 0 : false)){
+                        $('.step-four-btn.next-btn').addClass('disabled');
+                    }else{
+                        $('.step-four-btn.next-btn').removeClass('disabled');
+                    }
+                }
+            });
+            $('.step-one-form').on('input', function() {
+                $('.step-one-form').each(function(){
+                    let type = $(this).attr('type');
+                    if(type == 'number'){
+                        if($(this).val() == ''){
+                            $('.calc-btn').addClass('disabled');
+                        }else{
+                            $('.calc-btn').removeClass('disabled');
+                        }
+                    }
+                });
+            });
+            $('.reset-btn').on('click', function(){
+                $('.step').each(function(){
+                    $(this).removeClass('step-completed');
+                });
+                $('#totalSum').html('');
+                let cur = $(this).closest('.step');
+                $(cur).addClass('minimized');
+                let first = $('.step')[0];
+                setTimeout(function() {
+                    $(first).removeClass('minimized');
+                    curOpen = $(first);
+                }, 400);
+                
+            });
+            $('.add-os-btn').on('click', function(){
+                if(!$(this).hasClass('os-active')){
+                    let os_container = $($(this).parent());
+                    let os = os_container.find('.os-container');
+                    $(os).show();
+                    if($(this).hasClass('fifth')){
+                        $(".add-os-btn.fifth").addClass('os-active');
+                    }else if($(this).hasClass('fourth')){
+                        $(".add-os-btn.fourth").addClass('os-active');
+                    }
+                    $(this).html('Удалить...');
+                    $('.step-three-btn.next-btn').addClass('disabled');
+                }else{
+                    let os_container = $($(this).parent());
+                    let os = os_container.find('.os-container');
+                    if($(this).hasClass('fifth')){
+                        $(".add-os-btn.fifth").removeClass('os-active');
+                    }else if($(this).hasClass('fourth')){
+                        $(".add-os-btn.fourth").removeClass('os-active');
+                    }
+                    $(os).hide();
+                    $(this).html('Добавить...');
+                }
+                
+            });
+            $('.send-otchet-to-whatsapp-btn').on('click', function(){
+                 // Получаем введенный пользователем номер телефона
+                const phoneNumber = document.getElementById('whatsappNumber').value.trim();
+                let atc_type = $('input[name="calc-atc-type"]:checked').attr('id');
+                // Проверяем, введен ли номер телефона
+                if (phoneNumber === "") {
+                    alert("Пожалуйста, введите номер телефона.");
+                    return;
+                }
+
+                // Получаем результат расчета
+                let first_os_weight = $('#first-os-weight').val();
+                let second_os_weight = $('#second-os-weight').val();
+                let third_os_weight = $('#third-os-weight').val();
+                let fourth_os_weight = $('#fourth-os-weight').val();
+                let weight_string = '';
+                let ofm_mass = 0;
+                if($('.add-os-btn').hasClass('os-active')){
+                    weight_string = `${first_os_weight}т-${second_os_weight}т-${third_os_weight}т-${fourth_os_weight}т`;
+                    ofm_mass = parseFloat(first_os_weight) + parseFloat(second_os_weight) + parseFloat(third_os_weight) + parseFloat(fourth_os_weight);
+                }else if(atc_type != 'single'){
+                    weight_string = `${first_os_weight}т-${second_os_weight}т-${third_os_weight}т`;
+                    ofm_mass = parseFloat(first_os_weight) + parseFloat(second_os_weight) + parseFloat(third_os_weight);
+                }else{
+                    weight_string = `${first_os_weight}т-${second_os_weight}т`;
+                    ofm_mass = parseFloat(first_os_weight) + parseFloat(second_os_weight);
+                }
+                let length = $('#atc_length').val();
+                let width = $('#atc_width').val();
+                let height = $('#atc_height').val();
+                let distance = $('input[name="distance"]').val();
+                // Формируем сообщение
+                const message = `Сумма сбора за проезд по территорий Республики Казахстан составил: ${numberWithSpaces(sum.toFixed(2))}тг\n\n${weight_string}\nОФМ ${ofm_mass.toFixed(2)} т\nД ${length}\nШ ${width}\nВ ${height}\nРасстояние: ${distance} \nСумма сбора ${numberWithSpaces(sum.toFixed(2))} тг`;
+
+                // Кодируем сообщение для отправки
+                const encodedMessage = encodeURIComponent(message);
+
+                // Формируем ссылку для отправки сообщения в WhatsApp
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+
+                // Открываем WhatsApp с предварительно заполненным сообщением
+                window.open(whatsappUrl, '_blank');
+            });
+            })
+        </script>
+    </body>
+</html>
