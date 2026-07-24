@@ -3,7 +3,8 @@
   const appState = {
     currentStep: null,
     total: 0,
-    coefficient: 0
+    coefficient: 0,
+    coverVehicleAssessment: null,
   };
 
   function setDisabled(selector, disabled) {
@@ -66,7 +67,7 @@
     setHidden(".first-2os-group", semiTrailer);
     setHidden(".second-21os-group", trailer || lowLoader);
     setHidden(".second-3os-group", false);
-    setHidden(".second-4os-group", trailer || semiTrailer);
+    setHidden(".second-4os-group", !lowLoader);
 
     setHidden(".third-1os-group", semiTrailer);
     setHidden(".third-3os-group", trailer);
@@ -343,6 +344,7 @@
       notifyParentHeight();
     }, STEP_ANIMATION_MS);
   }
+
   function updateFinalAmount(distance) {
     const numericDistance = toNumber(distance);
 
@@ -364,6 +366,27 @@
     );
   }
 
+
+  function renderCoverVehicleNotice(assessment) {
+    const $notice = $("#coverVehicleNotice");
+    const $reasons = $("#coverVehicleReasons");
+
+    $reasons.empty();
+
+    if (!assessment?.required) {
+      $notice.addClass("d-none");
+      notifyParentHeight();
+      return;
+    }
+
+    assessment.reasons.forEach((reason) => {
+      $("<li>").text(reason).appendTo($reasons);
+    });
+
+    $notice.removeClass("d-none");
+    notifyParentHeight();
+  }
+
   function handleCalculateClick(event) {
     const $button = $(event.currentTarget);
 
@@ -374,8 +397,14 @@
     const result = calculateCharge(form);
 
     appState.coefficient = result.coefficient;
+    appState.coverVehicleAssessment =
+      assessCoverVehicleRequirement(form);
+
     $("#finalDistance").val(form.distance);
     updateFinalAmount(form.distance);
+    renderCoverVehicleNotice(
+      appState.coverVehicleAssessment,
+    );
 
     completeCurrentStep($current);
     openStep(findVisibleSibling($current, "next"));
@@ -411,8 +440,12 @@
   function handleResetClick(event) {
     $(".step").removeClass("step-completed");
     $("#totalSum").empty();
+    $("#finalDistance").val("");
+    $("#coverVehicleNotice").addClass("d-none");
+    $("#coverVehicleReasons").empty();
     appState.total = 0;
     appState.coefficient = 0;
+    appState.coverVehicleAssessment = null;
 
     const $current = $(event.currentTarget).closest(".step");
     const $first = $(".step").first();
@@ -465,6 +498,15 @@
       `Высота: ${form.height} м`,
       `Расстояние: ${form.distance} км`,
       `Сумма сбора: ${amount} тг`,
+      ...(appState.coverVehicleAssessment?.required
+        ? [
+            "",
+            "НЕОБХОДИМ АВТОМОБИЛЬ ПРИКРЫТИЯ:",
+            ...appState.coverVehicleAssessment.reasons.map(
+              (reason) => `- ${reason}`,
+            ),
+          ]
+        : []),
     ].join("\n");
 
     const url =
@@ -474,8 +516,9 @@
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  let heightUpdateFrame = null;
   let lastReportedHeight = 0;
+  let heightUpdateFrame = null;
+
   function getCalculatorContentHeight() {
     const calculator = document.querySelector(".steps");
 
@@ -545,12 +588,15 @@
     notifyParentHeight();
 
     if ("ResizeObserver" in window) {
-      const observer = new ResizeObserver(notifyParentHeight);
-      observer.observe(document.body);
+      const calculator = document.querySelector(".steps");
+
+      if (calculator) {
+        const observer = new ResizeObserver(notifyParentHeight);
+        observer.observe(calculator);
+      }
     }
 
     window.addEventListener("load", notifyParentHeight);
-    window.addEventListener("resize", notifyParentHeight);
   }
 
   $(initialize);

@@ -757,10 +757,28 @@
                         </div>
                     </div>
 
+                    <div
+                        id="coverVehicleNotice"
+                        class="cover-vehicle-notice d-none"
+                        role="alert"
+                        aria-live="assertive"
+                    >
+                        <div class="cover-vehicle-notice__title">
+                            Необходим автомобиль прикрытия
+                        </div>
+                        <div class="cover-vehicle-notice__text">
+                            По введённым параметрам выполнено одно или несколько обязательных условий:
+                        </div>
+                        <ul id="coverVehicleReasons" class="cover-vehicle-notice__reasons"></ul>
+                        <div class="cover-vehicle-notice__note">
+                            Дополнительное требование об автомобиле прикрытия также может быть указано в графе «Особые условия движения» специального разрешения.
+                        </div>
+                    </div>
+
                     <button class="reset-btn">Перерасчитать</button>
                     <button type="button" class="show-whatsapp-btn btn atc-def-btn" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">Отправить отчёт на WhatsApp</button>
                 </div>
-            </div>  
+            </div>
           </div>
         <style>
             :root {

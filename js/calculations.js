@@ -177,7 +177,7 @@ function getSingleVehicleAllowedMass(input) {
     Number(input.firstOsCount) +
     Number(input.secondOsCount);
 
-  if (totalAxles <= 2) return MASSES.O1;
+  if (totalAxles <= 2) return masses.O1;
 
   if (totalAxles === 3) {
     /*
@@ -194,20 +194,20 @@ function getSingleVehicleAllowedMass(input) {
         "dualTyre" &&
       Number(input.Y) <= 19;
 
-    return hasThreeAxleBonus ? MASSES.O21 : MASSES.O2;
+    return hasThreeAxleBonus ? masses.O21 : masses.O2;
   }
 
-  if (totalAxles === 4) return MASSES.O3;
-  if (totalAxles === 5) return MASSES.O4;
+  if (totalAxles === 4) return masses.O3;
+  if (totalAxles === 5) return masses.O4;
 
-  return MASSES.O5;
+  return masses.O5;
 }
 
 function fixedRoadTrainMassLimit(totalAxles) {
-  if (totalAxles === 3) return MASSES.O2A;
-  if (totalAxles === 4) return MASSES.O3A;
-  if (totalAxles === 5) return MASSES.O4A;
-  if (totalAxles === 6) return MASSES.O5;
+  if (totalAxles === 3) return masses.O2A;
+  if (totalAxles === 4) return masses.O3A;
+  if (totalAxles === 5) return masses.O4A;
+  if (totalAxles === 6) return masses.O5;
 
   return null;
 }
@@ -479,6 +479,170 @@ function calculateLowLoader(input) {
   );
 
   return coefficient;
+}
+
+
+function getMassAssessment(input) {
+  if (input.atc_type === VEHICLE_TYPE.SINGLE) {
+    return {
+      actualMass: Number(input.X) + Number(input.Y),
+      allowedMass: getSingleVehicleAllowedMass(input),
+    };
+  }
+
+  let groups = standardTractorGroups(input);
+
+  if (input.atc_type === VEHICLE_TYPE.TRAILER) {
+    groups = [
+      ...groups,
+      {
+        axleCount: input.thirdOsCount,
+        spacingBand: input.opt_third_os,
+        skatId: input.third_os_skat,
+        actualLoad: input.y2,
+      },
+    ];
+
+    if (input.fourthActive) {
+      groups.push({
+        axleCount: input.fourthOsCount,
+        spacingBand: input.opt_fourth_os,
+        skatId: input.fourth_os_skat,
+        actualLoad: input.y3,
+      });
+    }
+  } else if (input.atc_type === VEHICLE_TYPE.SEMI_TRAILER) {
+    groups = [
+      ...groups,
+      {
+        axleCount: input.thirdOsCount,
+        spacingBand: input.opt_third_os,
+        skatId: input.third_os_skat,
+        actualLoad: input.y2,
+      },
+    ];
+  } else if (input.atc_type === VEHICLE_TYPE.LOW_LOADER) {
+    groups = [
+      ...groups,
+      {
+        axleCount: lowLoaderPhysicalAxleCount(
+          input.thirdTrailerType,
+          input.thirdTrailerAxles,
+          input.thirdTrailerRows,
+        ),
+        spacingBand: input.opt_third_os,
+        skatId: input.third_os_skat,
+        actualLoad: input.y2,
+      },
+    ];
+
+    if (input.fourthActive) {
+      groups.push({
+        axleCount: lowLoaderPhysicalAxleCount(
+          input.fourthTrailerType,
+          input.fourthTrailerAxles,
+          input.fourthTrailerRows,
+        ),
+        spacingBand: input.opt_fourth_os,
+        skatId: input.fourth_os_skat,
+        actualLoad: input.y3,
+      });
+    }
+
+    if (input.fifthActive) {
+      groups.push({
+        axleCount: lowLoaderPhysicalAxleCount(
+          input.fifthTrailerType,
+          input.fifthTrailerAxles,
+          input.fifthTrailerRows,
+        ),
+        spacingBand: input.opt_fifth_os,
+        skatId: input.fifth_os_skat,
+        actualLoad: input.y4,
+      });
+    }
+
+    const hasDolly = Number(input.dollyValue) === 1;
+    const dollyAxleCount = hasDolly
+      ? Number(input.dollyRows) * 2
+      : 0;
+
+    if (hasDolly && dollyAxleCount > 0) {
+      groups.push({
+        axleCount: dollyAxleCount,
+        spacingBand: input.dollyDistance,
+        skatId: "dolly-1skat",
+        actualLoad: input.dollyWeight,
+      });
+    }
+  } else {
+    return {
+      actualMass: Number.NaN,
+      allowedMass: Number.NaN,
+    };
+  }
+
+  return {
+    actualMass: groups.reduce(
+      (sum, group) => sum + Number(group.actualLoad || 0),
+      0,
+    ),
+    allowedMass: getRoadTrainAllowedMass(groups),
+  };
+}
+
+/**
+ * Checks the automatic conditions from paragraph 16 of the cargo
+ * transportation rules. A fifth condition may also be specified manually
+ * in the special permit and cannot be inferred by this calculator.
+ */
+function assessCoverVehicleRequirement(input) {
+  const width = Number(input.width);
+  const length = Number(input.length);
+  const height = Number(input.height);
+  const mass = getMassAssessment(input);
+  const effectiveAllowedMass = applySeasonalRestriction(
+    mass.allowedMass,
+    input.restrictionSeason,
+  );
+
+  const reasons = [];
+
+  if (width > 3.5) {
+    reasons.push(
+      `ширина ${width.toFixed(2)} м превышает 3,5 м`,
+    );
+  }
+
+  if (length > 24) {
+    reasons.push(
+      `длина ${length.toFixed(2)} м превышает 24 м`,
+    );
+  }
+
+  if (height > 4.5) {
+    reasons.push(
+      `высота ${height.toFixed(2)} м превышает 4,5 м`,
+    );
+  }
+
+  if (
+    Number.isFinite(mass.actualMass) &&
+    Number.isFinite(effectiveAllowedMass) &&
+    mass.actualMass > effectiveAllowedMass
+  ) {
+    reasons.push(
+      `общая масса ${mass.actualMass.toFixed(2)} т превышает ` +
+        `допустимую ${effectiveAllowedMass.toFixed(2)} т`,
+    );
+  }
+
+  return {
+    required: reasons.length > 0,
+    reasons,
+    actualMass: mass.actualMass,
+    allowedMass: effectiveAllowedMass,
+  };
 }
 
 const calculators = Object.freeze({
