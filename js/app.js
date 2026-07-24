@@ -475,6 +475,7 @@
   }
 
   let heightUpdateFrame = null;
+  let lastReportedHeight = 0;
   function getCalculatorContentHeight() {
     const calculator = document.querySelector(".steps");
 
