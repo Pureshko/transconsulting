@@ -177,7 +177,7 @@ function getSingleVehicleAllowedMass(input) {
     Number(input.firstOsCount) +
     Number(input.secondOsCount);
 
-  if (totalAxles <= 2) return masses.O1;
+  if (totalAxles <= 2) return MASSES.O1;
 
   if (totalAxles === 3) {
     /*
@@ -194,20 +194,20 @@ function getSingleVehicleAllowedMass(input) {
         "dualTyre" &&
       Number(input.Y) <= 19;
 
-    return hasThreeAxleBonus ? masses.O21 : masses.O2;
+    return hasThreeAxleBonus ? MASSES.O21 : MASSES.O2;
   }
 
-  if (totalAxles === 4) return masses.O3;
-  if (totalAxles === 5) return masses.O4;
+  if (totalAxles === 4) return MASSES.O3;
+  if (totalAxles === 5) return MASSES.O4;
 
-  return masses.O5;
+  return MASSES.O5;
 }
 
 function fixedRoadTrainMassLimit(totalAxles) {
-  if (totalAxles === 3) return masses.O2A;
-  if (totalAxles === 4) return masses.O3A;
-  if (totalAxles === 5) return masses.O4A;
-  if (totalAxles === 6) return masses.O5;
+  if (totalAxles === 3) return MASSES.O2A;
+  if (totalAxles === 4) return MASSES.O3A;
+  if (totalAxles === 5) return MASSES.O4A;
+  if (totalAxles === 6) return MASSES.O5;
 
   return null;
 }
