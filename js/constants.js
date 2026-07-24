@@ -1,4 +1,4 @@
-const MRP = 3692;
+const MRP = 4325;
 const OVERALL_MASS_RATE = 0.005;
 
 const MASSES = Object.freeze({

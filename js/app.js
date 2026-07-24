@@ -3,6 +3,7 @@
   const appState = {
     currentStep: null,
     total: 0,
+    coefficient: 0
   };
 
   function setDisabled(selector, disabled) {
@@ -342,6 +343,26 @@
       notifyParentHeight();
     }, STEP_ANIMATION_MS);
   }
+  function updateFinalAmount(distance) {
+    const numericDistance = toNumber(distance);
+
+    if (
+      !Number.isFinite(numericDistance) ||
+      numericDistance <= 0 ||
+      !Number.isFinite(appState.coefficient)
+    ) {
+      appState.total = 0;
+      $("#totalSum").text("Укажите километраж больше 0");
+      return;
+    }
+
+    const amount = appState.coefficient * MRP * numericDistance;
+    appState.total = amount;
+
+    $("#totalSum").text(
+      `${formatNumber(amount.toFixed(2))} тенге`,
+    );
+  }
 
   function handleCalculateClick(event) {
     const $button = $(event.currentTarget);
@@ -349,15 +370,24 @@
     if ($button.hasClass("disabled")) return;
 
     const $current = $button.closest(".step");
-    const result = calculateCharge(readFormData());
+    const form = readFormData();
+    const result = calculateCharge(form);
 
-    appState.total = result.amount;
-    $("#totalSum").text(
-      `${formatNumber(result.amount.toFixed(2))} тенге`,
-    );
+    appState.coefficient = result.coefficient;
+    $("#finalDistance").val(form.distance);
+    updateFinalAmount(form.distance);
 
     completeCurrentStep($current);
     openStep(findVisibleSibling($current, "next"));
+  }
+
+  function handleFinalDistanceInput(event) {
+    const value = event.currentTarget.value;
+
+    // Синхронизируем с исходным полем маршрута, чтобы отчёт WhatsApp
+    // использовал изменённый километраж.
+    $('input[name="distance"]').val(value);
+    updateFinalAmount(value);
   }
 
   function handleOptionalAxleToggle(event) {
@@ -382,6 +412,7 @@
     $(".step").removeClass("step-completed");
     $("#totalSum").empty();
     appState.total = 0;
+    appState.coefficient = 0;
 
     const $current = $(event.currentTarget).closest(".step");
     const $first = $(".step").first();
@@ -469,6 +500,7 @@
     $(".os-weight").on("input", validateWeightStep);
     $(".atc-msrmnt").on("input", validateDimensionsStep);
     $(".step-one-form").on("input", validateDistanceStep);
+    $("#finalDistance").on("input", handleFinalDistanceInput);
     $("#teshaWeight").on("input", validateDollyStep);
     $(".add-os-btn").on("click", handleOptionalAxleToggle);
     $(".reset-btn").on("click", handleResetClick);
