@@ -474,21 +474,42 @@
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
-  function notifyParentHeight() {
-    const height = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.offsetHeight,
-    );
+  let heightUpdateFrame = null;
+  function getCalculatorContentHeight() {
+    const calculator = document.querySelector(".steps");
 
-    window.parent.postMessage(
-      {
-        type: "transconsulting-resize",
-        height,
-      },
-      "*",
-    );
+    if (!calculator) {
+      return 0;
+    }
+
+    const rect = calculator.getBoundingClientRect();
+    return Math.ceil(rect.height);
+  }
+
+  function notifyParentHeight() {
+    if (heightUpdateFrame !== null) {
+      window.cancelAnimationFrame(heightUpdateFrame);
+    }
+
+    heightUpdateFrame = window.requestAnimationFrame(() => {
+      heightUpdateFrame = null;
+
+      const height = getCalculatorContentHeight();
+
+      if (!height || Math.abs(height - lastReportedHeight) < 2) {
+        return;
+      }
+
+      lastReportedHeight = height;
+
+      window.parent.postMessage(
+        {
+          type: "transconsulting-resize",
+          height,
+        },
+        "*",
+      );
+    });
   }
 
   function bindEvents() {

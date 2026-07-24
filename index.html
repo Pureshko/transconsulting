@@ -785,11 +785,18 @@
             }
             body {
                 margin: 0;
-                height: 100%;
                 width: 100vw;
                 background-color: rgba(0, 0, 0, 0.08);
                 font-family: Arial;
-                display: flex;
+            }
+            html,
+            body {
+                height: auto;
+                min-height: 0;
+            }
+
+            body {
+                display: block;
             }
 
             .steps {
