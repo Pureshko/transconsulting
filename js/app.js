@@ -29,14 +29,83 @@
     return $candidate;
   }
 
+  function updateSpaProgress($step) {
+    const visibleStep = Number($step.data("spa-step")) || 1;
+
+    document.body.dataset.currentStep = String(visibleStep);
+
+    $(".stepper__item").each(function updateNavigationItem() {
+      const $item = $(this);
+      const itemStep = Number($item.data("nav-step"));
+
+      $item.toggleClass("is-active", itemStep === visibleStep);
+      $item.toggleClass("is-complete", itemStep < visibleStep);
+    });
+
+    $("#mobileStepLabel").text(`Шаг ${visibleStep} из 6`);
+    $("#headerStepLabel").text(`Шаг ${visibleStep} из 6`);
+    $("#mobileProgressBar").css(
+      "width",
+      `${(visibleStep / 6) * 100}%`,
+    );
+    $("#headerProgressFill").css(
+      "width",
+      `${((visibleStep - 1) / 5) * 100}%`,
+    );
+    $("[data-progress-dot]").each(function updateProgressDot() {
+      const $dot = $(this);
+      const dotStep = Number($dot.data("progress-dot"));
+
+      $dot.toggleClass("is-complete", dotStep < visibleStep);
+      $dot.toggleClass("is-active", dotStep === visibleStep);
+    });
+  }
+
+  function updateSchemePreview() {
+    const vehicleLabels = {
+      [VEHICLE_TYPE.SINGLE]: "Одиночный автомобиль",
+      [VEHICLE_TYPE.SEMI_TRAILER]: "Тягач + полуприцеп",
+      [VEHICLE_TYPE.TRAILER]: "Тягач + прицеп",
+      [VEHICLE_TYPE.LOW_LOADER]: "Тягач + трал",
+    };
+    const vehicleType = checkedId("calc-atc-type");
+    const groups = ["first", "second", "third", "fourth", "fifth"]
+      .filter((group) => {
+        if (group === "fourth") return isAxleGroupActive("fourth");
+        if (group === "fifth") return isAxleGroupActive("fifth");
+        if (group === "third") return vehicleType !== VEHICLE_TYPE.SINGLE;
+        return true;
+      })
+      .map((group) => {
+        if (
+          vehicleType === VEHICLE_TYPE.LOW_LOADER &&
+          ["third", "fourth", "fifth"].includes(group)
+        ) {
+          const trailer = readTrailerGroup(group);
+          return trailer.selectedCount || null;
+        }
+
+        const count = selectedAxleCount(`${group}-os`);
+        return Number.isFinite(count) && count > 0 ? count : null;
+      })
+      .filter(Boolean);
+
+    $("#selectedSchemeLabel").text(
+      groups.length ? groups.join(" – ") : "Выберите группы осей",
+    );
+    $("#selectedVehicleLabel").text(
+      vehicleLabels[vehicleType] || "Схема появится после выбора",
+    );
+  }
+
   function openStep($step) {
     if (!$step.length) return;
 
-    window.setTimeout(() => {
-      $step.removeClass("minimized");
-      appState.currentStep = $step.get(0);
-      notifyParentHeight();
-    }, STEP_ANIMATION_MS);
+    $(".step").not($step).addClass("minimized");
+    $step.removeClass("minimized");
+    appState.currentStep = $step.get(0);
+    updateSpaProgress($step);
+    notifyParentHeight();
   }
 
   function completeCurrentStep($step) {
@@ -285,6 +354,7 @@
     }
 
     validateAll();
+    updateSchemePreview();
     notifyParentHeight();
   }
 
@@ -305,6 +375,7 @@
     }
 
     validateAll();
+    updateSchemePreview();
     notifyParentHeight();
   }
 
@@ -337,12 +408,8 @@
     const $previous = findVisibleSibling($current, "previous");
 
     $current.addClass("minimized");
-
-    window.setTimeout(() => {
-      $previous.removeClass("minimized step-completed");
-      appState.currentStep = $previous.get(0);
-      notifyParentHeight();
-    }, STEP_ANIMATION_MS);
+    $previous.removeClass("step-completed");
+    openStep($previous);
   }
 
   function updateFinalAmount(distance) {
@@ -434,11 +501,30 @@
 
     syncOptionalWeightFields();
     validateAll();
+    updateSchemePreview();
+    notifyParentHeight();
+  }
+
+  function handleAxleResetClick() {
+    const $axleStep = $('.step[data-spa-step="2"]');
+
+    $axleStep.find('input[type="radio"]').prop("checked", false);
+    $axleStep.find(".col-btn svg").attr("hidden", true);
+    $axleStep.find("select").prop("selectedIndex", 0);
+    $axleStep.find(".form-floating[class*='-os-distance-container']")
+      .addClass("d-none");
+
+    $(".add-os-btn.os-active").each(function removeOptionalGroup() {
+      $(this).trigger("click");
+    });
+
+    validateAll();
+    updateSchemePreview();
     notifyParentHeight();
   }
 
   function handleResetClick(event) {
-    $(".step").removeClass("step-completed");
+    $(".step").addClass("minimized").removeClass("step-completed");
     $("#totalSum").empty();
     $("#finalDistance").val("");
     $("#coverVehicleNotice").addClass("d-none");
@@ -450,7 +536,6 @@
     const $current = $(event.currentTarget).closest(".step");
     const $first = $(".step").first();
 
-    $current.addClass("minimized");
     openStep($first);
   }
 
@@ -569,6 +654,7 @@
     $("#teshaWeight").on("input", validateDollyStep);
     $(".add-os-btn").on("click", handleOptionalAxleToggle);
     $(".reset-btn").on("click", handleResetClick);
+    $("#axleResetButton").on("click", handleAxleResetClick);
     $(".send-otchet-to-whatsapp-btn").on(
       "click",
       handleWhatsappClick,
@@ -576,7 +662,8 @@
   }
 
   function initialize() {
-    appState.currentStep = $(".step").first().get(0);
+    const $firstStep = $(".step").first();
+    appState.currentStep = $firstStep.get(0);
 
     $(".add-os-btn").each(function rememberOriginalLabel() {
       const $button = $(this);
@@ -585,6 +672,8 @@
 
     bindEvents();
     validateAll();
+    updateSchemePreview();
+    openStep($firstStep);
     notifyParentHeight();
 
     if ("ResizeObserver" in window) {
@@ -598,7 +687,89 @@
 
     window.addEventListener("load", notifyParentHeight);
   }
+  let map;
+  let directionsService;
+  let directionsRenderer;
 
+  // Функция инициализации карты и подсказок (вызывается авто-сплайном Google API)
+  function initMap() {
+    // 1. Создаем экземпляры сервисов Google Maps
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
+
+    // 2. Инициализируем карту (по умолчанию центр на Москву, заменят точки при маршруте)
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 7,
+      center: { lat: 55.751244, lng: 37.618423 },
+      mapTypeControl: false
+    });
+
+    // 3. Привязываем отрисовщик маршрута к нашей карте
+    directionsRenderer.setMap(map);
+
+    // 4. Подключаем автозаполнение адресов Google Places к инпутам
+    const originInput = document.getElementById("origin");
+    const destInput = document.getElementById("destination");
+
+    new google.maps.places.Autocomplete(originInput);
+    new google.maps.places.Autocomplete(destInput);
+  }
+
+  // Расчет расстояния по нажатию на кнопку
+  function calculateDistance() {
+    const origin = document.getElementById("origin").value.trim();
+    const destination = document.getElementById("destination").value.trim();
+    const resultBox = document.getElementById("result");
+
+    if (!origin || !destination) {
+      alert("Пожалуйста, заполните обе точки!");
+      return;
+    }
+
+    // Запрос к Directions Service
+    directionsService.route(
+      {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING
+      },
+      (response, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(response);
+
+          const route = response.routes[0].legs[0];
+
+          // 1. Получаем точное расстояние В МЕТРАХ (тип: Number)
+          const distanceInMeters = route.distance.value; // Например: 452800
+
+          // 2. Переводим в КИЛОМЕТРЫ как число с плавающей точкой
+          const distanceInKm = distanceInMeters / 1000; // Например: 452.8
+          $('input[name="distance"]').val(distanceInKm)
+
+          // 3. Округляем до 1 знака после запятой (или до целого через Math.round)
+          const distanceInKmFormatted = Number((distanceInMeters / 1000).toFixed(1)); // 452.8 (тип: Number)
+
+          // 4. Время в секундах (тип: Number)
+          const durationInSeconds = route.duration.value;
+          const durationInMinutes = Math.round(durationInSeconds / 60);
+
+          // Теперь distanceInKmFormatted можно использовать в любых математических расчетах!
+          console.log("Дистанция числом (км):", distanceInKmFormatted);
+          console.log("Тип данных:", typeof distanceInKmFormatted); // number
+
+          // Пример вывода на страницу
+          resultBox.style.display = "block";
+          resultBox.innerHTML = `
+            <div class="result-item">Дистанция: <b>${distanceInKmFormatted} км</b></div>
+            <div class="result-item">Время в пути: <b>${durationInMinutes} мин.</b></div>
+          `;
+        } else {
+          resultBox.style.display = "block";
+          resultBox.innerHTML = `<span style="color: red;">Ошибка: ${status}</span>`;
+        }
+      }
+    );
+  }
   $(initialize);
 
 })(window.jQuery);
