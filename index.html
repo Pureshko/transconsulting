@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html lang="ru">
     <head>
         <title>
             Калькулятор параметров АТС — редакция 2026 года
@@ -8,7 +9,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	
+
     </head>
     <body>
         <div class="modal fade" id="whatsappFormModal" tabindex="-1" role="dialog" aria-labelledby="whatsappFormModalLabel" aria-hidden="true">
@@ -33,10 +34,84 @@
               </div>
             </div>
           </div>
-        <div class="steps">
-            <div class="step">
+        <header class="calculator-header">
+            <a class="brand" href="/" aria-label="TES — на главную">
+                <img src="images/logo.png" alt="">
+                <span class="brand__name">TES</span>
+            </a>
+            <div class="calculator-header__title">Калькулятор расчета<br>сбора за проезд</div>
+            <div class="header-benefits" aria-label="Преимущества расчета">
+                <div class="header-benefit">
+                    <span class="header-benefit__icon">✓</span>
+                    <span><strong>Точный расчет</strong><small>по правилам РК</small></span>
+                </div>
+                <div class="header-benefit">
+                    <span class="header-benefit__icon header-benefit__icon--document">▤</span>
+                    <span><strong>Официально</strong><small>для получения спецразрешения</small></span>
+                </div>
+            </div>
+            <div class="header-progress" aria-label="Прогресс расчета">
+                <span class="header-progress__label" id="headerStepLabel">Шаг 2 из 6</span>
+                <span class="header-progress__line" aria-hidden="true">
+                    <span class="header-progress__fill" id="headerProgressFill"></span>
+                    <i data-progress-dot="1"></i>
+                    <i data-progress-dot="2"></i>
+                    <i data-progress-dot="3"></i>
+                    <i data-progress-dot="4"></i>
+                    <i data-progress-dot="5"></i>
+                    <i data-progress-dot="6"></i>
+                </span>
+            </div>
+            <a class="home-link" href="/" aria-label="Вернуться на главную">
+                <span aria-hidden="true">⌂</span> На главную
+            </a>
+        </header>
+
+        <div class="calculator-shell">
+            <aside class="calculator-sidebar" aria-label="Этапы расчета">
+                <ol class="stepper">
+                    <li class="stepper__item is-active" data-nav-step="1">
+                        <span class="stepper__number">1</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7zM6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></span>
+                        <span><strong>Тип транспортного средства</strong><small>Выберите тип автопоезда</small></span>
+                    </li>
+                    <li class="stepper__item" data-nav-step="2">
+                        <span class="stepper__number">2</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v6m0 4v6M4 12h6m4 0h6M6.3 6.3l4.2 4.2m3 3 4.2 4.2m0-11.4-4.2 4.2m-3 3-4.2 4.2"/></svg></span>
+                        <span><strong>Конструктор колесной формулы</strong><small>Выберите тип и конфигурацию осей</small></span>
+                    </li>
+                    <li class="stepper__item" data-nav-step="3">
+                        <span class="stepper__number">3</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14l2 11H3L5 9Zm4 0V6a3 3 0 0 1 6 0v3"/><circle cx="12" cy="14" r="2"/></svg></span>
+                        <span><strong>Весовые параметры</strong><small>Укажите нагрузки по группам</small></span>
+                    </li>
+                    <li class="stepper__item" data-nav-step="4">
+                        <span class="stepper__number">4</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4v10l-8 4-8-4V7Zm0 0 8 4 8-4m-8 4v10"/></svg></span>
+                        <span><strong>Габаритные параметры</strong><small>Длина, ширина и высота</small></span>
+                    </li>
+                    <li class="stepper__item" data-nav-step="5">
+                        <span class="stepper__number">5</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-12A7 7 0 1 0 5 9c0 6.6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+                        <span><strong>Маршрут</strong><small>Расстояние и сезонность</small></span>
+                    </li>
+                    <li class="stepper__item" data-nav-step="6">
+                        <span class="stepper__number">6</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h2m2 0h2m2 0h1M8 15h2m2 0h2m2 0h1M8 18h2m2 0h2m2 0h1"/></svg></span>
+                        <span><strong>Расчет и результат</strong><small>Итоговая сумма сбора</small></span>
+                    </li>
+                </ol>
+            </aside>
+
+            <main class="calculator-main">
+                <div class="mobile-progress" aria-live="polite">
+                    <span id="mobileStepLabel">Шаг 1 из 6</span>
+                    <span class="mobile-progress__track"><span id="mobileProgressBar"></span></span>
+                </div>
+                <div class="steps">
+            <div class="step" data-spa-step="1">
               <div class="step-header">
-                <div class="header">Тип транспортного средства</div>
+                <div class="header">Выберите тип транспортного средства</div>
               </div>
               <div class="step-content two">
                 <div class="step-label">Выберите тип транспортного средства</div>
@@ -46,7 +121,9 @@
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="single" hidden>
                                 <img src="calc-atc-type/single.png" alt="">
-                                <span for="flexRadioDefault1" class="col-label text-uppercase">Одиночный АТС</span>
+                                <span class="col-label text-uppercase">Одиночный автомобиль</span>
+                                <span class="vehicle-card__description">Грузовой автомобиль без прицепа</span>
+                                <span class="vehicle-card__axles">2 – 4 оси</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -54,7 +131,9 @@
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="polupricep" hidden>
                                 <img src="calc-atc-type/polupricep.png" alt="">
-                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Автопоезд в составе тягача и полуприцепа</span>
+                                <span class="col-label text-uppercase">Тягач + полуприцеп</span>
+                                <span class="vehicle-card__description">Самый распространенный тип автопоезда</span>
+                                <span class="vehicle-card__axles">2 – 6 осей</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -64,7 +143,9 @@
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="pricep" hidden>
                                 <img src="calc-atc-type/pricep.png" alt="">
-                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Автопоезд в составе тягача и прицепа</span>
+                                <span class="col-label text-uppercase">Тягач + прицеп</span>
+                                <span class="vehicle-card__description">Перевозка грузов с отдельным прицепом</span>
+                                <span class="vehicle-card__axles">2 – 6 осей</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -72,20 +153,35 @@
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="trall" hidden>
                                 <img src="calc-atc-type/trall.png" alt="">
-                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Автопоезд в составе тягача и трала</span>
+                                <span class="col-label text-uppercase">Тягач + трал</span>
+                                <span class="vehicle-card__description">Для перевозки тяжелой и негабаритной техники</span>
+                                <span class="vehicle-card__axles">2 – 8 осей</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="selection-help">
+                    <span class="selection-help__icon" aria-hidden="true">i</span>
+                    <span>Если вы не уверены в выборе типа транспортного средства,<br>свяжитесь с нашими специалистами — мы поможем определить параметры автопоезда.</span>
+                    <button type="button" class="selection-help__button" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">
+                        <span aria-hidden="true">◉</span> Связаться с нами
+                    </button>
+                </div>
                 <div class="navigation-container">
                     <button class="step-two-btn next-btn disabled">Продолжить</button>
                     <button class="prev-btn">Назад</button>
                 </div>
+                <div class="calculator-assurances" aria-label="Преимущества калькулятора">
+                    <div><span>⌖</span><strong>Точный расчет</strong><small>с учетом всех норм РК</small></div>
+                    <div><span>◇</span><strong>Соответствие</strong><small>законодательству</small></div>
+                    <div><span>◷</span><strong>Экономия времени</strong><small>и ресурсов</small></div>
+                    <div><span>▤</span><strong>Готовый пакет документов</strong><small>для получения разрешения</small></div>
+                </div>
               </div>
             </div>
-            
-            <div class="step minimized">
+
+            <div class="step minimized" data-spa-step="2">
               <div class="step-header">
                 <div class="header">Конструктор колесной формулы</div>
               </div>
@@ -115,7 +211,7 @@
                                         <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                         <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                         <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                                    </select>  
+                                    </select>
                                     <label class="text-dark" for="firstOsDistance">Среднее расстояние между соседними осями</label>
                                 </div>
                                 <div class="step-label mb-2">Ошиновка группы осей</div>
@@ -173,9 +269,9 @@
                                         <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                         <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                         <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                                    </select>  
+                                    </select>
                                     <label class="text-dark" for="secondOsDistance">Среднее расстояние между соседними осями</label>
-                                </div> 
+                                </div>
                                 <div class="step-label mb-2">Ошиновка группы осей</div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Если в группе есть односкатные и двускатные оси, выберите этот вариант.">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-1skat" hidden>
@@ -191,7 +287,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col mb-2 third-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Первая группа осей на прицепе</div>
@@ -288,7 +384,7 @@
                                         <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                         <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                         <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                                    </select>  
+                                    </select>
                                     <label class="text-dark" for="thirdOsDistance">Среднее расстояние между соседними осями</label>
                                 </div>
                                 <div class="third-os-group-container third-os-skat-container">
@@ -308,7 +404,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col mb-2 fourth-os-group">
                             <div class="btn add-os-btn fourth">
                                 Добавить вторую группу осей на прицепе...
@@ -336,7 +432,7 @@
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="form-floating os-tral mb-2 d-none">
                                         <select name="fourth-tral-os-num" class="form-select" id="fourthTralOsNum" data-step="3">
@@ -399,7 +495,7 @@
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-floating fourth-os-distance-container d-none">
                                     <select name="fourth-os-distance" id="fourthOsDistance" class="form-select" data-os="4" data-step="3" title="Если расстояния внутри группы различаются, выберите диапазон их среднего арифметического.">
                                         <option value="none" selected disabled>Выберите среднее расстояние</option>
@@ -407,7 +503,7 @@
                                         <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                         <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                         <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                                    </select>  
+                                    </select>
                                     <label class="text-dark" for="fourthOsDistance">Среднее расстояние между соседними осями</label>
                                 </div>
                                 <div class="fourth-os-group-container fourth-os-skat-container">
@@ -425,7 +521,7 @@
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="col mb-2 fifth-os-group">
@@ -491,7 +587,7 @@
                                         <label for="">Количество рядов</label>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-floating fifth-os-distance-container d-none">
                                     <select name="fifth-os-distance" id="fifthOsDistance" class="form-select" data-os="5" data-step="3" title="Если расстояния внутри группы различаются, выберите диапазон их среднего арифметического.">
                                         <option value="none" selected disabled>Выберите среднее расстояние</option>
@@ -499,7 +595,7 @@
                                         <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                         <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                         <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                                    </select>  
+                                    </select>
                                     <label class="text-dark" for="fifthOsDistance">Среднее расстояние между соседними осями</label>
                                 </div>
                                 <div class="fifth-os-group-container fifth-os-skat-container">
@@ -517,19 +613,35 @@
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
+                <aside class="axle-reference-panel" aria-label="Справка по колесной формуле">
+                    <section class="axle-reference-card">
+                        <h3>Что такое колесная формула?</h3>
+                        <p>Колесная формула позволяет точно указать конфигурацию осей вашего автопоезда для корректного расчета допустимых нагрузок и сбора за проезд.</p>
+                        <img src="step/last-step-img.png" alt="Схема грузового автопоезда">
+                    </section>
+                    <section class="axle-reference-card axle-scheme-card">
+                        <h3>Пример выбранной схемы</h3>
+                        <div class="axle-scheme-card__visual" aria-hidden="true">
+                            <img src="os/1os.png" alt=""><span>→</span><img src="os/2os.png" alt=""><span>→</span><img src="tral-type/default.png" alt="">
+                        </div>
+                        <strong id="selectedSchemeLabel">Выберите группы осей</strong>
+                        <small id="selectedVehicleLabel">Схема появится после выбора</small>
+                        <button type="button" class="axle-reset-button" id="axleResetButton">⌫&nbsp; Сбросить выбор</button>
+                    </section>
+                </aside>
                 <div class="navigation-container">
                     <button class="step-three-btn next-btn disabled">Продолжить</button>
                     <button class="prev-btn">Назад</button>
                 </div>
               </div>
             </div>
-            
-            <div class="step minimized">
+
+            <div class="step minimized" data-spa-step="3">
                 <div class="step-header">
                   <div class="header">Весовые параметры</div>
                 </div>
@@ -580,10 +692,10 @@
                     </div>
                 </div>
             </div>
-            <div class="step minimized step-tesha d-none">
+            <div class="step minimized step-tesha d-none" data-spa-step="3">
                 <div class="step-header">Долли (тёща)</div>
                 <div class="step-content tesha">
-                    
+
                     <div class="container mb-2">
                         <div class="step-label">Добавить долии (тёща) да/нет</div>
                         <div class="container w-50 m-0">
@@ -599,7 +711,7 @@
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="tesha-row-container d-none">
                             <div class="step-label">Ряды в долли</div>
@@ -631,7 +743,7 @@
                                 <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                 <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                 <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                            </select>  
+                            </select>
                             <label class="text-dark" for="teshaOsDistance">Среднее расстояние между соседними осями</label>
                         </div>
                         <div class="tesha-weight-container d-none">
@@ -646,7 +758,7 @@
                             <option value="1">Да</option>
                             <option value="0">Нет</option>
                         </select>
-                        
+
                         <div class="form-floating tesha-os-distance-container d-none">
                             <select name="tesha-os-distance" id="teshaOsDistance" class="form-select" data-os="3" data-step="3" title="Если расстояния внутри группы различаются, выберите диапазон их среднего арифметического.">
                                 <option value="none" selected disabled>Выберите среднее расстояние</option>
@@ -654,7 +766,7 @@
                                 <option value="2">свыше 1 метра до 1,3 метра включительно</option>
                                 <option value="3">свыше 1,3 метра до 1,8 метра включительно</option>
                                 <option value="4">свыше 1,8 метра до 2,5 метра включительно</option>
-                            </select>  
+                            </select>
                             <label class="text-dark" for="teshaOsDistance">Среднее расстояние между соседними осями</label>
                         </div>
                         <div class="tesha-weight-container d-none">
@@ -664,16 +776,16 @@
                                 <label for="tesha-ves">Суммарная нагрузка на долли, т</label>
                             </div>
                         </div> -->
-                        
+
                     </div>
-                    
+
                     <div class="navigation-container">
                         <button class="step-tesha-btn next-btn disabled">Продолжить</button>
                         <button class="prev-btn">Назад</button>
                     </div>
                 </div>
             </div>
-            <div class="step minimized">
+            <div class="step minimized" data-spa-step="4">
                 <div class="step-header">
                     <div class="header">Габаритные параметры</div>
                 </div>
@@ -700,7 +812,7 @@
                                 <label for="floatingInput">Высота с грузом, м (обычно до 4,0)</label>
                             </div>
                         </div>
-                        
+
                     </div>
                     <div class="navigation-container">
                         <button class="step-five-btn next-btn disabled">Продолжить</button>
@@ -708,7 +820,7 @@
                     </div>
                 </div>
             </div>
-            <div class="step minimized">
+            <div class="step minimized" data-spa-step="5">
                 <div class="step-header">
                   <div class="header">Маршрут</div>
                 </div>
@@ -728,9 +840,12 @@
                   </div>
                 </div>
               </div>
-            <div class="step minimized">
-                <div class="step-content">
-                    <img src="/step/erl.png" alt="">
+            <div class="step minimized result-step" data-spa-step="6">
+                <div class="step-header">
+                    <div class="header">Расчет и результат</div>
+                </div>
+                <div class="step-content result-content">
+                    <img class="result-vehicle" src="step/last-step-img.png" alt="Схема грузового автопоезда">
                     <div class="final-text">
                         <h4>Сумма сбора за проезд:</h4>
                         <h4 id="totalSum" aria-live="polite"></h4>
@@ -779,6 +894,8 @@
                     <button type="button" class="show-whatsapp-btn btn atc-def-btn" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">Отправить отчёт на WhatsApp</button>
                 </div>
             </div>
+                </div>
+            </main>
           </div>
         <style>
             :root {
@@ -866,7 +983,7 @@
                 top: 0;
                 z-index: 1;
             }
-            
+
             .step.minimized {
                 background-color: #FFF;
                 transition: background-color 0.3s ease-in-out;
@@ -950,7 +1067,7 @@
                 border-radius: 4px;
                 margin-top: 10px;
             }
-            @media (max-width: 1199.98px) { 
+            @media (max-width: 1199.98px) {
                 .step-content.three {
                     height: 1320px;
                 }
@@ -1015,7 +1132,7 @@
             .prev-btn.disabled{
                 background-color: var(--background-color);
             }
-            
+
             /* Irrelevant styling things */
             .close-btn:hover {
                 background-color: rgba(255, 0, 255, 0.6);
@@ -1038,7 +1155,7 @@
                 background-color: var(--background-dark-color);
                 cursor: default;
             }
-            
+
             .prev-btn.disabled:hover{
                 background-color: var(--background-color);
             }
@@ -1084,9 +1201,2134 @@
                 min-height: 29px;
             }
         </style>
+        <style>
+            /* SPA layout based on the supplied TES calculator reference. */
+            :root {
+                --tes-red: #d80b18;
+                --tes-red-dark: #b80712;
+                --tes-red-soft: #fff2f3;
+                --tes-ink: #10131b;
+                --tes-muted: #69707d;
+                --tes-line: #e8e9ed;
+                --tes-surface: #ffffff;
+                --tes-canvas: #fafafa;
+                --tes-shadow: 0 12px 30px rgba(25, 31, 45, 0.07);
+                --primary-color: var(--tes-red);
+            }
+
+            html {
+                background: var(--tes-canvas);
+            }
+
+            body {
+                width: 100%;
+                min-width: 320px;
+                min-height: 100vh;
+                overflow-x: hidden;
+                color: var(--tes-ink);
+                background:
+                    radial-gradient(circle at 98% 96%, rgba(216, 11, 24, 0.045), transparent 22rem),
+                    var(--tes-canvas);
+                font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            }
+
+            .calculator-header {
+                min-height: 112px;
+                display: grid;
+                grid-template-columns: auto auto 1fr auto;
+                align-items: center;
+                gap: 28px;
+                padding: 18px clamp(24px, 3vw, 52px);
+                border-bottom: 1px solid var(--tes-line);
+                background: rgba(255, 255, 255, 0.96);
+            }
+
+            .brand {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                color: var(--tes-ink);
+                text-decoration: none;
+            }
+
+            .brand img {
+                width: 64px;
+                height: 64px;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 8px;
+            }
+
+            .brand__name {
+                font-size: 38px;
+                line-height: 1;
+                font-weight: 800;
+                letter-spacing: -1.5px;
+            }
+
+            .calculator-header__title {
+                min-width: 210px;
+                padding-left: 28px;
+                border-left: 1px solid var(--tes-line);
+                font-size: 16px;
+                line-height: 1.45;
+                font-weight: 600;
+            }
+
+            .header-benefits {
+                display: flex;
+                justify-content: center;
+                gap: clamp(28px, 5vw, 76px);
+            }
+
+            .header-benefit {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                font-size: 15px;
+            }
+
+            .header-benefit__icon {
+                width: 38px;
+                height: 42px;
+                display: grid;
+                place-items: center;
+                color: var(--tes-red);
+                border: 2px solid var(--tes-red);
+                border-radius: 12px 12px 16px 16px;
+                font-size: 20px;
+                font-weight: 800;
+            }
+
+            .header-benefit__icon--document {
+                border-color: #8d939e;
+                color: #737985;
+                border-radius: 4px;
+            }
+
+            .header-benefit strong,
+            .header-benefit small {
+                display: block;
+            }
+
+            .header-benefit small {
+                margin-top: 3px;
+                color: var(--tes-muted);
+            }
+
+            .home-link {
+                min-height: 52px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                padding: 0 24px;
+                border: 1px solid #dfe1e6;
+                border-radius: 8px;
+                color: #424752;
+                background: #fff;
+                text-decoration: none;
+                font-weight: 600;
+                transition: border-color .2s ease, color .2s ease, transform .2s ease;
+            }
+
+            .home-link:hover {
+                color: var(--tes-red);
+                border-color: var(--tes-red);
+                transform: translateY(-1px);
+            }
+
+            .calculator-shell {
+                width: 100%;
+                min-height: calc(100vh - 112px);
+                display: grid;
+                grid-template-columns: 340px minmax(0, 1fr);
+            }
+
+            .calculator-sidebar {
+                padding: 44px 30px 44px 36px;
+                border-right: 1px solid var(--tes-line);
+                background: rgba(255, 255, 255, 0.82);
+            }
+
+            .stepper {
+                position: sticky;
+                top: 28px;
+                display: grid;
+                gap: 0;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            .stepper__item {
+                position: relative;
+                min-height: 105px;
+                display: grid;
+                grid-template-columns: 44px 1fr;
+                gap: 16px;
+                align-items: start;
+                color: #868c97;
+            }
+
+            .stepper__item:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                top: 38px;
+                bottom: -1px;
+                left: 19px;
+                border-left: 2px dashed #d8dbe1;
+            }
+
+            .stepper__number {
+                position: relative;
+                z-index: 2;
+                width: 38px;
+                height: 38px;
+                display: grid;
+                place-items: center;
+                border-radius: 50%;
+                color: #646b76;
+                background: #f0f1f4;
+                font-weight: 700;
+            }
+
+            .stepper__item strong,
+            .stepper__item small {
+                display: block;
+            }
+
+            .stepper__item strong {
+                padding-top: 5px;
+                color: #303641;
+                line-height: 1.35;
+                font-size: 15px;
+            }
+
+            .stepper__item small {
+                margin-top: 7px;
+                color: #8a909a;
+                line-height: 1.4;
+                font-size: 13px;
+            }
+
+            .stepper__item.is-active .stepper__number {
+                color: #fff;
+                background: var(--tes-red);
+                box-shadow: 0 8px 18px rgba(216, 11, 24, .22);
+            }
+
+            .stepper__item.is-active strong {
+                color: var(--tes-red);
+            }
+
+            .stepper__item.is-complete .stepper__number {
+                color: #fff;
+                background: var(--tes-red);
+                font-size: 0;
+            }
+
+            .stepper__item.is-complete .stepper__number::before {
+                content: "✓";
+                font-size: 16px;
+            }
+
+            .stepper__item.is-complete::after {
+                border-color: rgba(216, 11, 24, .45);
+            }
+
+            .calculator-main {
+                min-width: 0;
+                padding: 34px clamp(28px, 4vw, 72px) 54px;
+            }
+
+            .mobile-progress {
+                display: none;
+            }
+
+            .steps {
+                width: min(100%, 1260px);
+                min-height: 640px;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                background: transparent;
+            }
+
+            .steps::before,
+            .step::before,
+            .step::after {
+                display: none;
+            }
+
+            .step,
+            .step.minimized {
+                display: none;
+                padding: 0;
+                cursor: default;
+                background: transparent;
+                transition: none;
+            }
+
+            .step:not(.minimized):not(.d-none) {
+                display: block;
+                animation: spa-page-in .28s ease both;
+            }
+
+            @keyframes spa-page-in {
+                from { opacity: 0; transform: translateY(8px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .step.minimized:hover {
+                background: transparent;
+            }
+
+            .step-header {
+                margin-bottom: 24px;
+            }
+
+            .step-header::before {
+                display: inline-flex;
+                align-items: center;
+                min-height: 34px;
+                margin-bottom: 16px;
+                padding: 5px 14px;
+                border-radius: 999px;
+                color: var(--tes-red);
+                background: var(--tes-red-soft);
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            .step[data-spa-step="1"] .step-header::before { content: "Шаг 1 из 6"; }
+            .step[data-spa-step="2"] .step-header::before { content: "Шаг 2 из 6"; }
+            .step[data-spa-step="3"] .step-header::before { content: "Шаг 3 из 6"; }
+            .step[data-spa-step="4"] .step-header::before { content: "Шаг 4 из 6"; }
+            .step[data-spa-step="5"] .step-header::before { content: "Шаг 5 из 6"; }
+            .step[data-spa-step="6"] .step-header::before { content: "Шаг 6 из 6"; }
+
+            .header {
+                color: var(--tes-ink);
+                font-size: clamp(27px, 2.2vw, 36px);
+                line-height: 1.15;
+                font-weight: 760;
+                letter-spacing: -0.8px;
+            }
+
+            .step-header .header::after {
+                display: block;
+                margin-top: 11px;
+                color: var(--tes-muted);
+                font-size: 15px;
+                line-height: 1.5;
+                font-weight: 400;
+                letter-spacing: 0;
+            }
+
+            .step[data-spa-step="1"] .header::after { content: "От выбранного типа зависит набор параметров и точность расчета сбора за проезд."; }
+            .step[data-spa-step="2"] .header::after { content: "Укажите конфигурацию и ошиновку каждой группы осей вашего автопоезда."; }
+            .step[data-spa-step="3"] .header::after { content: "Введите фактическую суммарную нагрузку на каждую выбранную группу осей."; }
+            .step[data-spa-step="4"] .header::after { content: "Укажите фактические габариты транспортного средства вместе с грузом."; }
+            .step[data-spa-step="5"] .header::after { content: "Укажите длину маршрута и при необходимости включите сезонные ограничения."; }
+            .step[data-spa-step="6"] .header::after { content: "Расчет выполнен на основании введенных параметров и действующих нормативов."; }
+
+            .step-content,
+            .step-content.one,
+            .step-content.two,
+            .step-content.three,
+            .step-content.four,
+            .step-content.five,
+            .step-content.tesha,
+            .step.minimized > .step-content {
+                width: 100%;
+                height: auto;
+                min-height: 0;
+                margin-top: 0;
+                overflow: visible;
+                background: transparent;
+                transition: none;
+            }
+
+            .step-label {
+                margin-bottom: 12px;
+                color: #262c36;
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            .step[data-spa-step="1"] > .step-content > .step-label {
+                display: none;
+            }
+
+            .step[data-spa-step="1"] .form-container {
+                display: grid;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                gap: 18px;
+            }
+
+            .step[data-spa-step="1"] .form-container > .row {
+                display: contents;
+            }
+
+            .step[data-spa-step="1"] .form-container .col {
+                min-width: 0;
+                margin: 0 !important;
+                padding: 0;
+            }
+
+            .step[data-spa-step="1"] .col:has(#polupricep) { order: 1; }
+            .step[data-spa-step="1"] .col:has(#pricep) { order: 2; }
+            .step[data-spa-step="1"] .col:has(#trall) { order: 3; }
+            .step[data-spa-step="1"] .col:has(#single) { order: 4; }
+
+            .step[data-spa-step="1"] .prev-btn {
+                visibility: hidden;
+            }
+
+            .btn.col-btn {
+                position: relative;
+                min-height: 82px;
+                width: 100%;
+                align-items: center;
+                gap: 14px;
+                padding: 14px;
+                border: 1px solid #e1e3e8;
+                border-radius: 9px !important;
+                background: #fff;
+                box-shadow: 0 4px 14px rgba(25, 31, 45, .035);
+                text-align: left;
+                white-space: normal;
+                transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+            }
+
+            .btn.col-btn:hover {
+                border-color: rgba(216, 11, 24, .5);
+                box-shadow: 0 9px 22px rgba(25, 31, 45, .07);
+                transform: translateY(-1px);
+            }
+
+            .btn.col-btn:has(input:checked) {
+                border-color: var(--tes-red);
+                box-shadow: 0 0 0 1px rgba(216, 11, 24, .04), 0 10px 24px rgba(216, 11, 24, .09);
+                background: linear-gradient(180deg, #fff, #fffafb);
+            }
+
+            .btn.col-btn svg {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                width: 24px !important;
+                height: 24px !important;
+                padding: 4px;
+                border-radius: 50%;
+                background: var(--tes-red);
+            }
+
+            .btn.col-btn svg path {
+                fill: #fff;
+            }
+
+            .btn.col-btn img {
+                max-width: 104px;
+                max-height: 58px;
+                object-fit: contain;
+                flex: 0 0 auto;
+            }
+
+            .col-label {
+                color: #242a33;
+                font-size: 13px;
+                line-height: 1.35;
+                font-weight: 700;
+                text-transform: none !important;
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn {
+                min-height: 390px;
+                flex-direction: column !important;
+                align-items: stretch;
+                justify-content: flex-start !important;
+                padding: 22px;
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn img {
+                width: 100%;
+                max-width: none;
+                height: 185px;
+                max-height: none;
+                margin: 14px 0 14px;
+                object-fit: contain;
+            }
+
+            .step[data-spa-step="1"] .col-label {
+                min-height: 50px;
+                font-size: 17px;
+                line-height: 1.4;
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn::after {
+                display: block;
+                margin-top: 9px;
+                color: var(--tes-muted);
+                font-size: 13px;
+                line-height: 1.45;
+                text-align: left;
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn:has(#single)::after { content: "Грузовой автомобиль без прицепа"; }
+            .step[data-spa-step="1"] .btn.col-btn:has(#polupricep)::after { content: "Самый распространенный тип автопоезда"; }
+            .step[data-spa-step="1"] .btn.col-btn:has(#pricep)::after { content: "Перевозка грузов с отдельным прицепом"; }
+            .step[data-spa-step="1"] .btn.col-btn:has(#trall)::after { content: "Для тяжелой и негабаритной техники"; }
+
+            .step-content.three > .form-container > .row {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(260px, 1fr));
+                gap: 14px;
+            }
+
+            .step-content.three > .form-container > .row > .col {
+                width: auto;
+                min-width: 0;
+                margin: 0 !important;
+                padding: 0;
+            }
+
+            .os-container,
+            .step-content.four .form-container,
+            .step-content.five .form-container,
+            .step-content.one > .form-floating,
+            .step-content.tesha > .container,
+            .result-content {
+                padding: 22px;
+                border: 1px solid var(--tes-line);
+                border-radius: 10px;
+                background: var(--tes-surface);
+                box-shadow: var(--tes-shadow);
+            }
+
+            .os-container .btn.col-btn {
+                min-height: 76px;
+            }
+
+            .add-os-btn {
+                width: 100%;
+                min-height: 58px;
+                margin-top: 10px;
+                border: 1px dashed #cfd2d9;
+                border-radius: 8px;
+                color: #656c77;
+                background: #fff;
+            }
+
+            .step-content.four .row {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(220px, 1fr));
+                gap: 16px;
+            }
+
+            .step-content.four .row > .col {
+                width: auto;
+                min-width: 0;
+            }
+
+            .step-content.five .form-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
+            }
+
+            .form-control,
+            .form-select {
+                border-color: #d8dbe1;
+                border-radius: 7px;
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                border-color: var(--tes-red);
+                box-shadow: 0 0 0 .2rem rgba(216, 11, 24, .11);
+            }
+
+            .form-check-input:checked {
+                border-color: var(--tes-red);
+                background-color: var(--tes-red);
+            }
+
+            .navigation-container {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+                margin-top: 30px;
+                padding-top: 24px;
+                border-top: 1px solid var(--tes-line);
+            }
+
+            .next-btn,
+            .calc-btn,
+            .atc-def-btn,
+            .prev-btn,
+            .reset-btn {
+                min-height: 52px;
+                padding: 12px 28px;
+                border-radius: 7px;
+                font-weight: 700;
+            }
+
+            .next-btn,
+            .calc-btn,
+            .atc-def-btn {
+                min-width: 220px;
+                border: 1px solid var(--tes-red);
+                color: #fff;
+                background: var(--tes-red);
+                box-shadow: 0 9px 20px rgba(216, 11, 24, .16);
+            }
+
+            .next-btn::after,
+            .calc-btn::after {
+                content: "→";
+                margin-left: 22px;
+                font-size: 21px;
+                font-weight: 400;
+            }
+
+            .prev-btn,
+            .reset-btn {
+                min-width: 120px;
+                border: 1px solid #cfd2d9;
+                color: #343a45;
+                background: #fff;
+            }
+
+            .prev-btn::before {
+                content: "←";
+                margin-right: 14px;
+            }
+
+            .next-btn:hover,
+            .calc-btn:hover,
+            .atc-def-btn:hover {
+                border-color: var(--tes-red-dark);
+                color: #fff;
+                background: var(--tes-red-dark);
+            }
+
+            .next-btn.disabled,
+            .calc-btn.disabled,
+            .next-btn.disabled:hover,
+            .calc-btn.disabled:hover {
+                border-color: #e0e2e6;
+                color: #a4a9b1;
+                background: #eef0f2;
+                box-shadow: none;
+                cursor: not-allowed;
+            }
+
+            .result-content {
+                display: grid;
+                grid-template-columns: minmax(280px, .8fr) minmax(320px, 1.2fr);
+                gap: 26px 42px;
+                align-items: center;
+                padding: clamp(24px, 4vw, 50px);
+            }
+
+            .result-vehicle {
+                grid-row: span 2;
+                width: 100%;
+                max-height: 280px;
+                object-fit: contain;
+            }
+
+            .final-text {
+                padding: 24px;
+                border-radius: 10px;
+                color: #fff;
+                background: linear-gradient(135deg, var(--tes-red), #aa0610);
+            }
+
+            .final-text h4 {
+                margin: 0;
+            }
+
+            #totalSum {
+                margin-top: 10px;
+                font-size: clamp(28px, 3vw, 42px);
+                font-weight: 800;
+            }
+
+            .final-distance-editor,
+            .cover-vehicle-notice {
+                width: 100%;
+                margin: 0;
+            }
+
+            .cover-vehicle-notice {
+                grid-column: 1 / -1;
+                padding: 18px;
+                border: 1px solid #f2c5c9;
+                border-radius: 9px;
+                background: #fff7f7;
+            }
+
+            .cover-vehicle-notice__title {
+                margin-bottom: 8px;
+                color: var(--tes-red-dark);
+                font-weight: 800;
+            }
+
+            .result-content > .reset-btn,
+            .result-content > .show-whatsapp-btn {
+                align-self: stretch;
+            }
+
+            .modal-content {
+                border: 0;
+                border-radius: 12px;
+                box-shadow: 0 24px 80px rgba(15, 19, 28, .2);
+            }
+
+            @media (max-width: 1199.98px) {
+                .calculator-header {
+                    grid-template-columns: auto 1fr auto;
+                }
+
+                .header-benefits {
+                    display: none;
+                }
+
+                .calculator-shell {
+                    grid-template-columns: 290px minmax(0, 1fr);
+                }
+
+                .calculator-sidebar {
+                    padding-left: 26px;
+                }
+
+                .step[data-spa-step="1"] .form-container {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .step[data-spa-step="1"] .btn.col-btn {
+                    min-height: 320px;
+                }
+
+                .step[data-spa-step="1"] .btn.col-btn img {
+                    height: 140px;
+                }
+
+                .step-content.three > .form-container > .row {
+                    grid-template-columns: repeat(2, minmax(260px, 1fr));
+                }
+            }
+
+            @media (max-width: 899.98px) {
+                .calculator-header {
+                    min-height: 82px;
+                    padding: 14px 20px;
+                }
+
+                .brand img {
+                    width: 50px;
+                    height: 50px;
+                }
+
+                .brand__name {
+                    font-size: 30px;
+                }
+
+                .calculator-header__title {
+                    min-width: 0;
+                    padding-left: 18px;
+                    font-size: 13px;
+                }
+
+                .home-link {
+                    min-height: 44px;
+                    padding: 0 14px;
+                    font-size: 0;
+                }
+
+                .home-link span {
+                    font-size: 22px;
+                }
+
+                .calculator-shell {
+                    display: block;
+                    min-height: calc(100vh - 82px);
+                }
+
+                .calculator-sidebar {
+                    display: none;
+                }
+
+                .calculator-main {
+                    padding: 22px 18px 40px;
+                }
+
+                .mobile-progress {
+                    display: flex;
+                    align-items: center;
+                    gap: 14px;
+                    margin-bottom: 22px;
+                    color: var(--tes-red);
+                    font-size: 13px;
+                    font-weight: 700;
+                }
+
+                .mobile-progress__track {
+                    height: 5px;
+                    flex: 1;
+                    overflow: hidden;
+                    border-radius: 999px;
+                    background: #e4e6ea;
+                }
+
+                .mobile-progress__track > span {
+                    display: block;
+                    width: 16.667%;
+                    height: 100%;
+                    border-radius: inherit;
+                    background: var(--tes-red);
+                    transition: width .25s ease;
+                }
+
+                .step-header::before {
+                    display: none;
+                }
+
+                .step[data-spa-step="1"] .form-container,
+                .step-content.three > .form-container > .row,
+                .step-content.four .row,
+                .step-content.five .form-container,
+                .result-content {
+                    grid-template-columns: 1fr;
+                }
+
+                .result-vehicle {
+                    grid-row: auto;
+                    max-height: 190px;
+                }
+            }
+
+            @media (max-width: 559.98px) {
+                .calculator-header__title {
+                    display: none;
+                }
+
+                .calculator-header {
+                    grid-template-columns: 1fr auto;
+                }
+
+                .header {
+                    font-size: 27px;
+                }
+
+                .step[data-spa-step="1"] .form-container {
+                    grid-template-columns: 1fr;
+                }
+
+                .step[data-spa-step="1"] .btn.col-btn {
+                    min-height: 250px;
+                }
+
+                .step[data-spa-step="1"] .btn.col-btn img {
+                    height: 105px;
+                    margin: 4px 0;
+                }
+
+                .step[data-spa-step="1"] .col-label {
+                    min-height: auto;
+                }
+
+                .btn.col-btn {
+                    min-height: 74px;
+                    padding: 12px;
+                }
+
+                .btn.col-btn img {
+                    max-width: 80px;
+                }
+
+                .os-container,
+                .step-content.four .form-container,
+                .step-content.five .form-container,
+                .step-content.one > .form-floating,
+                .step-content.tesha > .container,
+                .result-content {
+                    padding: 16px;
+                }
+
+                .navigation-container {
+                    align-items: stretch;
+                }
+
+                .next-btn,
+                .calc-btn,
+                .atc-def-btn,
+                .prev-btn,
+                .reset-btn {
+                    min-width: 0;
+                    padding: 11px 15px;
+                    font-size: 13px;
+                }
+
+                .next-btn::after,
+                .calc-btn::after {
+                    margin-left: 9px;
+                }
+
+                .prev-btn::before {
+                    margin-right: 7px;
+                }
+            }
+        </style>
+        <style>
+            /* Pixel-close refinements for the supplied desktop references. */
+            .header-progress {
+                display: none;
+                min-width: 520px;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .header-benefits {
+                display: none;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .header-progress {
+                display: flex;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .calculator-header {
+                min-height: 80px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .brand img {
+                width: 48px;
+                height: 48px;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .brand__name {
+                font-size: 32px;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .calculator-header__title {
+                font-size: 13px;
+            }
+
+            .header-progress__label {
+                flex: 0 0 auto;
+                padding: 8px 14px;
+                border-radius: 8px;
+                color: var(--tes-red);
+                background: var(--tes-red-soft);
+                font-size: 13px;
+                font-weight: 700;
+            }
+
+            .header-progress__line {
+                position: relative;
+                width: min(34vw, 400px);
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .header-progress__line::before,
+            .header-progress__fill {
+                content: "";
+                position: absolute;
+                top: 8px;
+                left: 0;
+                height: 2px;
+                border-radius: 999px;
+            }
+
+            .header-progress__line::before {
+                width: 100%;
+                background: #d7d9de;
+            }
+
+            .header-progress__fill {
+                z-index: 1;
+                width: 20%;
+                background: var(--tes-red);
+                transition: width .25s ease;
+            }
+
+            .header-progress__line i {
+                position: relative;
+                z-index: 2;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #c7cad0;
+            }
+
+            .header-progress__line i.is-complete,
+            .header-progress__line i.is-active {
+                background: var(--tes-red);
+            }
+
+            .calculator-sidebar {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .calculator-sidebar::after {
+                content: "";
+                position: absolute;
+                left: -85px;
+                bottom: -85px;
+                width: 310px;
+                height: 240px;
+                opacity: .42;
+                background:
+                    radial-gradient(ellipse at 54% 42%, transparent 0 35%, #e9ebef 36% 36.6%, transparent 37% 49%, #eceef1 50% 50.6%, transparent 51%),
+                    repeating-radial-gradient(ellipse at 50% 50%, transparent 0 18px, #eef0f3 19px 20px);
+                transform: rotate(-12deg);
+                pointer-events: none;
+            }
+
+            .stepper {
+                z-index: 1;
+            }
+
+            .stepper__item {
+                min-height: 105px;
+                grid-template-columns: 40px 48px minmax(0, 1fr);
+                gap: 12px;
+            }
+
+            .stepper__icon {
+                width: 48px;
+                height: 48px;
+                display: grid;
+                place-items: center;
+                border-radius: 9px;
+                color: #a3a8b0;
+                background: #fafafa;
+            }
+
+            .stepper__icon svg {
+                width: 25px;
+                height: 25px;
+                fill: none;
+                stroke: currentColor;
+                stroke-width: 1.6;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            .stepper__item.is-active .stepper__icon {
+                color: var(--tes-red);
+                background: var(--tes-red-soft);
+            }
+
+            .stepper__item.is-complete .stepper__icon {
+                color: var(--tes-red);
+            }
+
+            .stepper__item strong {
+                padding-top: 1px;
+            }
+
+            .calculator-main {
+                position: relative;
+                overflow: hidden;
+            }
+
+            .calculator-main::after {
+                content: "";
+                position: absolute;
+                z-index: -1;
+                right: -150px;
+                bottom: -150px;
+                width: 430px;
+                height: 330px;
+                opacity: .38;
+                background: repeating-radial-gradient(ellipse at 50% 50%, transparent 0 23px, #edf0f2 24px 25px);
+                transform: rotate(16deg);
+            }
+
+            .step[data-spa-step="1"] .step-header {
+                margin-bottom: 23px;
+            }
+
+            .step[data-spa-step="1"] .header {
+                font-size: clamp(30px, 2.15vw, 36px);
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn {
+                min-height: 392px;
+                padding: 20px 26px 22px;
+                border-color: #e4e5e9;
+                border-radius: 10px !important;
+                box-shadow: 0 7px 18px rgba(27, 31, 42, .065);
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn:has(input:checked) {
+                border-color: var(--tes-red);
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn img {
+                height: 185px;
+                margin: 20px 0 15px;
+                filter: contrast(.96);
+            }
+
+            .step[data-spa-step="1"] .col-label {
+                min-height: 29px;
+                color: #171b23;
+                font-size: 18px;
+                line-height: 1.35;
+                font-weight: 760;
+            }
+
+            .vehicle-card__description {
+                min-height: 48px;
+                margin-top: 8px;
+                color: #626975;
+                font-size: 14px;
+                line-height: 1.55;
+            }
+
+            .vehicle-card__axles {
+                align-self: flex-start;
+                margin-top: auto;
+                padding: 8px 13px;
+                border-radius: 6px;
+                color: #4f5662;
+                background: #f5f6f7;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .step[data-spa-step="1"] .btn.col-btn::after {
+                display: none;
+            }
+
+            .selection-help {
+                min-height: 88px;
+                display: grid;
+                grid-template-columns: 28px 1fr auto;
+                align-items: center;
+                gap: 14px;
+                margin-top: 28px;
+                padding: 16px 28px;
+                border: 1px solid #e8e9ec;
+                border-radius: 9px;
+                color: #505763;
+                background: #fff;
+                box-shadow: 0 8px 20px rgba(27, 31, 42, .055);
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .selection-help__icon {
+                width: 23px;
+                height: 23px;
+                display: grid;
+                place-items: center;
+                border: 2px solid var(--tes-red);
+                border-radius: 50%;
+                color: var(--tes-red);
+                font-family: Georgia, serif;
+                font-weight: 700;
+            }
+
+            .selection-help__button {
+                min-height: 49px;
+                padding: 0 24px;
+                border: 1px solid #f0bfc3;
+                border-radius: 7px;
+                color: #545b66;
+                background: #fff;
+                font-weight: 600;
+            }
+
+            .selection-help__button span {
+                margin-right: 8px;
+                color: var(--tes-red);
+            }
+
+            .step[data-spa-step="1"] .navigation-container {
+                margin-top: 18px;
+                padding-top: 0;
+                border-top: 0;
+            }
+
+            .calculator-assurances {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                margin-top: 25px;
+                padding-top: 26px;
+                border-top: 1px solid #e4e6e9;
+            }
+
+            .calculator-assurances > div {
+                min-height: 52px;
+                display: grid;
+                grid-template-columns: 44px 1fr;
+                align-content: center;
+                padding: 0 22px;
+                border-right: 1px solid #eceef0;
+            }
+
+            .calculator-assurances > div:last-child {
+                border-right: 0;
+            }
+
+            .calculator-assurances span {
+                grid-row: span 2;
+                color: #656c77;
+                font-size: 27px;
+            }
+
+            .calculator-assurances strong,
+            .calculator-assurances small {
+                display: block;
+            }
+
+            .calculator-assurances strong {
+                color: #252b34;
+                font-size: 12px;
+            }
+
+            .calculator-assurances small {
+                margin-top: 3px;
+                color: #747b86;
+                font-size: 11px;
+            }
+
+            body[data-current-step]:not([data-current-step="1"]) .calculator-main {
+                padding-top: 27px;
+            }
+
+            .step:not([data-spa-step="1"]) .step-header::before {
+                display: none;
+            }
+
+            .step-content.three {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 205px;
+                gap: 14px 16px;
+                align-items: start;
+            }
+
+            .step-content.three > .form-container > .step-label {
+                display: none;
+            }
+
+            .step-content.three > .form-container > .row {
+                grid-template-columns: repeat(3, minmax(215px, 1fr));
+                gap: 12px;
+                margin-top: 0 !important;
+            }
+
+            .step-content.three .os-container {
+                padding: 14px;
+                border-radius: 7px;
+                box-shadow: none;
+            }
+
+            .step-content.three .btn.col-btn {
+                min-height: 69px;
+                padding: 9px 12px;
+                box-shadow: none;
+            }
+
+            .step-content.three .btn.col-btn img {
+                max-width: 86px;
+                max-height: 48px;
+            }
+
+            .step-content.three .col-label {
+                font-size: 11px;
+                text-align: center;
+            }
+
+            .step-content.three .form-floating {
+                margin: 9px 0;
+            }
+
+            .step-content.three .form-select {
+                min-height: 54px;
+                font-size: 11px;
+            }
+
+            .step-content.three .form-floating > label {
+                max-width: calc(100% - 30px);
+                padding: .55rem .7rem;
+                overflow: hidden;
+                white-space: normal;
+                font-size: 10px;
+                line-height: 1.15;
+            }
+
+            .step-content.three .next-btn:not(.disabled) {
+                border-color: var(--tes-red) !important;
+                background: var(--tes-red) !important;
+            }
+
+            .step-content.five .form-floating > label {
+                display: none;
+            }
+
+            .step-content.five .form-control {
+                height: 58px;
+                min-height: 58px;
+                padding: 0 14px;
+            }
+
+            .axle-reference-panel {
+                display: grid;
+                gap: 12px;
+            }
+
+            .axle-reference-card {
+                padding: 17px;
+                border: 1px solid #e7e8eb;
+                border-radius: 7px;
+                background: #fff;
+            }
+
+            .axle-reference-card h3 {
+                margin: 0 0 10px;
+                color: #242932;
+                font-size: 12px;
+                font-weight: 750;
+            }
+
+            .axle-reference-card p {
+                margin: 0;
+                color: #5f6671;
+                font-size: 11px;
+                line-height: 1.6;
+            }
+
+            .axle-reference-card > img {
+                width: 100%;
+                height: 75px;
+                margin-top: 12px;
+                object-fit: contain;
+                opacity: .5;
+            }
+
+            .axle-scheme-card__visual {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 4px;
+                margin-bottom: 11px;
+            }
+
+            .axle-scheme-card__visual img {
+                width: 45px;
+                height: 35px;
+                object-fit: contain;
+            }
+
+            .axle-scheme-card__visual span {
+                color: #737a84;
+            }
+
+            .axle-scheme-card strong,
+            .axle-scheme-card small {
+                display: block;
+                font-size: 10px;
+            }
+
+            .axle-scheme-card small {
+                margin-top: 5px;
+                color: #777e88;
+            }
+
+            .axle-reset-button {
+                margin-top: 13px;
+                padding: 8px 10px;
+                border: 0;
+                border-radius: 5px;
+                color: var(--tes-red);
+                background: var(--tes-red-soft);
+                font-size: 10px;
+                font-weight: 700;
+            }
+
+            .step-content.three > .navigation-container {
+                grid-column: 1 / -1;
+                margin-top: 4px;
+            }
+
+            @media (max-width: 1279.98px) {
+                .header-progress {
+                    min-width: 390px;
+                }
+
+                .step-content.three {
+                    grid-template-columns: 1fr;
+                }
+
+                .axle-reference-panel {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .step-content.three > .navigation-container {
+                    grid-column: auto;
+                }
+            }
+
+            @media (max-width: 899.98px) {
+                .header-progress {
+                    display: none !important;
+                }
+
+                .selection-help {
+                    grid-template-columns: 24px 1fr;
+                    padding: 15px;
+                }
+
+                .selection-help__button {
+                    grid-column: 1 / -1;
+                }
+
+                .calculator-assurances {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 18px 0;
+                }
+
+                .calculator-assurances > div:nth-child(2) {
+                    border-right: 0;
+                }
+
+                .step-content.three > .form-container > .row,
+                .axle-reference-panel {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 559.98px) {
+                .calculator-assurances {
+                    grid-template-columns: 1fr;
+                }
+
+                .calculator-assurances > div {
+                    border-right: 0;
+                }
+
+                .step[data-spa-step="1"] .btn.col-btn {
+                    min-height: 300px;
+                }
+
+                .vehicle-card__description {
+                    min-height: auto;
+                }
+            }
+        </style>
         <script src="./js/constants.js"></script>
         <script src="./js/calculations.js"></script>
         <script src="./js/form.js"></script>
-        <script src="./js/app.js"></script>
+        <script>
+            (function ($) {
+
+              const appState = {
+                currentStep: null,
+                total: 0,
+                coefficient: 0,
+                coverVehicleAssessment: null,
+              };
+
+              function setDisabled(selector, disabled) {
+                $(selector).toggleClass("disabled", Boolean(disabled));
+              }
+
+              function setHidden(selector, hidden) {
+                $(selector).toggleClass("d-none", Boolean(hidden));
+              }
+
+              function setVisible(selector, visible) {
+                $(selector).toggle(Boolean(visible));
+              }
+
+              function findVisibleSibling($step, direction) {
+                let $candidate = direction === "next" ? $step.next() : $step.prev();
+
+                while ($candidate.length && $candidate.hasClass("d-none")) {
+                  $candidate = direction === "next" ? $candidate.next() : $candidate.prev();
+                }
+
+                return $candidate;
+              }
+
+              function updateSpaProgress($step) {
+                const visibleStep = Number($step.data("spa-step")) || 1;
+
+                document.body.dataset.currentStep = String(visibleStep);
+
+                $(".stepper__item").each(function updateNavigationItem() {
+                  const $item = $(this);
+                  const itemStep = Number($item.data("nav-step"));
+
+                  $item.toggleClass("is-active", itemStep === visibleStep);
+                  $item.toggleClass("is-complete", itemStep < visibleStep);
+                });
+
+                $("#mobileStepLabel").text(`Шаг ${visibleStep} из 6`);
+                $("#headerStepLabel").text(`Шаг ${visibleStep} из 6`);
+                $("#mobileProgressBar").css(
+                  "width",
+                  `${(visibleStep / 6) * 100}%`,
+                );
+                $("#headerProgressFill").css(
+                  "width",
+                  `${((visibleStep - 1) / 5) * 100}%`,
+                );
+                $("[data-progress-dot]").each(function updateProgressDot() {
+                  const $dot = $(this);
+                  const dotStep = Number($dot.data("progress-dot"));
+
+                  $dot.toggleClass("is-complete", dotStep < visibleStep);
+                  $dot.toggleClass("is-active", dotStep === visibleStep);
+                });
+              }
+
+              function updateSchemePreview() {
+                const vehicleLabels = {
+                  [VEHICLE_TYPE.SINGLE]: "Одиночный автомобиль",
+                  [VEHICLE_TYPE.SEMI_TRAILER]: "Тягач + полуприцеп",
+                  [VEHICLE_TYPE.TRAILER]: "Тягач + прицеп",
+                  [VEHICLE_TYPE.LOW_LOADER]: "Тягач + трал",
+                };
+                const vehicleType = checkedId("calc-atc-type");
+                const groups = ["first", "second", "third", "fourth", "fifth"]
+                  .filter((group) => {
+                    if (group === "fourth") return isAxleGroupActive("fourth");
+                    if (group === "fifth") return isAxleGroupActive("fifth");
+                    if (group === "third") return vehicleType !== VEHICLE_TYPE.SINGLE;
+                    return true;
+                  })
+                  .map((group) => {
+                    if (
+                      vehicleType === VEHICLE_TYPE.LOW_LOADER &&
+                      ["third", "fourth", "fifth"].includes(group)
+                    ) {
+                      const trailer = readTrailerGroup(group);
+                      return trailer.selectedCount || null;
+                    }
+
+                    const count = selectedAxleCount(`${group}-os`);
+                    return Number.isFinite(count) && count > 0 ? count : null;
+                  })
+                  .filter(Boolean);
+
+                $("#selectedSchemeLabel").text(
+                  groups.length ? groups.join(" – ") : "Выберите группы осей",
+                );
+                $("#selectedVehicleLabel").text(
+                  vehicleLabels[vehicleType] || "Схема появится после выбора",
+                );
+              }
+
+              function openStep($step) {
+                if (!$step.length) return;
+
+                $(".step").not($step).addClass("minimized");
+                $step.removeClass("minimized");
+                appState.currentStep = $step.get(0);
+                updateSpaProgress($step);
+                notifyParentHeight();
+              }
+
+              function completeCurrentStep($step) {
+                $step.addClass("minimized step-completed");
+              }
+
+              function configureVehicleType(type) {
+                const lowLoader = type === VEHICLE_TYPE.LOW_LOADER;
+                const trailer = type === VEHICLE_TYPE.TRAILER;
+                const semiTrailer = type === VEHICLE_TYPE.SEMI_TRAILER;
+                const single = type === VEHICLE_TYPE.SINGLE;
+
+                setVisible(".first-os-group", true);
+                setVisible(".second-os-group", true);
+                setVisible(".third-os-group", !single);
+                setVisible(".fourth-os-group", trailer || lowLoader);
+                setVisible(".fifth-os-group", lowLoader);
+
+                setHidden(".three-os-weight-group", single);
+                setHidden(".four-os-weight-group", true);
+                setHidden(".five-os-weight-group", true);
+
+                setHidden(".third-os-group-container", lowLoader);
+                setHidden(".fourth-os-group-container", lowLoader);
+                setHidden(".third-os-tral-container", !lowLoader);
+                setHidden(".fourth-os-tral-container", !lowLoader);
+
+                setHidden(".first-2os-group", semiTrailer);
+                setHidden(".second-21os-group", trailer || lowLoader);
+                setHidden(".second-3os-group", false);
+                setHidden(".second-4os-group", !lowLoader);
+
+                setHidden(".third-1os-group", semiTrailer);
+                setHidden(".third-3os-group", trailer);
+                setHidden(".third-4os-group", trailer);
+
+                // These containers also have the generic *-os-group-container class.
+                // Remove d-none after hiding the regular axle buttons for a low-loader.
+                setHidden(".third-os-skat-container", false);
+                setHidden(".fourth-os-skat-container", false);
+
+                if (trailer) {
+                  $(".fourth-os-group .os-container").hide();
+                }
+
+                if (!lowLoader) {
+                  $(".fifth-os-group .os-container").hide();
+                }
+
+                syncOptionalWeightFields();
+              }
+
+              function syncOptionalWeightFields() {
+                setHidden(".four-os-weight-group", !isAxleGroupActive("fourth"));
+                setHidden(".five-os-weight-group", !isAxleGroupActive("fifth"));
+              }
+
+              function isSingleAxleId(id) {
+                return typeof id === "string" && id.endsWith("-1os");
+              }
+
+              function updateStandardAxleDistance(name, id) {
+                const group = name.replace("-os", "");
+                setHidden(`.${group}-os-distance-container`, isSingleAxleId(id));
+              }
+
+              function updateTrailerTypeUi(group, type) {
+                const conventional = type === 1;
+
+                $(`#${group}TralOsNum`).parent().toggleClass("d-none", !conventional);
+                $(`#${group}TralRowNum`).parent().toggleClass("d-none", conventional);
+
+                const trailer = readTrailerGroup(group);
+                setHidden(
+                  `.${group}-os-distance-container`,
+                  !(trailer.selectedCount > 1),
+                );
+              }
+
+              function validateStandardAxleGroup(group) {
+                const axleId = checkedId(`${group}-os`);
+                const wheelId = checkedId(`${group}-os-skat`);
+                const spacing = $(`select[name="${group}-os-distance"]`).val();
+
+                if (!axleId || !wheelId) return false;
+
+                return isSingleAxleId(axleId) || spacing !== null;
+              }
+
+              function validateTrailerAxleGroup(group) {
+                const trailer = readTrailerGroup(group);
+                const wheelId = checkedId(`${group}-os-skat`);
+                const spacing = $(`select[name="${group}-os-distance"]`).val();
+
+                if (!trailer.type || !trailer.selectedCount || !wheelId) {
+                  return false;
+                }
+
+                return trailer.selectedCount === 1 || spacing !== null;
+              }
+
+              function validateAxleStep() {
+                const type = checkedId("calc-atc-type");
+                const fourthActive = isAxleGroupActive("fourth");
+                const fifthActive = isAxleGroupActive("fifth");
+
+                let valid =
+                  validateStandardAxleGroup("first") &&
+                  validateStandardAxleGroup("second");
+
+                if (type === VEHICLE_TYPE.TRAILER || type === VEHICLE_TYPE.SEMI_TRAILER) {
+                  valid = valid && validateStandardAxleGroup("third");
+                }
+
+                if (type === VEHICLE_TYPE.TRAILER && fourthActive) {
+                  valid = valid && validateStandardAxleGroup("fourth");
+                }
+
+                if (type === VEHICLE_TYPE.LOW_LOADER) {
+                  valid = valid && validateTrailerAxleGroup("third");
+
+                  if (fourthActive) {
+                    valid = valid && validateTrailerAxleGroup("fourth");
+                  }
+
+                  if (fifthActive) {
+                    valid = valid && validateTrailerAxleGroup("fifth");
+                  }
+                }
+
+                setDisabled(".step-three-btn.next-btn", !valid);
+                return valid;
+              }
+
+              function validateWeightStep() {
+                const type = checkedId("calc-atc-type");
+                const required = ["#first-os-weight", "#second-os-weight"];
+
+                if (type !== VEHICLE_TYPE.SINGLE) {
+                  required.push("#third-os-weight");
+                }
+
+                if (isAxleGroupActive("fourth")) {
+                  required.push("#four-os-weight");
+                }
+
+                if (isAxleGroupActive("fifth")) {
+                  required.push("#fifth-os-weight");
+                }
+
+                const valid = required.every((selector) => numericValue(selector) > 0);
+                setDisabled(".step-four-btn.next-btn", !valid);
+
+                return valid;
+              }
+
+              function validateDimensionsStep() {
+                const valid = ["#atc_height", "#atc_width", "#atc_length"].every(
+                  (selector) => numericValue(selector) > 0,
+                );
+
+                setDisabled(".step-five-btn.next-btn", !valid);
+                return valid;
+              }
+
+              function validateDistanceStep() {
+                const value = $('input[name="distance"]').val();
+                const valid = value !== "" && toNumber(value) > 0;
+
+                setDisabled(".calc-btn", !valid);
+                return valid;
+              }
+
+              function validateDollyStep() {
+                const selected = checkedValue("input.est-tesha:checked");
+                const usesDolly = selected === "1";
+
+                setHidden(".tesha-row-container", !usesDolly);
+                setHidden(".tesha-weight-container", !usesDolly);
+                setHidden(".tesha-os-distance-container", !usesDolly);
+
+                let valid = selected === "0";
+
+                if (usesDolly) {
+                  valid =
+                    numericValue("input.tesha-row:checked") > 0 &&
+                    numericValue("#teshaWeight") > 0 &&
+                    $("#teshaOsDistance").val() !== null;
+                }
+
+                setDisabled(".step-tesha-btn.next-btn", !valid);
+                return valid;
+              }
+
+              function validateAll() {
+                validateAxleStep();
+                validateWeightStep();
+                validateDimensionsStep();
+                validateDistanceStep();
+                validateDollyStep();
+              }
+
+              function handleChoiceClick(event) {
+                const $card = $(event.currentTarget);
+
+                if ($card.hasClass("disabled")) return;
+
+                const $input = $card.find("input").first();
+                const name = $input.attr("name");
+
+                if (!name) return;
+
+                $(".col-btn").each(function resetSameGroup() {
+                  const $candidate = $(this);
+
+                  if ($candidate.find("input").first().attr("name") !== name) {
+                    return;
+                  }
+
+                  $candidate.find("input").first().prop("checked", false);
+                  $candidate.find("svg").attr("hidden", true);
+                });
+
+                $input.prop("checked", true);
+                $card.find("svg").removeAttr("hidden");
+
+                if (name === "calc-atc-type") {
+                  const vehicleType = $input.attr("id");
+                  setHidden(".step-tesha", vehicleType !== VEHICLE_TYPE.LOW_LOADER);
+                  setDisabled(".step-two-btn.next-btn", false);
+                }
+
+                if (/^(first|second|third|fourth|fifth)-os$/.test(name)) {
+                  updateStandardAxleDistance(name, $input.attr("id"));
+                }
+
+                const trailerGroupMatch = name.match(
+                  /^(third|fourth|fifth)-tral-type$/,
+                );
+
+                if (trailerGroupMatch) {
+                  updateTrailerTypeUi(
+                    trailerGroupMatch[1],
+                    toNumber($input.data("tral-type")),
+                  );
+                }
+
+                validateAll();
+                updateSchemePreview();
+                notifyParentHeight();
+              }
+
+              function handleSelectChange(event) {
+                const name = event.currentTarget.name ?? "";
+                const trailerGroupMatch = name.match(
+                  /^(third|fourth|fifth)-tral-(?:os|row)-num$/,
+                );
+
+                if (trailerGroupMatch) {
+                  const group = trailerGroupMatch[1];
+                  const trailer = readTrailerGroup(group);
+
+                  setHidden(
+                    `.${group}-os-distance-container`,
+                    !(trailer.selectedCount > 1),
+                  );
+                }
+
+                validateAll();
+                updateSchemePreview();
+                notifyParentHeight();
+              }
+
+              function handleNextClick(event) {
+                const $button = $(event.currentTarget);
+
+                if ($button.hasClass("disabled")) return;
+
+                const $current = $button.closest(".step");
+                const $content = $current.find(".step-content");
+
+                if ($content.hasClass("two")) {
+                  configureVehicleType(checkedId("calc-atc-type"));
+                }
+
+                if ($content.hasClass("three")) {
+                  syncOptionalWeightFields();
+                }
+
+                completeCurrentStep($current);
+                openStep(findVisibleSibling($current, "next"));
+              }
+
+              function handlePreviousClick(event) {
+                const $button = $(event.currentTarget);
+
+                if ($button.hasClass("disabled")) return;
+
+                const $current = $button.closest(".step");
+                const $previous = findVisibleSibling($current, "previous");
+
+                $current.addClass("minimized");
+                $previous.removeClass("step-completed");
+                openStep($previous);
+              }
+
+              function updateFinalAmount(distance) {
+                const numericDistance = toNumber(distance);
+
+                if (
+                  !Number.isFinite(numericDistance) ||
+                  numericDistance <= 0 ||
+                  !Number.isFinite(appState.coefficient)
+                ) {
+                  appState.total = 0;
+                  $("#totalSum").text("Укажите километраж больше 0");
+                  return;
+                }
+
+                const amount = appState.coefficient * MRP * numericDistance;
+                appState.total = amount;
+
+                $("#totalSum").text(
+                  `${formatNumber(amount.toFixed(2))} тенге`,
+                );
+              }
+
+
+              function renderCoverVehicleNotice(assessment) {
+                const $notice = $("#coverVehicleNotice");
+                const $reasons = $("#coverVehicleReasons");
+
+                $reasons.empty();
+
+                if (!assessment?.required) {
+                  $notice.addClass("d-none");
+                  notifyParentHeight();
+                  return;
+                }
+
+                assessment.reasons.forEach((reason) => {
+                  $("<li>").text(reason).appendTo($reasons);
+                });
+
+                $notice.removeClass("d-none");
+                notifyParentHeight();
+              }
+
+              function handleCalculateClick(event) {
+                const $button = $(event.currentTarget);
+
+                if ($button.hasClass("disabled")) return;
+
+                const $current = $button.closest(".step");
+                const form = readFormData();
+                const result = calculateCharge(form);
+
+                appState.coefficient = result.coefficient;
+                appState.coverVehicleAssessment =
+                  assessCoverVehicleRequirement(form);
+
+                $("#finalDistance").val(form.distance);
+                updateFinalAmount(form.distance);
+                renderCoverVehicleNotice(
+                  appState.coverVehicleAssessment,
+                );
+
+                completeCurrentStep($current);
+                openStep(findVisibleSibling($current, "next"));
+              }
+
+              function handleFinalDistanceInput(event) {
+                const value = event.currentTarget.value;
+
+                // Синхронизируем с исходным полем маршрута, чтобы отчёт WhatsApp
+                // использовал изменённый километраж.
+                $('input[name="distance"]').val(value);
+                updateFinalAmount(value);
+              }
+
+              function handleOptionalAxleToggle(event) {
+                const $button = $(event.currentTarget);
+                const group = $button.hasClass("fifth") ? "fifth" : "fourth";
+                const activating = !$button.hasClass("os-active");
+                const $container = $button.siblings(".os-container");
+
+                $button.toggleClass("os-active", activating);
+                $container.toggle(activating);
+
+                $button.text(
+                  activating ? "Удалить группу осей" : $button.data("add-label"),
+                );
+
+                syncOptionalWeightFields();
+                validateAll();
+                updateSchemePreview();
+                notifyParentHeight();
+              }
+
+              function handleAxleResetClick() {
+                const $axleStep = $('.step[data-spa-step="2"]');
+
+                $axleStep.find('input[type="radio"]').prop("checked", false);
+                $axleStep.find(".col-btn svg").attr("hidden", true);
+                $axleStep.find("select").prop("selectedIndex", 0);
+                $axleStep.find(".form-floating[class*='-os-distance-container']")
+                  .addClass("d-none");
+
+                $(".add-os-btn.os-active").each(function removeOptionalGroup() {
+                  $(this).trigger("click");
+                });
+
+                validateAll();
+                updateSchemePreview();
+                notifyParentHeight();
+              }
+
+              function handleResetClick(event) {
+                $(".step").addClass("minimized").removeClass("step-completed");
+                $("#totalSum").empty();
+                $("#finalDistance").val("");
+                $("#coverVehicleNotice").addClass("d-none");
+                $("#coverVehicleReasons").empty();
+                appState.total = 0;
+                appState.coefficient = 0;
+                appState.coverVehicleAssessment = null;
+
+                const $current = $(event.currentTarget).closest(".step");
+                const $first = $(".step").first();
+
+                openStep($first);
+              }
+
+              function buildWeightSummary(form) {
+                const weights = [form.X, form.Y];
+
+                if (form.atc_type !== VEHICLE_TYPE.SINGLE) {
+                  weights.push(form.y2);
+                }
+
+                if (form.fourthActive) {
+                  weights.push(form.y3);
+                }
+
+                if (form.fifthActive) {
+                  weights.push(form.y4);
+                }
+
+                return {
+                  label: weights.map((weight) => `${weight} т`).join(" – "),
+                  total: weights.reduce((sum, weight) => sum + weight, 0),
+                };
+              }
+
+              function handleWhatsappClick() {
+                const rawPhone = $("#whatsappNumber").val().trim();
+                const phone = rawPhone.replace(/[^\d+]/g, "");
+
+                if (!phone) {
+                  window.alert("Пожалуйста, введите номер телефона.");
+                  return;
+                }
+
+                const form = readFormData();
+                const weightSummary = buildWeightSummary(form);
+                const amount = formatNumber(appState.total.toFixed(2));
+
+                const message = [
+                  `Сумма сбора за проезд по территории Республики Казахстан: ${amount} тг`,
+                  "",
+                  `Нагрузки по группам осей: ${weightSummary.label}`,
+                  `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
+                  `Длина: ${form.length} м`,
+                  `Ширина: ${form.width} м`,
+                  `Высота: ${form.height} м`,
+                  `Расстояние: ${form.distance} км`,
+                  `Сумма сбора: ${amount} тг`,
+                  ...(appState.coverVehicleAssessment?.required
+                    ? [
+                        "",
+                        "НЕОБХОДИМ АВТОМОБИЛЬ ПРИКРЫТИЯ:",
+                        ...appState.coverVehicleAssessment.reasons.map(
+                          (reason) => `- ${reason}`,
+                        ),
+                      ]
+                    : []),
+                ].join("\n");
+
+                const url =
+                  `https://api.whatsapp.com/send?phone=${encodeURIComponent(phone)}` +
+                  `&text=${encodeURIComponent(message)}`;
+
+                window.open(url, "_blank", "noopener,noreferrer");
+              }
+
+              let lastReportedHeight = 0;
+              let heightUpdateFrame = null;
+
+              function getCalculatorContentHeight() {
+                const calculator = document.querySelector(".steps");
+
+                if (!calculator) {
+                  return 0;
+                }
+
+                const rect = calculator.getBoundingClientRect();
+                return Math.ceil(rect.height);
+              }
+
+              function notifyParentHeight() {
+                if (heightUpdateFrame !== null) {
+                  window.cancelAnimationFrame(heightUpdateFrame);
+                }
+
+                heightUpdateFrame = window.requestAnimationFrame(() => {
+                  heightUpdateFrame = null;
+
+                  const height = getCalculatorContentHeight();
+
+                  if (!height || Math.abs(height - lastReportedHeight) < 2) {
+                    return;
+                  }
+
+                  lastReportedHeight = height;
+
+                  window.parent.postMessage(
+                    {
+                      type: "transconsulting-resize",
+                      height,
+                    },
+                    "*",
+                  );
+                });
+              }
+
+              function bindEvents() {
+                $(".next-btn").on("click", handleNextClick);
+                $(".prev-btn").on("click", handlePreviousClick);
+                $(".calc-btn").on("click", handleCalculateClick);
+                $(".col-btn").on("click", handleChoiceClick);
+                $("select").on("change", handleSelectChange);
+                $(".os-weight").on("input", validateWeightStep);
+                $(".atc-msrmnt").on("input", validateDimensionsStep);
+                $(".step-one-form").on("input", validateDistanceStep);
+                $("#finalDistance").on("input", handleFinalDistanceInput);
+                $("#teshaWeight").on("input", validateDollyStep);
+                $(".add-os-btn").on("click", handleOptionalAxleToggle);
+                $(".reset-btn").on("click", handleResetClick);
+                $("#axleResetButton").on("click", handleAxleResetClick);
+                $(".send-otchet-to-whatsapp-btn").on(
+                  "click",
+                  handleWhatsappClick,
+                );
+              }
+
+              function initialize() {
+                const $firstStep = $(".step").first();
+                appState.currentStep = $firstStep.get(0);
+
+                $(".add-os-btn").each(function rememberOriginalLabel() {
+                  const $button = $(this);
+                  $button.data("add-label", $button.text().trim());
+                });
+
+                bindEvents();
+                validateAll();
+                updateSchemePreview();
+                openStep($firstStep);
+                notifyParentHeight();
+
+                if ("ResizeObserver" in window) {
+                  const calculator = document.querySelector(".steps");
+
+                  if (calculator) {
+                    const observer = new ResizeObserver(notifyParentHeight);
+                    observer.observe(calculator);
+                  }
+                }
+
+                window.addEventListener("load", notifyParentHeight);
+              }
+
+              $(initialize);
+
+            })(window.jQuery);
+        </script>
     </body>
 </html>
