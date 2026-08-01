@@ -2737,94 +2737,115 @@
         <script src="./js/form.js"></script>
         <script src="./js/app.js"></script>
         <script>
-          let map;
-          let directionsService;
-          let directionsRenderer;
+            let map;
+            let directionsService;
+            let directionsRenderer;
+            
+            // Сохраняем объекты Autocomplete в переменные
+            let originAutocomplete;
+            let destAutocomplete;
 
-          // Функция инициализации карты и подсказок (вызывается авто-сплайном Google API)
-          function initMap() {
-            // 1. Создаем экземпляры сервисов Google Maps
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer();
+            // Функция инициализации карты и подсказок
+            function initMap() {
+                // 1. Создаем экземпляры сервисов Google Maps
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer();
 
-            // 2. Инициализируем карту (по умолчанию центр на Москву, заменят точки при маршруте)
-            map = new google.maps.Map(document.getElementById("map"), {
-              zoom: 7,
-              center: { lat: 55.751244, lng: 37.618423 },
-              mapTypeControl: false
-            });
+                // 2. Инициализируем карту
+                map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 7,
+                center: { lat: 55.751244, lng: 37.618423 },
+                mapTypeControl: false
+                });
 
-            // 3. Привязываем отрисовщик маршрута к нашей карте
-            directionsRenderer.setMap(map);
+                // 3. Привязываем отрисовщик маршрута к карте
+                directionsRenderer.setMap(map);
 
-            // 4. Подключаем автозаполнение адресов Google Places к инпутам
-            const originInput = document.getElementById("origin");
-            const destInput = document.getElementById("destination");
+                // 4. Подключаем автозаполнение адресов
+                const originInput = document.getElementById("origin");
+                const destInput = document.getElementById("destination");
 
-            new google.maps.places.Autocomplete(originInput);
-            new google.maps.places.Autocomplete(destInput);
-          }
+                // 💡 ОПТИМИЗАЦИЯ 1: Явно указываем только нужные поля (fields).
+                // Это предотвращает списание денег за неиспользуемые Contact/Atmosphere данные.
+                const autocompleteOptions = {
+                fields: ["place_id", "geometry", "formatted_address"],
+                types: ["geocode"] // Ограничиваем поиск гео-точками и адресами (без заведений)
+                };
 
-          // Расчет расстояния по нажатию на кнопку
-          function calculateDistance() {
-            const origin = document.getElementById("origin").value.trim();
-            const destination = document.getElementById("destination").value.trim();
-            const resultBox = document.getElementById("result");
-
-            if (!origin || !destination) {
-              alert("Пожалуйста, заполните обе точки!");
-              return;
+                originAutocomplete = new google.maps.places.Autocomplete(originInput, autocompleteOptions);
+                destAutocomplete = new google.maps.places.Autocomplete(destInput, autocompleteOptions);
             }
 
-            // Запрос к Directions Service
-            directionsService.route(
-              {
-                origin: origin,
-                destination: destination,
-                travelMode: google.maps.TravelMode.DRIVING
-              },
-              (response, status) => {
-                if (status === "OK") {
-                  directionsRenderer.setDirections(response);
+            // Расчет расстояния по нажатию на кнопку
+            function calculateDistance() {
+                const originText = document.getElementById("origin").value.trim();
+                const destText = document.getElementById("destination").value.trim();
+                const resultBox = document.getElementById("result");
 
-                  const route = response.routes[0].legs[0];
-
-                  // 1. Получаем точное расстояние В МЕТРАХ (тип: Number)
-                  const distanceInMeters = route.distance.value; // Например: 452800
-
-                  // 2. Переводим в КИЛОМЕТРЫ как число с плавающей точкой
-                  const distanceInKm = distanceInMeters / 1000; // Например: 452.8
-                  $('input[name="distance"]').val(distanceInKm)
-                  const value = $('input[name="distance"]').val();
-                  const valid = value !== "" && toNumber(value) > 0;
-
-                  $(".calc-btn").toggleClass("disabled", !valid);
-
-                  // 3. Округляем до 1 знака после запятой (или до целого через Math.round)
-                  const distanceInKmFormatted = Number((distanceInMeters / 1000).toFixed(1)); // 452.8 (тип: Number)
-
-                  // 4. Время в секундах (тип: Number)
-                  const durationInSeconds = route.duration.value;
-                  const durationInMinutes = Math.round(durationInSeconds / 60);
-
-                  // Теперь distanceInKmFormatted можно использовать в любых математических расчетах!
-                  console.log("Дистанция числом (км):", distanceInKmFormatted);
-                  console.log("Тип данных:", typeof distanceInKmFormatted); // number
-
-                  // Пример вывода на страницу
-                  resultBox.style.display = "block";
-                  resultBox.innerHTML = `
-                    <div class="result-item">Дистанция: <b>${distanceInKmFormatted} км</b></div>
-                    <div class="result-item">Время в пути: <b>${durationInMinutes} мин.</b></div>
-                  `;
-                } else {
-                  resultBox.style.display = "block";
-                  resultBox.innerHTML = `<span style="color: red;">Ошибка: ${status}</span>`;
+                if (!originText || !destText) {
+                alert("Пожалуйста, заполните обе точки!");
+                return;
                 }
-              }
-            );
-          }
-        </script>
+
+                // 💡 ОПТИМИЗАЦИЯ 2: Передаем placeId вместо текста, если пользователь выбрал вариант из автокомплита.
+                // Это избавляет Directions Service от необходимости повторно геокодировать строку.
+                const originPlace = originAutocomplete.getPlace();
+                const destPlace = destAutocomplete.getPlace();
+
+                const originRequest = (originPlace && originPlace.place_id) 
+                ? { placeId: originPlace.place_id } 
+                : originText;
+
+                const destRequest = (destPlace && destPlace.place_id) 
+                ? { placeId: destPlace.place_id } 
+                : destText;
+
+                // Запрос к Directions Service
+                directionsService.route(
+                {
+                    origin: originRequest,
+                    destination: destRequest,
+                    travelMode: google.maps.TravelMode.DRIVING
+                },
+                (response, status) => {
+                    if (status === "OK") {
+                    directionsRenderer.setDirections(response);
+
+                    const route = response.routes[0].legs[0];
+
+                    // 1. Дистанция
+                    const distanceInMeters = route.distance.value;
+                    const distanceInKm = distanceInMeters / 1000;
+                    $('input[name="distance"]').val(distanceInKm);
+
+                    const value = $('input[name="distance"]').val();
+                    const isToNumValid = typeof toNumber === "function" ? toNumber(value) > 0 : true;
+                    const valid = value !== "" && isToNumValid;
+
+                    $(".calc-btn").toggleClass("disabled", !valid);
+
+                    const distanceInKmFormatted = Number(distanceInKm.toFixed(1));
+
+                    // 2. Время
+                    const durationInSeconds = route.duration.value;
+                    const durationInMinutes = Math.round(durationInSeconds / 60);
+
+                    console.log("Дистанция числом (км):", distanceInKmFormatted);
+
+                    // Вывод результата
+                    resultBox.style.display = "block";
+                    resultBox.innerHTML = `
+                        <div class="result-item">Дистанция: <b>${distanceInKmFormatted} км</b></div>
+                        <div class="result-item">Время в пути: <b>${durationInMinutes} мин.</b></div>
+                    `;
+                    } else {
+                    resultBox.style.display = "block";
+                    resultBox.innerHTML = `<span style="color: red;">Ошибка: ${status}</span>`;
+                    }
+                }
+                );
+            }
+            </script>
         <script 
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1SeimW2b7yIhOIRPd_6xnHqFNQubaG6E&libraries=places&callback=initMap" 
           async 
