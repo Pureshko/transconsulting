@@ -2798,7 +2798,7 @@
                   const value = $('input[name="distance"]').val();
                   const valid = value !== "" && toNumber(value) > 0;
 
-                  setDisabled(".calc-btn", !valid);
+                  $(".calc-btn").toggleClass("disabled", !valid);
 
                   // 3. Округляем до 1 знака после запятой (или до целого через Math.round)
                   const distanceInKmFormatted = Number((distanceInMeters / 1000).toFixed(1)); // 452.8 (тип: Number)
