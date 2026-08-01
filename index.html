@@ -2795,6 +2795,10 @@
                   // 2. Переводим в КИЛОМЕТРЫ как число с плавающей точкой
                   const distanceInKm = distanceInMeters / 1000; // Например: 452.8
                   $('input[name="distance"]').val(distanceInKm)
+                  const value = $('input[name="distance"]').val();
+                  const valid = value !== "" && toNumber(value) > 0;
+
+                  setDisabled(".calc-btn", !valid);
 
                   // 3. Округляем до 1 знака после запятой (или до целого через Math.round)
                   const distanceInKmFormatted = Number((distanceInMeters / 1000).toFixed(1)); // 452.8 (тип: Number)
