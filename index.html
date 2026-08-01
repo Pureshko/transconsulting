@@ -2793,12 +2793,12 @@
                 const destPlace = destAutocomplete.getPlace();
 
                 const originRequest = (originPlace && originPlace.place_id) 
-                ? { placeId: originPlace.place_id } 
-                : originText;
+                    ? { placeId: originPlace.place_id } 
+                    : originText;
 
                 const destRequest = (destPlace && destPlace.place_id) 
-                ? { placeId: destPlace.place_id } 
-                : destText;
+                    ? { placeId: destPlace.place_id } 
+                    : destText;
 
                 // Запрос к Directions Service
                 directionsService.route(
@@ -2809,38 +2809,38 @@
                 },
                 (response, status) => {
                     if (status === "OK") {
-                    directionsRenderer.setDirections(response);
+                        directionsRenderer.setDirections(response);
 
-                    const route = response.routes[0].legs[0];
+                        const route = response.routes[0].legs[0];
 
-                    // 1. Дистанция
-                    const distanceInMeters = route.distance.value;
-                    const distanceInKm = distanceInMeters / 1000;
-                    $('input[name="distance"]').val(distanceInKm);
+                        // 1. Дистанция
+                        const distanceInMeters = route.distance.value;
+                        const distanceInKm = distanceInMeters / 1000;
+                        $('input[name="distance"]').val(distanceInKm);
 
-                    const value = $('input[name="distance"]').val();
-                    const isToNumValid = typeof toNumber === "function" ? toNumber(value) > 0 : true;
-                    const valid = value !== "" && isToNumValid;
+                        const value = $('input[name="distance"]').val();
+                        const isToNumValid = typeof toNumber === "function" ? toNumber(value) > 0 : true;
+                        const valid = value !== "" && isToNumValid;
 
-                    $(".calc-btn").toggleClass("disabled", !valid);
+                        $(".calc-btn").toggleClass("disabled", !valid);
 
-                    const distanceInKmFormatted = Number(distanceInKm.toFixed(1));
+                        const distanceInKmFormatted = Number(distanceInKm.toFixed(1));
 
-                    // 2. Время
-                    const durationInSeconds = route.duration.value;
-                    const durationInMinutes = Math.round(durationInSeconds / 60);
+                        // 2. Время
+                        const durationInSeconds = route.duration.value;
+                        const durationInMinutes = Math.round(durationInSeconds / 60);
 
-                    console.log("Дистанция числом (км):", distanceInKmFormatted);
+                        console.log("Дистанция числом (км):", distanceInKmFormatted);
 
-                    // Вывод результата
-                    resultBox.style.display = "block";
-                    resultBox.innerHTML = `
-                        <div class="result-item">Дистанция: <b>${distanceInKmFormatted} км</b></div>
-                        <div class="result-item">Время в пути: <b>${durationInMinutes} мин.</b></div>
-                    `;
+                        // Вывод результата
+                        resultBox.style.display = "block";
+                        resultBox.innerHTML = `
+                            <div class="result-item">Дистанция: <b>${distanceInKmFormatted} км</b></div>
+                            <div class="result-item">Время в пути: <b>${durationInMinutes} мин.</b></div>
+                        `;
                     } else {
-                    resultBox.style.display = "block";
-                    resultBox.innerHTML = `<span style="color: red;">Ошибка: ${status}</span>`;
+                        resultBox.style.display = "block";
+                        resultBox.innerHTML = `<span style="color: red;">Ошибка: ${status}</span>`;
                     }
                 }
                 );
