@@ -92,10 +92,32 @@
       </style>
     </head>
     <body>
+        <div class="modal fade" id="whatsappFormModal" tabindex="-1" role="dialog" aria-labelledby="whatsappFormModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Напишите свой номер WhatsApp для отправки отчета</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-container">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="whatsappNumber" placeholder="+7 XXX XX XX">
+                        <label for="floatingInput">Номер WhatsApp</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                  <button type="button" class="send-otchet-to-whatsapp-btn btn atc-def-btn">Отправить отчет на WhatsApp</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <header class="calculator-header">
             <a class="brand" href="/" aria-label="TES — на главную">
-                <img src="images/logo.png" alt="Логотип TES">
-                <span class="brand__wordmark"><strong>TES</strong><small>Transport Engineering Solutions</small></span>
+                <img src="images/logo.png" alt="">
+                <span class="brand__name">TES</span>
             </a>
             <div class="calculator-header__title">Калькулятор расчета<br>сбора за проезд</div>
             <div class="header-benefits" aria-label="Преимущества расчета">
@@ -109,7 +131,7 @@
                 </div>
             </div>
             <div class="header-progress" aria-label="Прогресс расчета">
-                <span class="header-progress__label" id="headerStepLabel">Шаг 1 из 5</span>
+                <span class="header-progress__label" id="headerStepLabel">Шаг 2 из 6</span>
                 <span class="header-progress__line" aria-hidden="true">
                     <span class="header-progress__fill" id="headerProgressFill"></span>
                     <i data-progress-dot="1"></i>
@@ -117,6 +139,7 @@
                     <i data-progress-dot="3"></i>
                     <i data-progress-dot="4"></i>
                     <i data-progress-dot="5"></i>
+                    <i data-progress-dot="6"></i>
                 </span>
             </div>
             <a class="home-link" href="/" aria-label="Вернуться на главную">
@@ -130,25 +153,30 @@
                     <li class="stepper__item is-active" data-nav-step="1">
                         <span class="stepper__number">1</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7zM6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></span>
-                        <span><strong>Тип ТС и колесная формула</strong><small>Выберите автопоезд и конфигурацию осей</small></span>
+                        <span><strong>Тип транспортного средства</strong><small>Выберите тип автопоезда</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="2">
                         <span class="stepper__number">2</span>
-                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14l2 11H3L5 9Zm4 0V6a3 3 0 0 1 6 0v3"/><circle cx="12" cy="14" r="2"/></svg></span>
-                        <span><strong>Весовые параметры</strong><small>Укажите нагрузки по группам</small></span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 4v6m0 4v6M4 12h6m4 0h6M6.3 6.3l4.2 4.2m3 3 4.2 4.2m0-11.4-4.2 4.2m-3 3-4.2 4.2"/></svg></span>
+                        <span><strong>Конструктор колесной формулы</strong><small>Выберите тип и конфигурацию осей</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="3">
                         <span class="stepper__number">3</span>
-                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4v10l-8 4-8-4V7Zm0 0 8 4 8-4m-8 4v10"/></svg></span>
-                        <span><strong>Габаритные параметры</strong><small>Длина, ширина и высота</small></span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14l2 11H3L5 9Zm4 0V6a3 3 0 0 1 6 0v3"/><circle cx="12" cy="14" r="2"/></svg></span>
+                        <span><strong>Весовые параметры</strong><small>Укажите нагрузки по группам</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="4">
                         <span class="stepper__number">4</span>
-                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-12A7 7 0 1 0 5 9c0 6.6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
-                        <span><strong>Маршрут</strong><small>Расстояние и сезонность</small></span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4v10l-8 4-8-4V7Zm0 0 8 4 8-4m-8 4v10"/></svg></span>
+                        <span><strong>Габаритные параметры</strong><small>Длина, ширина и высота</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="5">
                         <span class="stepper__number">5</span>
+                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-12A7 7 0 1 0 5 9c0 6.6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+                        <span><strong>Маршрут</strong><small>Расстояние и сезонность</small></span>
+                    </li>
+                    <li class="stepper__item" data-nav-step="6">
+                        <span class="stepper__number">6</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h2m2 0h2m2 0h1M8 15h2m2 0h2m2 0h1M8 18h2m2 0h2m2 0h1"/></svg></span>
                         <span><strong>Расчет и результат</strong><small>Итоговая сумма сбора</small></span>
                     </li>
@@ -157,33 +185,35 @@
 
             <main class="calculator-main">
                 <div class="mobile-progress" aria-live="polite">
-                    <span id="mobileStepLabel">Шаг 1 из 5</span>
+                    <span id="mobileStepLabel">Шаг 1 из 6</span>
                     <span class="mobile-progress__track"><span id="mobileProgressBar"></span></span>
                 </div>
                 <div class="steps">
-            <div class="step" data-spa-step="1" data-progress-step="1">
+            <div class="step" data-spa-step="1">
               <div class="step-header">
-                <div class="header">Транспортное средство и колесная формула</div>
+                <div class="header">Выберите тип транспортного средства</div>
               </div>
-              <div class="step-content two vehicle-selection">
+              <div class="step-content two">
                 <div class="step-label">Выберите тип транспортного средства</div>
                 <div class="form-container">
                     <div class="row mt-2">
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="single" hidden>
-                                <img src="calc-atc-type/single.webp" alt="">
+                                <img src="calc-atc-type/single.png" alt="">
                                 <span class="col-label text-uppercase">Одиночный автомобиль</span>
                                 <span class="vehicle-card__description">Грузовой автомобиль без прицепа</span>
+                                <span class="vehicle-card__axles">2 – 4 оси</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="polupricep" hidden>
-                                <img src="calc-atc-type/polupricep.webp" alt="">
+                                <img src="calc-atc-type/polupricep.png" alt="">
                                 <span class="col-label text-uppercase">Тягач + полуприцеп</span>
                                 <span class="vehicle-card__description">Самый распространенный тип автопоезда</span>
+                                <span class="vehicle-card__axles">2 – 6 осей</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -192,18 +222,20 @@
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="pricep" hidden>
-                                <img src="calc-atc-type/pricep.webp" alt="">
+                                <img src="calc-atc-type/pricep.png" alt="">
                                 <span class="col-label text-uppercase">Тягач + прицеп</span>
                                 <span class="vehicle-card__description">Перевозка грузов с отдельным прицепом</span>
+                                <span class="vehicle-card__axles">2 – 6 осей</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="trall" hidden>
-                                <img src="calc-atc-type/trall.webp" alt="">
+                                <img src="calc-atc-type/trall.png" alt="">
                                 <span class="col-label text-uppercase">Тягач + трал</span>
                                 <span class="vehicle-card__description">Для перевозки тяжелой и негабаритной техники</span>
+                                <span class="vehicle-card__axles">2 – 8 осей</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -212,14 +244,26 @@
                 <div class="selection-help">
                     <span class="selection-help__icon" aria-hidden="true">i</span>
                     <span>Если вы не уверены в выборе типа транспортного средства,<br>свяжитесь с нашими специалистами — мы поможем определить параметры автопоезда.</span>
-                    <a class="selection-help__button" href="https://te-solutions.kz/#contacts" target="_blank" rel="noopener noreferrer">
-                        <span aria-hidden="true">↗</span> Связаться с нами
-                    </a>
+                    <button type="button" class="selection-help__button" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">
+                        <span aria-hidden="true">◉</span> Связаться с нами
+                    </button>
+                </div>
+                <div class="navigation-container">
+                    <button class="step-two-btn next-btn disabled">Продолжить</button>
+                    <button class="prev-btn">Назад</button>
+                </div>
+                <div class="calculator-assurances" aria-label="Преимущества калькулятора">
+                    <div><span>⌖</span><strong>Точный расчет</strong><small>с учетом всех норм РК</small></div>
+                    <div><span>◇</span><strong>Соответствие</strong><small>законодательству</small></div>
+                    <div><span>◷</span><strong>Экономия времени</strong><small>и ресурсов</small></div>
+                    <div><span>▤</span><strong>Готовый пакет документов</strong><small>для получения разрешения</small></div>
                 </div>
               </div>
-              <div class="combined-step-divider">
-                <span>Конструктор колесной формулы</span>
-                <p>Укажите конфигурацию и ошиновку каждой группы осей выбранного транспортного средства.</p>
+            </div>
+
+            <div class="step minimized" data-spa-step="2">
+              <div class="step-header">
+                <div class="header">Конструктор колесной формулы</div>
               </div>
               <div class="step-content three">
                 <div class="form-container">
@@ -228,16 +272,15 @@
                         <div class="col mb-2 first-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Рулевая группа осей</div>
-                                <img class="axle-focus-image" src="guidance/axle-front.webp" alt="Подсветка рулевой группы осей">
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-1os" data-kol-os="1" hidden>
-                                    <img src="os/1os.webp" alt="">
+                                    <img src="os/1os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-2os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-2os" data-kol-os="2" hidden>
-                                    <img src="os/2os.webp" alt="">
+                                    <img src="os/2os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
@@ -254,13 +297,13 @@
                                 <div class="step-label mb-2">Ошиновка группы осей</div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Если в группе есть односкатные и двускатные оси, выберите этот вариант.">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os-skat" id="first-1skat" hidden checked>
-                                    <img src="skat/1skat.webp" alt="">
+                                    <img src="skat/1skat.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатные или смешанные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon"><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Выбирайте только если все оси этой группы имеют двускатные колёса.">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os-skat" id="first-2skat" hidden>
-                                    <img src="skat/2skat.webp" alt="">
+                                    <img src="skat/2skat.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Все оси двускатные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
@@ -269,34 +312,33 @@
                         <div class="col mb-2 second-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Ведущая группа осей</div>
-                                <img class="axle-focus-image" src="guidance/axle-rear.webp" alt="Подсветка ведущей группы осей">
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-1os"  data-kol-os="1"hidden>
-                                    <img src="os/1os.webp" alt="">
+                                    <img src="os/1os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-2os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-2os"  data-kol-os="2"hidden>
-                                    <img src="os/2os.webp" alt="">
+                                    <img src="os/2os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-21os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-21os" data-kol-os="2" hidden>
-                                    <img src="os/21os.webp" alt="">
+                                    <img src="os/21os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные с ленивцом</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-3os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-3os"  data-kol-os="3" hidden>
-                                    <img src="os/3os.webp" alt="">
+                                    <img src="os/3os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-4os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-4os"  data-kol-os="4" hidden>
-                                    <img src="os/4os.webp" alt="">
+                                    <img src="os/4os.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
@@ -313,13 +355,13 @@
                                 <div class="step-label mb-2">Ошиновка группы осей</div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Если в группе есть односкатные и двускатные оси, выберите этот вариант.">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-1skat" hidden>
-                                    <img src="skat/1skat.webp" alt="">
+                                    <img src="skat/1skat.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатные или смешанные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Выбирайте только если все оси этой группы имеют двускатные колёса.">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-2skat" hidden>
-                                    <img src="skat/2skat.webp" alt="">
+                                    <img src="skat/2skat.png" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Все оси двускатные</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
@@ -335,13 +377,13 @@
                                         <div class="row">
                                             <div class="btn col col-btn third-tral-type" style="width:80px;height:100px;margin-right: 10px;" data-tral-type="1" data-step="3">
                                                 <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeDefault" data-tral-type="1" hidden>
-                                                <img src="tral-type/default.webp" style="width: 100%; height:40%;" alt="">
+                                                <img src="tral-type/default.png" style="width: 100%; height:40%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
                                             <div class="btn col col-btn third-tral-type ml-2" data-tral-type="2" data-step="3" style="width:80px;height:100px;margin-left:10px">
                                                 <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeModule" data-tral-type="2" hidden>
-                                                <img src="tral-type/module.webp" style="width: 100%; height:35%;" alt="">
+                                                <img src="tral-type/module.png" style="width: 100%; height:35%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
@@ -392,25 +434,25 @@
                                 <div class="third-os-group-container">
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-1os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-1os" data-kol-os="1" hidden>
-                                        <img src="os/1os.webp" alt="">
+                                        <img src="os/1os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-2os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-2os" data-kol-os="2" hidden>
-                                        <img src="os/2os.webp" alt="">
+                                        <img src="os/2os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-3os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-3os" data-kol-os="3" hidden>
-                                        <img src="os/3os.webp" alt="">
+                                        <img src="os/3os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-4os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-4os" data-kol-os="4" hidden>
-                                        <img src="os/4os.webp" alt="">
+                                        <img src="os/4os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
@@ -429,13 +471,13 @@
                                     <div class="step-label mb-2">Ошиновка группы осей</div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os-skat" id="third-1skat" hidden>
-                                        <img src="skat/1skat.webp" alt="">
+                                        <img src="skat/1skat.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные или смешанные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os-skat" id="third-2skat" hidden>
-                                        <img src="skat/2skat.webp" alt="">
+                                        <img src="skat/2skat.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label text-uppercase">Все оси двускатные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
@@ -459,13 +501,13 @@
                                         <div class="row">
                                             <div class="btn col col-btn fourth-tral-type" style="width:80px;height:100px;margin-right: 10px;" data-tral-type="1" data-step="3">
                                                 <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeDefault" data-tral-type="1" hidden>
-                                                <img src="tral-type/default.webp" style="width: 100%; height:40%;" alt="">
+                                                <img src="tral-type/default.png" style="width: 100%; height:40%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
                                             <div class="btn col col-btn fourth-tral-type ml-2" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2">
                                                 <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeModule" data-tral-type="2" hidden>
-                                                <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
+                                                <img src="tral-type/module.png" style="width: 100%; height:30%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
@@ -516,19 +558,19 @@
                                     <div class="step-label mb-2">Вторая группа осей на прицепе</div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-1os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-1os" data-kol-os="1" hidden>
-                                        <img src="os/1os.webp" alt="">
+                                        <img src="os/1os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-2os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-2os" data-kol-os="2" hidden>
-                                        <img src="os/2os.webp" alt="">
+                                        <img src="os/2os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-3os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-3os" data-kol-os="3" hidden>
-                                        <img src="os/3os.webp" alt="">
+                                        <img src="os/3os.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
@@ -548,13 +590,13 @@
                                     <div class="step-label mb-2">Ошиновка группы осей</div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os-skat" id="fourth-1skat" hidden>
-                                        <img src="skat/1skat.webp" alt="">
+                                        <img src="skat/1skat.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные или смешанные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os-skat" id="fourth-2skat" hidden>
-                                        <img src="skat/2skat.webp" alt="">
+                                        <img src="skat/2skat.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label text-uppercase">Все оси двускатные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
@@ -573,13 +615,13 @@
                                         <div class="row">
                                             <div class="btn col col-btn fifth-tral-type" style="width:80px;height:100px;margin-right: 10px;" data-tral-type="1" data-step="3">
                                                 <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeDefault" data-tral-type="1" hidden>
-                                                <img src="tral-type/default.webp" style="width: 100%; height:40%;" alt="">
+                                                <img src="tral-type/default.png" style="width: 100%; height:40%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
                                             <div class="btn col col-btn fifth-tral-type ml-2" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2">
                                                 <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeModule" data-tral-type="2" hidden>
-                                                <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
+                                                <img src="tral-type/module.png" style="width: 100%; height:30%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
@@ -640,13 +682,13 @@
                                     <div class="step-label mb-2">Ошиновка группы осей</div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fifth-os-skat" id="fifth-1skat" hidden>
-                                        <img src="skat/1skat.webp" alt="">
+                                        <img src="skat/1skat.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные или смешанные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fifth-os-skat" id="fifth-2skat" hidden>
-                                        <img src="skat/2skat.webp" alt="">
+                                        <img src="skat/2skat.png" alt="">
                                         <span for="flexRadioDefault1" class="col-label text-uppercase">Все оси двускатные</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
@@ -660,11 +702,12 @@
                     <section class="axle-reference-card">
                         <h3>Что такое колесная формула?</h3>
                         <p>Колесная формула позволяет точно указать конфигурацию осей вашего автопоезда для корректного расчета допустимых нагрузок и сбора за проезд.</p>
+                        <img src="step/last-step-img.png" alt="Схема грузового автопоезда">
                     </section>
                     <section class="axle-reference-card axle-scheme-card">
                         <h3>Пример выбранной схемы</h3>
                         <div class="axle-scheme-card__visual" aria-hidden="true">
-                            <img src="os/1os.webp" alt=""><span>→</span><img src="os/2os.webp" alt=""><span>→</span><img src="tral-type/default.webp" alt="">
+                            <img src="os/1os.png" alt=""><span>→</span><img src="os/2os.png" alt=""><span>→</span><img src="tral-type/default.png" alt="">
                         </div>
                         <strong id="selectedSchemeLabel">Выберите группы осей</strong>
                         <small id="selectedVehicleLabel">Схема появится после выбора</small>
@@ -678,7 +721,7 @@
               </div>
             </div>
 
-            <div class="step minimized" data-spa-step="3" data-progress-step="2">
+            <div class="step minimized" data-spa-step="3">
                 <div class="step-header">
                   <div class="header">Весовые параметры</div>
                 </div>
@@ -687,7 +730,6 @@
                         <div class="row my-2">
                             <div class="col">
                                 <label>Суммарная нагрузка на рулевую группу осей</label>
-                                <img class="weight-guide-image" src="guidance/axle-front.webp" alt="Рулевая группа осей выделена красным">
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control os-weight" id="first-os-weight" placeholder="0" min="0" step="0.01" inputmode="decimal">
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
@@ -695,7 +737,6 @@
                             </div>
                             <div class="col">
                                 <label>Суммарная нагрузка на ведущую группу осей</label>
-                                <img class="weight-guide-image" src="guidance/axle-rear.webp" alt="Ведущая группа осей выделена красным">
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control os-weight" id="second-os-weight" placeholder="0" min="0" step="0.01" inputmode="decimal">
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
@@ -731,7 +772,7 @@
                     </div>
                 </div>
             </div>
-            <div class="step minimized step-tesha d-none" data-spa-step="3" data-progress-step="2">
+            <div class="step minimized step-tesha d-none" data-spa-step="3">
                 <div class="step-header">Долли (тёща)</div>
                 <div class="step-content tesha">
 
@@ -824,7 +865,7 @@
                     </div>
                 </div>
             </div>
-            <div class="step minimized" data-spa-step="4" data-progress-step="3">
+            <div class="step minimized" data-spa-step="4">
                 <div class="step-header">
                     <div class="header">Габаритные параметры</div>
                 </div>
@@ -832,30 +873,24 @@
                     <div class="form-container mb-2">
                         <div class="form-group">
                             <label for="">Длина АТС</label>
-                            <img class="dimension-guide-image" src="guidance/dimension-length.webp" alt="Схема измерения длины транспортного средства">
                             <div class="form-floating">
                                 <input type="number" class="form-control atc-msrmnt" id="atc_length" placeholder="0" min="0" step="0.01" inputmode="decimal" title="Допустимая длина: одиночное АТС — 12 м; автопоезд — 24 м.">
                                 <label for="floatingInput">Длина с грузом, м (одиночное АТС — 12; автопоезд — 24)</label>
                             </div>
-                            <small class="field-hint">Укажите длину транспортного средства с грузом</small>
                         </div>
                         <div class="form-group">
                             <label for="">Ширина АТС</label>
-                            <img class="dimension-guide-image" src="guidance/dimension-width.webp" alt="Схема измерения ширины транспортного средства">
                             <div class="form-floating">
                                 <input type="number" class="form-control atc-msrmnt" id="atc_width" placeholder="0" min="0" step="0.01" inputmode="decimal" title="Обычно допустимо 2,55 м; для изотермического кузова — 2,60 м.">
                                 <label for="floatingInput">Ширина с грузом, м (обычно до 2,55)</label>
                             </div>
-                            <small class="field-hint">Укажите ширину транспортного средства с грузом</small>
                         </div>
                         <div class="form-group">
                             <label for="">Высота АТС</label>
-                            <img class="dimension-guide-image" src="guidance/dimension-height.webp" alt="Схема измерения высоты транспортного средства">
                             <div class="form-floating">
                                 <input type="number" class="form-control atc-msrmnt" id="atc_height" placeholder="0" min="0" step="0.01" inputmode="decimal" title="Обычно допустимо 4,0 м; для предусмотренных приказом автовозов и контейнеровозов — 4,3 м.">
                                 <label for="floatingInput">Высота с грузом, м (обычно до 4,0)</label>
                             </div>
-                            <small class="field-hint">Укажите высоту от дорожного полотна до верхней части транспортного средства с грузом</small>
                         </div>
 
                     </div>
@@ -865,7 +900,7 @@
                     </div>
                 </div>
             </div>
-            <div class="step minimized" data-spa-step="5" data-progress-step="4">
+            <div class="step minimized" data-spa-step="5">
                 <div class="step-header">
                   <div class="header">Маршрут</div>
                 </div>
@@ -902,14 +937,11 @@
                   </div>
                 </div>
               </div>
-            <div class="step minimized result-step" data-spa-step="6" data-progress-step="5">
+            <div class="step minimized result-step" data-spa-step="6">
                 <div class="step-header">
                     <div class="header">Расчет и результат</div>
                 </div>
                 <div class="step-content result-content">
-                    <div class="result-toolbar">
-                        <button class="reset-btn" type="button">← Перерасчитать</button>
-                    </div>
                     <img class="result-vehicle" src="step/last-step-img.png" alt="Схема грузового автопоезда">
                     <div class="final-text">
                         <h4>Сумма сбора за проезд:</h4>
@@ -950,12 +982,13 @@
                             По введённым параметрам выполнено одно или несколько обязательных условий:
                         </div>
                         <ul id="coverVehicleReasons" class="cover-vehicle-notice__reasons"></ul>
+                        <div class="cover-vehicle-notice__note">
+                            Дополнительное требование об автомобиле прикрытия также может быть указано в графе «Особые условия движения» специального разрешения.
+                        </div>
                     </div>
 
-                    <div class="result-actions">
-                        <button type="button" class="download-report-btn btn atc-def-btn">Скачать расчет TES</button>
-                        <a class="contact-permit-btn" href="https://te-solutions.kz/#contacts" target="_blank" rel="noopener noreferrer">Связаться с нами для оформления разрешения</a>
-                    </div>
+                    <button class="reset-btn">Перерасчитать</button>
+                    <button type="button" class="show-whatsapp-btn btn atc-def-btn" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">Отправить отчёт на WhatsApp</button>
                 </div>
             </div>
                 </div>
@@ -974,9 +1007,6 @@
 
             *{
                 box-sizing: border-box;
-            }
-            .d-none {
-                display: none !important;
             }
             .form-floating > label[for="floatingInputDistance"]{
               margin: 22px;
@@ -2701,263 +2731,6 @@
                     min-height: auto;
                 }
             }
-
-            /* Customer brief: consolidated first step and TES-branded assets. */
-            .brand__wordmark {
-                display: grid;
-                gap: 1px;
-                color: #1b2028;
-                line-height: 1;
-            }
-
-            .brand__wordmark strong {
-                color: var(--tes-red);
-                font-size: 29px;
-                letter-spacing: .04em;
-            }
-
-            .brand__wordmark small {
-                max-width: 150px;
-                font-size: 8px;
-                line-height: 1.15;
-                letter-spacing: .08em;
-                text-transform: uppercase;
-            }
-
-            .step[data-progress-step="1"] .step-header::before { content: "Шаг 1 из 5"; }
-            .step[data-progress-step="2"] .step-header::before { content: "Шаг 2 из 5"; }
-            .step[data-progress-step="3"] .step-header::before { content: "Шаг 3 из 5"; }
-            .step[data-progress-step="4"] .step-header::before { content: "Шаг 4 из 5"; }
-            .step[data-progress-step="5"] .step-header::before { content: "Шаг 5 из 5"; }
-
-            .step[data-spa-step="1"] .header::after {
-                content: "Сначала выберите тип транспортного средства, затем укажите конфигурацию его осей.";
-            }
-
-            .step[data-spa-step="1"] .vehicle-selection.form-container,
-            .step[data-spa-step="1"] .vehicle-selection .form-container {
-                display: grid;
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-                gap: 18px;
-            }
-
-            .step[data-spa-step="1"] .col:has(#pricep) { order: 1; }
-            .step[data-spa-step="1"] .col:has(#polupricep) { order: 2; }
-            .step[data-spa-step="1"] .col:has(#trall) { order: 3; }
-            .step[data-spa-step="1"] .col:has(#single) { order: 4; }
-
-            .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
-                min-height: 350px;
-                align-items: stretch;
-                text-align: center;
-                transition: border-color .22s ease, box-shadow .22s ease, transform .22s cubic-bezier(.2,.8,.2,1);
-            }
-
-            .step[data-spa-step="1"] .vehicle-selection .btn.col-btn:hover {
-                transform: translateY(-8px) scale(1.012);
-                box-shadow: 0 18px 34px rgba(24, 28, 38, .13);
-            }
-
-            .step[data-spa-step="1"] .vehicle-selection .col-label,
-            .step[data-spa-step="1"] .vehicle-selection .vehicle-card__description {
-                width: 100%;
-                min-height: auto;
-                text-align: center;
-            }
-
-            .combined-step-divider {
-                margin: 44px 0 22px;
-                padding-top: 30px;
-                border-top: 1px solid var(--tes-line);
-            }
-
-            .combined-step-divider span {
-                color: var(--tes-ink);
-                font-size: clamp(24px, 2vw, 31px);
-                font-weight: 760;
-            }
-
-            .combined-step-divider p {
-                margin: 8px 0 0;
-                color: var(--tes-muted);
-                font-size: 14px;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .form-container {
-                display: block;
-            }
-
-            .step[data-spa-step="1"] .step-content.three > .form-container > .row {
-                display: grid;
-                grid-template-columns: repeat(3, minmax(215px, 1fr));
-                gap: 12px;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .form-container .form-container > .row {
-                display: flex;
-                flex-wrap: wrap;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .btn.col-btn {
-                min-height: 69px;
-                flex-direction: row !important;
-                align-items: center;
-                justify-content: center !important;
-                padding: 9px 12px;
-                text-align: left;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .btn.col-btn::after {
-                display: none;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .btn.col-btn img {
-                width: auto;
-                max-width: 86px;
-                height: auto;
-                max-height: 48px;
-                margin: 0;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .col-label {
-                min-height: 0;
-                font-size: 11px;
-                text-align: center;
-            }
-
-            .axle-focus-image,
-            .weight-guide-image,
-            .dimension-guide-image {
-                display: block;
-                width: 100%;
-                object-fit: contain;
-                border-radius: 7px;
-                background: #fff;
-            }
-
-            .step[data-spa-step="1"] .step-content.three .axle-focus-image {
-                width: 100%;
-                max-width: none;
-                height: 118px;
-                max-height: none;
-                margin: 0 0 12px;
-            }
-
-            .weight-guide-image {
-                height: 150px;
-                margin: 10px 0 14px;
-            }
-
-            .dimension-guide-image {
-                height: 150px;
-                margin: 10px 0 14px;
-            }
-
-            .field-hint {
-                display: block;
-                margin-top: 8px;
-                color: #666e7a;
-                font-size: 12px;
-                line-height: 1.4;
-            }
-
-            .step-content.one .calculator-card {
-                width: 100%;
-                max-width: none;
-                padding: 24px;
-            }
-
-            #map {
-                width: 100%;
-                height: 460px;
-                background: #eef1f4 url("guidance/route-kazakhstan.webp") center / cover no-repeat;
-            }
-
-            .result-toolbar {
-                grid-column: 1 / -1;
-                display: flex;
-                justify-content: flex-end;
-                margin-bottom: -6px;
-            }
-
-            .result-toolbar .reset-btn {
-                min-height: 42px;
-                padding: 8px 16px;
-                font-size: 13px;
-            }
-
-            .cover-vehicle-notice__title {
-                margin: -18px -18px 14px;
-                padding: 16px 18px;
-                border-radius: 8px 8px 0 0;
-                color: #fff;
-                background: linear-gradient(135deg, var(--tes-red), #aa0610);
-                font-size: 17px;
-            }
-
-            .result-actions {
-                grid-column: 1 / -1;
-                display: grid;
-                grid-template-columns: minmax(220px, .75fr) minmax(300px, 1.25fr);
-                gap: 16px;
-            }
-
-            .result-actions .download-report-btn,
-            .contact-permit-btn {
-                min-height: 54px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                padding: 12px 24px;
-                border-radius: 7px;
-                font-weight: 700;
-                text-align: center;
-                text-decoration: none;
-            }
-
-            .contact-permit-btn {
-                border: 1px solid var(--tes-red);
-                color: var(--tes-red);
-                background: #fff;
-            }
-
-            .contact-permit-btn:hover {
-                color: #fff;
-                background: var(--tes-red);
-            }
-
-            @media (max-width: 1199.98px) {
-                .step[data-spa-step="1"] .vehicle-selection.form-container,
-                .step[data-spa-step="1"] .vehicle-selection .form-container {
-                    grid-template-columns: repeat(2, minmax(0, 1fr));
-                }
-            }
-
-            @media (max-width: 899.98px) {
-                .brand__wordmark small {
-                    display: none;
-                }
-
-                .step[data-spa-step="1"] .step-content.three > .form-container > .row,
-                .result-actions {
-                    grid-template-columns: 1fr;
-                }
-
-                #map {
-                    height: 380px;
-                }
-            }
-
-            @media (max-width: 559.98px) {
-                .step[data-spa-step="1"] .vehicle-selection.form-container,
-                .step[data-spa-step="1"] .vehicle-selection .form-container {
-                    grid-template-columns: 1fr;
-                }
-
-                .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
-                    min-height: 280px;
-                }
-            }
         </style>
         <script src="./js/constants.js"></script>
         <script src="./js/calculations.js"></script>
@@ -2980,8 +2753,8 @@
 
                 // 2. Инициализируем карту
                 map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 5,
-                center: { lat: 51.1694, lng: 71.4491 },
+                zoom: 7,
+                center: { lat: 55.751244, lng: 37.618423 },
                 mapTypeControl: false
                 });
 
@@ -2996,8 +2769,7 @@
                 // Это предотвращает списание денег за неиспользуемые Contact/Atmosphere данные.
                 const autocompleteOptions = {
                 fields: ["place_id", "geometry", "formatted_address"],
-                types: ["geocode"], // Ограничиваем поиск гео-точками и адресами (без заведений)
-                componentRestrictions: { country: "kz" }
+                types: ["geocode"] // Ограничиваем поиск гео-точками и адресами (без заведений)
                 };
 
                 originAutocomplete = new google.maps.places.Autocomplete(originInput, autocompleteOptions);
@@ -3074,20 +2846,10 @@
                 );
             }
             </script>
-        <script>
-          (() => {
-            const apiKey = window.GOOGLE_MAPS_API_KEY;
-            if (!apiKey) {
-              console.warn("Google Maps is disabled: set window.GOOGLE_MAPS_API_KEY in the deployment environment.");
-              return;
-            }
-
-            const mapsScript = document.createElement("script");
-            mapsScript.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(apiKey) + "&libraries=places&callback=initMap";
-            mapsScript.async = true;
-            mapsScript.defer = true;
-            document.head.appendChild(mapsScript);
-          })();
+        <script 
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1SeimW2b7yIhOIRPd_6xnHqFNQubaG6E&libraries=places&callback=initMap" 
+          async 
+          defer>
         </script>
 
 
