@@ -30,7 +30,7 @@
   }
 
   function updateSpaProgress($step) {
-    const visibleStep = Number($step.data("spa-step")) || 1;
+    const visibleStep = Number($step.data("progress-step")) || 1;
 
     document.body.dataset.currentStep = String(visibleStep);
 
@@ -42,15 +42,15 @@
       $item.toggleClass("is-complete", itemStep < visibleStep);
     });
 
-    $("#mobileStepLabel").text(`Шаг ${visibleStep} из 6`);
-    $("#headerStepLabel").text(`Шаг ${visibleStep} из 6`);
+    $("#mobileStepLabel").text(`Шаг ${visibleStep} из 5`);
+    $("#headerStepLabel").text(`Шаг ${visibleStep} из 5`);
     $("#mobileProgressBar").css(
       "width",
-      `${(visibleStep / 6) * 100}%`,
+      `${(visibleStep / 5) * 100}%`,
     );
     $("#headerProgressFill").css(
       "width",
-      `${((visibleStep - 1) / 5) * 100}%`,
+      `${((visibleStep - 1) / 4) * 100}%`,
     );
     $("[data-progress-dot]").each(function updateProgressDot() {
       const $dot = $(this);
@@ -96,6 +96,37 @@
     $("#selectedVehicleLabel").text(
       vehicleLabels[vehicleType] || "Схема появится после выбора",
     );
+  }
+
+  function vehiclePresentation(type) {
+    const vehicles = {
+      [VEHICLE_TYPE.SINGLE]: {
+        label: "Одиночный автомобиль",
+        image: "calc-atc-type/single.webp",
+      },
+      [VEHICLE_TYPE.SEMI_TRAILER]: {
+        label: "Тягач + полуприцеп",
+        image: "calc-atc-type/polupricep.webp",
+      },
+      [VEHICLE_TYPE.TRAILER]: {
+        label: "Тягач + прицеп",
+        image: "calc-atc-type/pricep.webp",
+      },
+      [VEHICLE_TYPE.LOW_LOADER]: {
+        label: "Тягач + трал",
+        image: "calc-atc-type/trall.webp",
+      },
+    };
+
+    return vehicles[type] || vehicles[VEHICLE_TYPE.SEMI_TRAILER];
+  }
+
+  function renderResultVehicle(type) {
+    const vehicle = vehiclePresentation(type);
+
+    $(".result-vehicle")
+      .attr("src", vehicle.image)
+      .attr("alt", vehicle.label);
   }
 
   function openStep($step) {
@@ -335,7 +366,7 @@
     if (name === "calc-atc-type") {
       const vehicleType = $input.attr("id");
       setHidden(".step-tesha", vehicleType !== VEHICLE_TYPE.LOW_LOADER);
-      setDisabled(".step-two-btn.next-btn", false);
+      configureVehicleType(vehicleType);
     }
 
     if (/^(first|second|third|fourth|fifth)-os$/.test(name)) {
@@ -467,6 +498,7 @@
     appState.coverVehicleAssessment =
       assessCoverVehicleRequirement(form);
 
+    renderResultVehicle(form.atc_type);
     $("#finalDistance").val(form.distance);
     updateFinalAmount(form.distance);
     renderCoverVehicleNotice(
@@ -480,7 +512,7 @@
   function handleFinalDistanceInput(event) {
     const value = event.currentTarget.value;
 
-    // Синхронизируем с исходным полем маршрута, чтобы отчёт WhatsApp
+    // Синхронизируем с исходным полем маршрута, чтобы скачиваемый отчет
     // использовал изменённый километраж.
     $('input[name="distance"]').val(value);
     updateFinalAmount(value);
@@ -506,7 +538,7 @@
   }
 
   function handleAxleResetClick() {
-    const $axleStep = $('.step[data-spa-step="2"]');
+    const $axleStep = $(".step-content.three");
 
     $axleStep.find('input[type="radio"]').prop("checked", false);
     $axleStep.find(".col-btn svg").attr("hidden", true);
@@ -560,45 +592,184 @@
     };
   }
 
-  function handleWhatsappClick() {
-    const rawPhone = $("#whatsappNumber").val().trim();
-    const phone = rawPhone.replace(/[^\d+]/g, "");
+  function loadReportImage(source) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
 
-    if (!phone) {
-      window.alert("Пожалуйста, введите номер телефона.");
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = source;
+    });
+  }
+
+  function drawContainedImage(context, image, x, y, width, height) {
+    const scale = Math.min(width / image.width, height / image.height);
+    const targetWidth = image.width * scale;
+    const targetHeight = image.height * scale;
+
+    context.drawImage(
+      image,
+      x + (width - targetWidth) / 2,
+      y + (height - targetHeight) / 2,
+      targetWidth,
+      targetHeight,
+    );
+  }
+
+  function drawWrappedText(context, text, x, y, maxWidth, lineHeight) {
+    const words = String(text).split(/\s+/);
+    let line = "";
+    let cursorY = y;
+
+    words.forEach((word) => {
+      const candidate = line ? `${line} ${word}` : word;
+
+      if (context.measureText(candidate).width > maxWidth && line) {
+        context.fillText(line, x, cursorY);
+        line = word;
+        cursorY += lineHeight;
+      } else {
+        line = candidate;
+      }
+    });
+
+    if (line) {
+      context.fillText(line, x, cursorY);
+      cursorY += lineHeight;
+    }
+
+    return cursorY;
+  }
+
+  async function handleDownloadReport() {
+    if (!Number.isFinite(appState.total) || appState.total <= 0) {
+      window.alert("Сначала выполните расчет.");
       return;
     }
 
     const form = readFormData();
+    const vehicle = vehiclePresentation(form.atc_type);
     const weightSummary = buildWeightSummary(form);
     const amount = formatNumber(appState.total.toFixed(2));
+    let logoImage;
+    let vehicleImage;
 
-    const message = [
-      `Сумма сбора за проезд по территории Республики Казахстан: ${amount} тг`,
-      "",
+    try {
+      [logoImage, vehicleImage] = await Promise.all([
+        loadReportImage("images/logo.png"),
+        loadReportImage(vehicle.image),
+      ]);
+    } catch (error) {
+      console.error("Не удалось подготовить изображения отчета", error);
+      window.alert("Не удалось подготовить отчет. Обновите страницу и повторите попытку.");
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    canvas.width = 1400;
+    canvas.height = 1900;
+
+    context.fillStyle = "#f4f5f7";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = "#c20d0e";
+    context.fillRect(0, 0, canvas.width, 250);
+    context.fillStyle = "#ffffff";
+    context.fillRect(62, 42, 166, 166);
+    drawContainedImage(context, logoImage, 70, 50, 150, 150);
+
+    context.fillStyle = "#ffffff";
+    context.font = "700 58px Arial, sans-serif";
+    context.fillText("TRANSPORT ENGINEERING SOLUTIONS", 270, 110);
+    context.font = "400 31px Arial, sans-serif";
+    context.fillText("Расчет суммы сбора за проезд по территории РК", 270, 166);
+    context.font = "400 22px Arial, sans-serif";
+    context.fillText(
+      `Дата расчета: ${new Date().toLocaleDateString("ru-RU")}`,
+      270,
+      207,
+    );
+
+    context.fillStyle = "#ffffff";
+    context.fillRect(62, 300, 1276, 1500);
+
+    context.fillStyle = "#1d232d";
+    context.font = "700 38px Arial, sans-serif";
+    context.fillText(vehicle.label, 110, 375);
+    drawContainedImage(context, vehicleImage, 110, 410, 1180, 430);
+
+    context.strokeStyle = "#e1e3e7";
+    context.lineWidth = 2;
+    context.strokeRect(110, 875, 1180, 430);
+    context.fillStyle = "#1d232d";
+    context.font = "700 28px Arial, sans-serif";
+    context.fillText("Параметры расчета", 150, 930);
+    context.font = "400 25px Arial, sans-serif";
+
+    const details = [
       `Нагрузки по группам осей: ${weightSummary.label}`,
       `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
-      `Длина: ${form.length} м`,
-      `Ширина: ${form.width} м`,
-      `Высота: ${form.height} м`,
-      `Расстояние: ${form.distance} км`,
-      `Сумма сбора: ${amount} тг`,
-      ...(appState.coverVehicleAssessment?.required
-        ? [
-            "",
-            "НЕОБХОДИМ АВТОМОБИЛЬ ПРИКРЫТИЯ:",
-            ...appState.coverVehicleAssessment.reasons.map(
-              (reason) => `- ${reason}`,
-            ),
-          ]
-        : []),
-    ].join("\n");
+      `Габариты (Д × Ш × В): ${form.length} × ${form.width} × ${form.height} м`,
+      `Расстояние маршрута: ${form.distance} км`,
+      `Весенние ограничения: ${form.restrictionSeason ? "учтены" : "не применяются"}`,
+    ];
 
-    const url =
-      `https://api.whatsapp.com/send?phone=${encodeURIComponent(phone)}` +
-      `&text=${encodeURIComponent(message)}`;
+    details.forEach((detail, index) => {
+      context.fillText(detail, 150, 995 + index * 58);
+    });
 
-    window.open(url, "_blank", "noopener,noreferrer");
+    context.fillStyle = "#c20d0e";
+    context.fillRect(110, 1345, 1180, 175);
+    context.fillStyle = "#ffffff";
+    context.font = "600 29px Arial, sans-serif";
+    context.fillText("Сумма сбора за проезд", 155, 1405);
+    context.font = "800 54px Arial, sans-serif";
+    context.fillText(`${amount} тенге`, 155, 1480);
+
+    if (appState.coverVehicleAssessment?.required) {
+      context.fillStyle = "#fff3f3";
+      context.fillRect(110, 1555, 1180, 170);
+      context.fillStyle = "#a70711";
+      context.font = "700 27px Arial, sans-serif";
+      context.fillText("Необходим автомобиль прикрытия", 150, 1605);
+      context.fillStyle = "#363c45";
+      context.font = "400 21px Arial, sans-serif";
+      let reasonY = 1650;
+
+      appState.coverVehicleAssessment.reasons.forEach((reason) => {
+        reasonY = drawWrappedText(
+          context,
+          `• ${reason}`,
+          150,
+          reasonY,
+          1090,
+          30,
+        );
+      });
+    }
+
+    context.fillStyle = "#666e78";
+    context.font = "400 20px Arial, sans-serif";
+    context.fillText(
+      "Предварительный расчет. Для оформления специального разрешения свяжитесь с TES.",
+      110,
+      1770,
+    );
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+
+      link.href = url;
+      link.download = `TES-raschet-${new Date().toISOString().slice(0, 10)}.png`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, "image/png");
   }
 
   let lastReportedHeight = 0;
@@ -655,10 +826,7 @@
     $(".add-os-btn").on("click", handleOptionalAxleToggle);
     $(".reset-btn").on("click", handleResetClick);
     $("#axleResetButton").on("click", handleAxleResetClick);
-    $(".send-otchet-to-whatsapp-btn").on(
-      "click",
-      handleWhatsappClick,
-    );
+    $(".download-report-btn").on("click", handleDownloadReport);
   }
 
   function initialize() {
