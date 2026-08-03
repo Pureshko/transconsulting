@@ -92,6 +92,26 @@
       </style>
     </head>
     <body>
+            <div class="modal fade" id="whatsappFormModal" tabindex="-1" aria-labelledby="whatsappFormModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="whatsappFormModalLabel">Отправить расчет в WhatsApp</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="whatsappNumber" placeholder="+7 700 000 00 00" inputmode="tel">
+                            <label for="whatsappNumber">Номер WhatsApp</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="send-otchet-to-whatsapp-btn btn atc-def-btn">Открыть WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <header class="calculator-header">
             <a class="brand" href="/" aria-label="TES — на главную">
                 <img src="images/logo.png" alt="Логотип TES">
