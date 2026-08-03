@@ -592,6 +592,45 @@
     };
   }
 
+  function handleWhatsappClick() {
+    const phone = $("#whatsappNumber").val().replace(/\D/g, "");
+
+    if (phone.length < 10) {
+      window.alert("Введите корректный номер WhatsApp с кодом страны.");
+      return;
+    }
+
+    if (!Number.isFinite(appState.total) || appState.total <= 0) {
+      window.alert("Сначала выполните расчет.");
+      return;
+    }
+
+    const form = readFormData();
+    const weightSummary = buildWeightSummary(form);
+    const amount = formatNumber(appState.total.toFixed(2));
+    const message = [
+      `Расчет TES: ${amount} тенге`,
+      `Тип ТС: ${vehiclePresentation(form.atc_type).label}`,
+      `Нагрузки по группам осей: ${weightSummary.label}`,
+      `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
+      `Габариты (Д × Ш × В): ${form.length} × ${form.width} × ${form.height} м`,
+      `Расстояние: ${form.distance} км`,
+      ...(appState.coverVehicleAssessment?.required
+        ? [
+            "Необходим автомобиль прикрытия:",
+            ...appState.coverVehicleAssessment.reasons.map(
+              (reason) => `- ${reason}`,
+            ),
+          ]
+        : []),
+    ].join("\n");
+    const url =
+      `https://api.whatsapp.com/send?phone=${encodeURIComponent(phone)}` +
+      `&text=${encodeURIComponent(message)}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
   function loadReportImage(source) {
     return new Promise((resolve, reject) => {
       const image = new Image();
@@ -827,6 +866,7 @@
     $(".reset-btn").on("click", handleResetClick);
     $("#axleResetButton").on("click", handleAxleResetClick);
     $(".download-report-btn").on("click", handleDownloadReport);
+    $(".send-otchet-to-whatsapp-btn").on("click", handleWhatsappClick);
   }
 
   function initialize() {
