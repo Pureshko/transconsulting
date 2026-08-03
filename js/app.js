@@ -143,23 +143,6 @@
     $step.addClass("minimized step-completed");
   }
 
-  function showFirstStepPanel(panel, shouldScroll = true) {
-    const showVehicleSelection = panel === "vehicle";
-    const $firstStep = $('.step[data-spa-step="1"]');
-
-    $(".vehicle-selection").toggleClass("d-none", !showVehicleSelection);
-    $(".vehicle-config-panel").toggleClass("d-none", showVehicleSelection);
-    $firstStep
-      .toggleClass("is-vehicle-selection", showVehicleSelection)
-      .toggleClass("is-axle-constructor", !showVehicleSelection);
-
-    if (shouldScroll && $firstStep.length) {
-      $firstStep.get(0).scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    notifyParentHeight();
-  }
-
   function configureVehicleType(type) {
     const lowLoader = type === VEHICLE_TYPE.LOW_LOADER;
     const trailer = type === VEHICLE_TYPE.TRAILER;
@@ -384,7 +367,6 @@
       const vehicleType = $input.attr("id");
       setHidden(".step-tesha", vehicleType !== VEHICLE_TYPE.LOW_LOADER);
       configureVehicleType(vehicleType);
-      setDisabled(".vehicle-next-btn", false);
     }
 
     if (/^(first|second|third|fourth|fifth)-os$/.test(name)) {
@@ -448,30 +430,12 @@
     openStep(findVisibleSibling($current, "next"));
   }
 
-  function handleVehicleNextClick(event) {
-    const $button = $(event.currentTarget);
-
-    if ($button.hasClass("disabled")) return;
-
-    configureVehicleType(checkedId("calc-atc-type"));
-    showFirstStepPanel("axles");
-  }
-
   function handlePreviousClick(event) {
     const $button = $(event.currentTarget);
 
     if ($button.hasClass("disabled")) return;
 
     const $current = $button.closest(".step");
-
-    if (
-      $current.is('[data-spa-step="1"]') &&
-      !$current.find(".step-content.three").hasClass("d-none")
-    ) {
-      showFirstStepPanel("vehicle");
-      return;
-    }
-
     const $previous = findVisibleSibling($current, "previous");
 
     $current.addClass("minimized");
@@ -604,7 +568,6 @@
     const $current = $(event.currentTarget).closest(".step");
     const $first = $(".step").first();
 
-    showFirstStepPanel("vehicle", false);
     openStep($first);
   }
 
@@ -850,8 +813,7 @@
   }
 
   function bindEvents() {
-    $(".next-btn").not(".vehicle-next-btn").on("click", handleNextClick);
-    $(".vehicle-next-btn").on("click", handleVehicleNextClick);
+    $(".next-btn").on("click", handleNextClick);
     $(".prev-btn").on("click", handlePreviousClick);
     $(".calc-btn").on("click", handleCalculateClick);
     $(".col-btn").on("click", handleChoiceClick);
@@ -877,10 +839,8 @@
     });
 
     bindEvents();
-    setDisabled(".vehicle-next-btn", !checkedId("calc-atc-type"));
     validateAll();
     updateSchemePreview();
-    showFirstStepPanel("vehicle", false);
     openStep($firstStep);
     notifyParentHeight();
 

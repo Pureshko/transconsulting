@@ -165,7 +165,7 @@
               <div class="step-header">
                 <div class="header">Транспортное средство и колесная формула</div>
               </div>
-              <div class="step-content two vehicle-selection" data-first-step-panel="vehicle">
+              <div class="step-content two vehicle-selection">
                 <div class="step-label">Выберите тип транспортного средства</div>
                 <div class="form-container">
                     <div class="row mt-2">
@@ -216,15 +216,12 @@
                         <span aria-hidden="true">↗</span> Связаться с нами
                     </a>
                 </div>
-                <div class="navigation-container vehicle-selection__navigation">
-                    <button type="button" class="vehicle-next-btn next-btn disabled">Продолжить</button>
-                </div>
               </div>
-              <div class="combined-step-divider vehicle-config-panel d-none" data-first-step-panel="axles">
+              <div class="combined-step-divider">
                 <span>Конструктор колесной формулы</span>
                 <p>Укажите конфигурацию и ошиновку каждой группы осей выбранного транспортного средства.</p>
               </div>
-              <div class="step-content three vehicle-config-panel d-none" data-first-step-panel="axles">
+              <div class="step-content three">
                 <div class="form-container">
                     <div class="step-label">Выберите тип группы осей</div>
                     <div class="row mt-2">
@@ -2772,16 +2769,6 @@
                 margin: 44px 0 22px;
                 padding-top: 30px;
                 border-top: 1px solid var(--tes-line);
-            }
-
-            .step[data-spa-step="1"].is-axle-constructor .combined-step-divider {
-                margin-top: 0;
-                padding-top: 0;
-                border-top: 0;
-            }
-
-            .vehicle-selection__navigation {
-                grid-column: 1 / -1;
             }
 
             .combined-step-divider span {
