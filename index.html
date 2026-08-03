@@ -92,6 +92,26 @@
       </style>
     </head>
     <body>
+        <div class="modal fade" id="whatsappFormModal" tabindex="-1" aria-labelledby="whatsappFormModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="whatsappFormModalLabel">Отправить расчет в WhatsApp</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="whatsappNumber" placeholder="+7 700 000 00 00" inputmode="tel">
+                            <label for="whatsappNumber">Номер WhatsApp</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                        <button type="button" class="send-otchet-to-whatsapp-btn btn atc-def-btn">Открыть WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <header class="calculator-header">
             <a class="brand" href="/" aria-label="TES — на главную">
                 <img src="images/logo.png" alt="Логотип TES">
@@ -885,7 +905,14 @@
                     <button onclick="calculateDistance()">Рассчитать расстояние</button>
 
                     <div id="result" class="result-box"></div>
-                    <div id="map"></div>
+                    <div id="map">
+                        <iframe
+                            title="Карта Казахстана — Астана"
+                            src="https://www.google.com/maps?q=Astana%2C%20Kazakhstan&amp;z=5&amp;output=embed"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                        ></iframe>
+                    </div>
                   </div>
                   
                   <div class="form-floating mb-3">
@@ -907,9 +934,6 @@
                     <div class="header">Расчет и результат</div>
                 </div>
                 <div class="step-content result-content">
-                    <div class="result-toolbar">
-                        <button class="reset-btn" type="button">← Перерасчитать</button>
-                    </div>
                     <img class="result-vehicle" src="step/last-step-img.png" alt="Схема грузового автопоезда">
                     <div class="final-text">
                         <h4>Сумма сбора за проезд:</h4>
@@ -952,9 +976,12 @@
                         <ul id="coverVehicleReasons" class="cover-vehicle-notice__reasons"></ul>
                     </div>
 
+                    <div class="result-toolbar">
+                        <button class="reset-btn" type="button">← Перерасчитать</button>
+                    </div>
                     <div class="result-actions">
                         <button type="button" class="download-report-btn btn atc-def-btn">Скачать расчет TES</button>
-                        <a class="contact-permit-btn" href="https://te-solutions.kz/#contacts" target="_blank" rel="noopener noreferrer">Связаться с нами для оформления разрешения</a>
+                        <button type="button" class="contact-permit-btn" data-bs-toggle="modal" data-bs-target="#whatsappFormModal">Связаться с нами для оформления разрешения</button>
                     </div>
                 </div>
             </div>
@@ -2870,14 +2897,21 @@
             #map {
                 width: 100%;
                 height: 460px;
-                background: #eef1f4 url("guidance/route-kazakhstan.webp") center / cover no-repeat;
+                overflow: hidden;
+                background: #eef1f4;
+            }
+
+            #map iframe {
+                width: 100%;
+                height: 100%;
+                border: 0;
             }
 
             .result-toolbar {
                 grid-column: 1 / -1;
                 display: flex;
-                justify-content: flex-end;
-                margin-bottom: -6px;
+                justify-content: flex-start;
+                margin-top: 4px;
             }
 
             .result-toolbar .reset-btn {
@@ -2979,7 +3013,9 @@
                 directionsRenderer = new google.maps.DirectionsRenderer();
 
                 // 2. Инициализируем карту
-                map = new google.maps.Map(document.getElementById("map"), {
+                const mapElement = document.getElementById("map");
+                mapElement.replaceChildren();
+                map = new google.maps.Map(mapElement, {
                 zoom: 5,
                 center: { lat: 51.1694, lng: 71.4491 },
                 mapTypeControl: false
