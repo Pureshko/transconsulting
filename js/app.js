@@ -686,6 +686,13 @@
       return;
     }
 
+    const JsPdf = window.jspdf?.jsPDF;
+
+    if (!JsPdf) {
+      window.alert("Не удалось загрузить модуль PDF. Обновите страницу и повторите попытку.");
+      return;
+    }
+
     const form = readFormData();
     const vehicle = vehiclePresentation(form.atc_type);
     const weightSummary = buildWeightSummary(form);
@@ -796,19 +803,38 @@
       1770,
     );
 
-    canvas.toBlob((blob) => {
-      if (!blob) return;
+    const pdf = new JsPdf({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      compress: true,
+    });
+    const margin = 10;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const availableWidth = pageWidth - margin * 2;
+    const availableHeight = pageHeight - margin * 2;
+    const scale = Math.min(
+      availableWidth / canvas.width,
+      availableHeight / canvas.height,
+    );
+    const reportWidth = canvas.width * scale;
+    const reportHeight = canvas.height * scale;
+    const reportX = (pageWidth - reportWidth) / 2;
+    const reportY = (pageHeight - reportHeight) / 2;
+    const reportImage = canvas.toDataURL("image/jpeg", 0.94);
 
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-
-      link.href = url;
-      link.download = `TES-raschet-${new Date().toISOString().slice(0, 10)}.png`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }, "image/png");
+    pdf.addImage(
+      reportImage,
+      "JPEG",
+      reportX,
+      reportY,
+      reportWidth,
+      reportHeight,
+      undefined,
+      "FAST",
+    );
+    pdf.save(`TES-raschet-${new Date().toISOString().slice(0, 10)}.pdf`);
   }
 
   let lastReportedHeight = 0;
