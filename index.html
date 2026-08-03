@@ -2997,7 +2997,6 @@
                 const autocompleteOptions = {
                 fields: ["place_id", "geometry", "formatted_address"],
                 types: ["geocode"], // Ограничиваем поиск гео-точками и адресами (без заведений)
-                componentRestrictions: { country: "kz" }
                 };
 
                 originAutocomplete = new google.maps.places.Autocomplete(originInput, autocompleteOptions);
