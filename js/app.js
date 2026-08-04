@@ -679,54 +679,9 @@
     return cursorY;
   }
 
-  let jsPdfLoadPromise = null;
-
-  function loadJsPdf() {
-    if (window.jspdf?.jsPDF) {
-      return Promise.resolve(window.jspdf.jsPDF);
-    }
-
-    if (jsPdfLoadPromise) {
-      return jsPdfLoadPromise;
-    }
-
-    jsPdfLoadPromise = new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-
-      script.src = "https://cdn.jsdelivr.net/npm/jspdf@3.0.4/dist/jspdf.umd.min.js";
-      script.async = true;
-      script.dataset.jspdfLoader = "true";
-      script.onload = () => {
-        if (window.jspdf?.jsPDF) {
-          resolve(window.jspdf.jsPDF);
-          return;
-        }
-
-        reject(new Error("jsPDF loaded without a browser export"));
-      };
-      script.onerror = () => reject(new Error("Failed to load jsPDF"));
-      document.head.appendChild(script);
-    }).catch((error) => {
-      jsPdfLoadPromise = null;
-      throw error;
-    });
-
-    return jsPdfLoadPromise;
-  }
-
   async function handleDownloadReport() {
     if (!Number.isFinite(appState.total) || appState.total <= 0) {
       window.alert("Сначала выполните расчет.");
-      return;
-    }
-
-    let JsPdf;
-
-    try {
-      JsPdf = await loadJsPdf();
-    } catch (error) {
-      console.error("Не удалось загрузить модуль PDF", error);
-      window.alert("Не удалось загрузить модуль PDF. Проверьте интернет-соединение и повторите попытку.");
       return;
     }
 
@@ -840,38 +795,19 @@
       1770,
     );
 
-    const pdf = new JsPdf({
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-      compress: true,
-    });
-    const margin = 10;
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const availableWidth = pageWidth - margin * 2;
-    const availableHeight = pageHeight - margin * 2;
-    const scale = Math.min(
-      availableWidth / canvas.width,
-      availableHeight / canvas.height,
-    );
-    const reportWidth = canvas.width * scale;
-    const reportHeight = canvas.height * scale;
-    const reportX = (pageWidth - reportWidth) / 2;
-    const reportY = (pageHeight - reportHeight) / 2;
-    const reportImage = canvas.toDataURL("image/jpeg", 0.94);
+    canvas.toBlob((blob) => {
+      if (!blob) return;
 
-    pdf.addImage(
-      reportImage,
-      "JPEG",
-      reportX,
-      reportY,
-      reportWidth,
-      reportHeight,
-      undefined,
-      "FAST",
-    );
-    pdf.save(`TES-raschet-${new Date().toISOString().slice(0, 10)}.pdf`);
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+
+      link.href = url;
+      link.download = `TES-raschet-${new Date().toISOString().slice(0, 10)}.png`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, "image/png");
   }
 
   let lastReportedHeight = 0;
@@ -914,33 +850,6 @@
     });
   }
 
-  function enableInternationalAutocomplete() {
-    let attempts = 0;
-    const timer = window.setInterval(() => {
-      attempts += 1;
-
-      try {
-        if (
-          typeof originAutocomplete !== "undefined" &&
-          typeof destAutocomplete !== "undefined" &&
-          originAutocomplete &&
-          destAutocomplete
-        ) {
-          originAutocomplete.setComponentRestrictions({});
-          destAutocomplete.setComponentRestrictions({});
-          window.clearInterval(timer);
-          return;
-        }
-      } catch (error) {
-        console.warn("Не удалось снять ограничение стран в автопоиске", error);
-      }
-
-      if (attempts >= 40) {
-        window.clearInterval(timer);
-      }
-    }, 250);
-  }
-
   function bindEvents() {
     $(".next-btn").on("click", handleNextClick);
     $(".prev-btn").on("click", handlePreviousClick);
@@ -969,11 +878,6 @@
     });
 
     bindEvents();
-    $(".download-report-btn").text("Скачать расчет TES (PDF)");
-    loadJsPdf().catch((error) => {
-      console.warn("Предварительная загрузка jsPDF не удалась", error);
-    });
-    enableInternationalAutocomplete();
     validateAll();
     updateSchemePreview();
     openStep($firstStep);
