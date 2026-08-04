@@ -941,6 +941,21 @@
     }, 250);
   }
 
+  function applyDimensionPlaceholders() {
+    $("#atc_length").attr(
+      "placeholder",
+      "Укажите длину транспортного средства с грузом",
+    );
+    $("#atc_width").attr(
+      "placeholder",
+      "Укажите ширину транспортного средства с грузом",
+    );
+    $("#atc_height").attr(
+      "placeholder",
+      "Укажите высоту от дорожного полотна до верхней части транспортного средства с грузом",
+    );
+  }
+
   function bindEvents() {
     $(".next-btn").on("click", handleNextClick);
     $(".prev-btn").on("click", handlePreviousClick);
@@ -974,6 +989,7 @@
       console.warn("Предварительная загрузка jsPDF не удалась", error);
     });
     enableInternationalAutocomplete();
+    applyDimensionPlaceholders();
     validateAll();
     updateSchemePreview();
     openStep($firstStep);
