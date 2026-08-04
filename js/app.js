@@ -287,7 +287,12 @@
       required.push("#fifth-os-weight");
     }
 
-    const valid = required.every((selector) => numericValue(selector) > 0);
+    const weightsValid = required.every(
+      (selector) => numericValue(selector) > 0,
+    );
+    const dollyValid =
+      type !== VEHICLE_TYPE.LOW_LOADER || isDollySelectionValid();
+    const valid = weightsValid && dollyValid;
     setDisabled(".step-four-btn.next-btn", !valid);
 
     return valid;
@@ -318,17 +323,33 @@
     setHidden(".tesha-weight-container", !usesDolly);
     setHidden(".tesha-os-distance-container", !usesDolly);
 
-    let valid = selected === "0";
-
-    if (usesDolly) {
-      valid =
-        numericValue("input.tesha-row:checked") > 0 &&
-        numericValue("#teshaWeight") > 0 &&
-        $("#teshaOsDistance").val() !== null;
-    }
+    const valid = isDollySelectionValid();
 
     setDisabled(".step-tesha-btn.next-btn", !valid);
+
+    if ($(".embedded-dolly-section").length) {
+      validateWeightStep();
+    }
+
     return valid;
+  }
+
+  function isDollySelectionValid() {
+    const selected = checkedValue("input.est-tesha:checked");
+
+    if (selected === "0") {
+      return true;
+    }
+
+    if (selected !== "1") {
+      return false;
+    }
+
+    return (
+      numericValue("input.tesha-row:checked") > 0 &&
+      numericValue("#teshaWeight") > 0 &&
+      $("#teshaOsDistance").val() !== null
+    );
   }
 
   function validateAll() {
@@ -956,6 +977,190 @@
     );
   }
 
+  function applyCustomerLayoutPolish() {
+    if (!document.getElementById("customer-layout-polish")) {
+      const style = document.createElement("style");
+
+      style.id = "customer-layout-polish";
+      style.textContent = `
+        .step[data-spa-step="1"] .vehicle-selection > .form-container > .row {
+          display: contents !important;
+        }
+
+        .step[data-spa-step="1"] .vehicle-selection > .form-container > .row > .col {
+          width: auto !important;
+          max-width: none !important;
+          min-width: 0 !important;
+          display: flex !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
+          width: 100% !important;
+          height: 100% !important;
+          min-height: 350px !important;
+        }
+
+        .step[data-spa-step="1"] .vehicle-selection .btn.col-btn > img {
+          width: 100% !important;
+          height: 185px !important;
+          object-fit: contain !important;
+        }
+
+        .step-content.three .btn.col-btn {
+          min-height: 88px !important;
+        }
+
+        .step-content.three .btn.col-btn img:not(.axle-focus-image) {
+          width: auto !important;
+          max-width: 120px !important;
+          height: 66px !important;
+          max-height: 66px !important;
+          object-fit: contain !important;
+        }
+
+        .step-content.three .third-os-tral-container .btn.col-btn,
+        .step-content.three .fourth-os-tral-container .btn.col-btn,
+        .step-content.three .fifth-os-tral-container .btn.col-btn {
+          min-width: 118px !important;
+          height: 128px !important;
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 10px;
+        }
+
+        .header-contact-link {
+          min-height: 52px !important;
+          padding: 0 20px !important;
+          border: 1px solid var(--tes-red) !important;
+          border-radius: 8px !important;
+          color: #fff !important;
+          background: var(--tes-red) !important;
+          white-space: nowrap;
+        }
+
+        .header-contact-link:hover {
+          color: #fff !important;
+          background: var(--tes-red-dark) !important;
+        }
+
+        .result-actions {
+          grid-template-columns: 1fr !important;
+        }
+
+        .embedded-dolly-section {
+          margin-top: 28px;
+          padding-top: 26px;
+          border-top: 1px solid var(--tes-line);
+        }
+
+        .embedded-dolly-section__heading {
+          margin-bottom: 18px;
+        }
+
+        .embedded-dolly-section__heading .step-label {
+          margin-bottom: 6px;
+          font-size: 22px;
+        }
+
+        .embedded-dolly-section__heading p {
+          margin: 0;
+          color: var(--tes-muted);
+          font-size: 14px;
+        }
+
+        .embedded-dolly-section > .container {
+          width: 100% !important;
+          max-width: none !important;
+          padding: 0 !important;
+        }
+
+        @media (max-width: 899.98px) {
+          .header-actions {
+            gap: 7px;
+          }
+
+          .header-contact-link {
+            min-height: 44px !important;
+            padding: 0 12px !important;
+            font-size: 12px !important;
+          }
+        }
+
+        @media (max-width: 559.98px) {
+          .header-contact-link {
+            max-width: 112px;
+            line-height: 1.15;
+            white-space: normal;
+          }
+
+          .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
+            min-height: 280px !important;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    const $trailerGroupTitle = $(
+      ".third-os-group > .os-container > .step-label",
+    ).first();
+    $trailerGroupTitle.text("Группа осей на прицепе (трале)");
+
+    const $homeLink = $(".home-link").first();
+    const $contactLink = $(".contact-permit-btn").first();
+
+    if ($homeLink.length && $contactLink.length) {
+      const $headerActions = $('<div class="header-actions"></div>');
+
+      $homeLink.before($headerActions);
+      $contactLink
+        .addClass("header-contact-link")
+        .attr("href", "https://te-solutions.kz/")
+        .attr("target", "_blank")
+        .attr("rel", "noopener noreferrer")
+        .text("Связаться с нами");
+      $headerActions.append($contactLink, $homeLink);
+    }
+
+    const $weightStep = $('.step[data-spa-step="3"]')
+      .not(".step-tesha")
+      .first();
+    const $dollyStep = $(".step.step-tesha").first();
+
+    if ($weightStep.length && $dollyStep.length) {
+      const $weightContent = $weightStep.find(".step-content").first();
+      const $weightNavigation = $weightContent
+        .children(".navigation-container")
+        .last();
+      const $dollyForm = $dollyStep
+        .find(".step-content.tesha > .container")
+        .first()
+        .detach();
+      const $embeddedDolly = $(
+        '<section class="embedded-dolly-section step-tesha d-none"></section>',
+      );
+
+      $embeddedDolly.append(
+        '<div class="embedded-dolly-section__heading"><div class="step-label">Долли (тёща)</div><p>Укажите наличие и параметры долли для выбранного транспортного средства.</p></div>',
+        $dollyForm,
+      );
+      $embeddedDolly.insertBefore($weightNavigation);
+      $dollyStep.remove();
+      $weightContent
+        .find(".text-secondary")
+        .last()
+        .text(
+          "Введите суммарную фактическую нагрузку на каждую группу. При наличии долли укажите её параметры ниже.",
+        );
+    }
+  }
+
   function bindEvents() {
     $(".next-btn").on("click", handleNextClick);
     $(".prev-btn").on("click", handlePreviousClick);
@@ -983,6 +1188,7 @@
       $button.data("add-label", $button.text().trim());
     });
 
+    applyCustomerLayoutPolish();
     bindEvents();
     $(".download-report-btn").text("Скачать расчет TES (PDF)");
     loadJsPdf().catch((error) => {
