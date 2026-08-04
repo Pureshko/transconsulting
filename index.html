@@ -191,10 +191,10 @@
                     <div class="row mt-2">
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
-                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="single" hidden>
-                                <img src="calc-atc-type/single.webp" alt="">
-                                <span class="col-label text-uppercase">Одиночный автомобиль</span>
-                                <span class="vehicle-card__description">Грузовой автомобиль без прицепа</span>
+                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="trall" hidden>
+                                <img src="calc-atc-type/trall.webp" alt="">
+                                <span class="col-label text-uppercase">Тягач + трал</span>
+                                <span class="vehicle-card__description">Для перевозки тяжелой и негабаритной техники</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -220,21 +220,14 @@
                         </div>
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
-                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="trall" hidden>
-                                <img src="calc-atc-type/trall.webp" alt="">
-                                <span class="col-label text-uppercase">Тягач + трал</span>
-                                <span class="vehicle-card__description">Для перевозки тяжелой и негабаритной техники</span>
+                                <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="single" hidden>
+                                <img src="calc-atc-type/single.webp" alt="">
+                                <span class="col-label text-uppercase">Одиночный автомобиль</span>
+                                <span class="vehicle-card__description">Грузовой автомобиль без прицепа</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="selection-help">
-                    <span class="selection-help__icon" aria-hidden="true">i</span>
-                    <span>Если вы не уверены в выборе типа транспортного средства,<br>свяжитесь с нашими специалистами — мы поможем определить параметры автопоезда.</span>
-                    <a class="selection-help__button" href="https://te-solutions.kz/#contacts" target="_blank" rel="noopener noreferrer">
-                        <span aria-hidden="true">↗</span> Связаться с нами
-                    </a>
                 </div>
               </div>
               <div class="combined-step-divider">
@@ -676,21 +669,6 @@
                         </div>
                     </div>
                 </div>
-                <aside class="axle-reference-panel" aria-label="Справка по колесной формуле">
-                    <section class="axle-reference-card">
-                        <h3>Что такое колесная формула?</h3>
-                        <p>Колесная формула позволяет точно указать конфигурацию осей вашего автопоезда для корректного расчета допустимых нагрузок и сбора за проезд.</p>
-                    </section>
-                    <section class="axle-reference-card axle-scheme-card">
-                        <h3>Пример выбранной схемы</h3>
-                        <div class="axle-scheme-card__visual" aria-hidden="true">
-                            <img src="os/1os.webp" alt=""><span>→</span><img src="os/2os.webp" alt=""><span>→</span><img src="tral-type/default.webp" alt="">
-                        </div>
-                        <strong id="selectedSchemeLabel">Выберите группы осей</strong>
-                        <small id="selectedVehicleLabel">Схема появится после выбора</small>
-                        <button type="button" class="axle-reset-button" id="axleResetButton">⌫&nbsp; Сбросить выбор</button>
-                    </section>
-                </aside>
                 <div class="navigation-container">
                     <button class="step-three-btn next-btn disabled">Продолжить</button>
                     <button class="prev-btn">Назад</button>
