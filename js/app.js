@@ -1734,11 +1734,11 @@
     ).first();
     $trailerGroupTitle.text("Группы осей на прицепе (трале)");
 
-    const wrapAdvancedOptions = ($container, $options) => {
+    const wrapAdvancedOptions = ($container, $options, type, label) => {
       if (!$container.length || !$options.length) return;
 
       const $details = $(
-        '<details class="advanced-axle-options"><summary>Сложная конструкция</summary></details>',
+        `<details class="advanced-axle-options advanced-axle-options--${type}"><summary>${label}</summary></details>`,
       );
       $details.append($options);
       $container.append($details);
@@ -1746,16 +1746,36 @@
 
     wrapAdvancedOptions(
       $(".first-os-group .os-container").first(),
-      $(".first-2os-group, #first-2skat").map(function advancedSteering() {
+      $(".first-2os-group").map(function advancedSteeringAxles() {
         return $(this).closest(".col-btn").get(0);
       }),
+      "axles",
+      "Сложная конструкция — группы осей",
+    );
+    wrapAdvancedOptions(
+      $(".first-os-group .os-container").first(),
+      $("#first-2skat").map(function advancedSteeringTires() {
+        return $(this).closest(".col-btn").get(0);
+      }),
+      "tires",
+      "Сложная конструкция — ошиновка",
     );
     wrapAdvancedOptions(
       $(".second-os-group .os-container").first(),
-      $(".second-21os-group, .second-3os-group, .second-4os-group, #second-1skat")
-        .map(function advancedDrive() {
+      $(".second-21os-group, .second-3os-group, .second-4os-group")
+        .map(function advancedDriveAxles() {
           return $(this).closest(".col-btn").get(0);
         }),
+      "axles",
+      "Сложная конструкция — группы осей",
+    );
+    wrapAdvancedOptions(
+      $(".second-os-group .os-container").first(),
+      $("#second-1skat").map(function advancedDriveTires() {
+        return $(this).closest(".col-btn").get(0);
+      }),
+      "tires",
+      "Сложная конструкция — ошиновка",
     );
 
     $(".third-os-group > .os-container > .image-container").first().prepend(
