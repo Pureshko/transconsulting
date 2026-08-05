@@ -11,7 +11,13 @@
   let routeRequestController = null;
   let waypointSequence = 0;
   const PUBLIC_OSRM_URL = "https://router.project-osrm.org";
-  const OSRM_REQUEST_TIMEOUT_MS = 15000;
+  const PUBLIC_NOMINATIM_URL = String(
+    window.NOMINATIM_URL || "https://nominatim.openstreetmap.org",
+  ).replace(/\/$/, "");
+  const ROUTE_REQUEST_TIMEOUT_MS = 30000;
+  const NOMINATIM_MIN_INTERVAL_MS = 1100;
+  const nominatimCache = new Map();
+  let lastNominatimRequestAt = 0;
 
   function setDisabled(selector, disabled) {
     $(selector).toggleClass("disabled", Boolean(disabled));
@@ -1079,29 +1085,77 @@
     notifyParentHeight();
   }
 
-  function geocodeRoutePoint(point) {
-    return window.ymaps.geocode(point, { results: 1 }).then((result) => {
-      const geoObject = result.geoObjects.get(0);
+  function waitForRequestInterval(delay, signal) {
+    if (signal.aborted) {
+      return Promise.reject(new DOMException("Запрос отменён", "AbortError"));
+    }
 
-      if (!geoObject) {
-        throw new Error(`Не удалось найти точку: ${point}`);
-      }
+    if (delay <= 0) return Promise.resolve();
 
-      const coordinates = geoObject.geometry.getCoordinates();
-
-      if (
-        !Array.isArray(coordinates) ||
-        coordinates.length < 2 ||
-        !coordinates.every(Number.isFinite)
-      ) {
-        throw new Error(`Получены некорректные координаты: ${point}`);
-      }
-
-      return {
-        label: point,
-        coordinates,
+    return new Promise((resolve, reject) => {
+      const handleAbort = () => {
+        window.clearTimeout(timeoutId);
+        reject(new DOMException("Запрос отменён", "AbortError"));
       };
+      const timeoutId = window.setTimeout(() => {
+        signal.removeEventListener("abort", handleAbort);
+        resolve();
+      }, delay);
+
+      signal.addEventListener("abort", handleAbort, { once: true });
     });
+  }
+
+  async function geocodeRoutePoint(point, signal) {
+    const cacheKey = point.trim().toLocaleLowerCase("ru-RU");
+    const cachedPoint = nominatimCache.get(cacheKey);
+
+    if (cachedPoint) return cachedPoint;
+
+    const elapsed = Date.now() - lastNominatimRequestAt;
+    await waitForRequestInterval(
+      Math.max(0, NOMINATIM_MIN_INTERVAL_MS - elapsed),
+      signal,
+    );
+
+    const url = new URL(`${PUBLIC_NOMINATIM_URL}/search`);
+    url.searchParams.set("q", point);
+    url.searchParams.set("format", "jsonv2");
+    url.searchParams.set("limit", "1");
+    url.searchParams.set("addressdetails", "0");
+    url.searchParams.set("accept-language", "ru");
+
+    const contactEmail = String(window.NOMINATIM_EMAIL || "").trim();
+    if (contactEmail) url.searchParams.set("email", contactEmail);
+
+    lastNominatimRequestAt = Date.now();
+    const response = await window.fetch(url.toString(), {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      referrerPolicy: "strict-origin-when-cross-origin",
+      signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Nominatim вернул HTTP ${response.status}`);
+    }
+
+    const results = await response.json();
+    const result = Array.isArray(results) ? results[0] : null;
+    const latitude = Number(result?.lat);
+    const longitude = Number(result?.lon);
+
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      throw new Error(`Nominatim не смог найти точку: ${point}`);
+    }
+
+    const geocodedPoint = {
+      label: point,
+      coordinates: [latitude, longitude],
+    };
+    nominatimCache.set(cacheKey, geocodedPoint);
+
+    return geocodedPoint;
   }
 
   function buildOsrmRouteUrl(geocodedPoints) {
@@ -1229,14 +1283,23 @@
     const { signal } = controller;
     const timeoutId = window.setTimeout(
       () => controller.abort(),
-      OSRM_REQUEST_TIMEOUT_MS,
+      ROUTE_REQUEST_TIMEOUT_MS,
     );
 
     $button.prop("disabled", true).text("Рассчитываем…");
-    $result.show().text("Определяем координаты через Яндекс…");
+    $result.show().text("Определяем координаты через Nominatim…");
 
     try {
-      const geocodedPoints = await Promise.all(points.map(geocodeRoutePoint));
+      const geocodedPoints = [];
+
+      for (let index = 0; index < points.length; index += 1) {
+        $result.text(
+          `Определяем координаты через Nominatim (${index + 1}/${points.length})…`,
+        );
+        geocodedPoints.push(
+          await geocodeRoutePoint(points[index], signal),
+        );
+      }
 
       if (signal.aborted) return;
 

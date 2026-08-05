@@ -881,8 +881,11 @@
                     <div id="result" class="result-box"></div>
                     <div id="map"></div>
                     <div class="route-service-note">
-                      Карта и поиск адресов — Яндекс, расчёт маршрута — публичный OSRM.
+                      Карта и подсказки адресов — Яндекс, геокодирование — Nominatim,
+                      расчёт маршрута — публичный OSRM.
                       Для крупногабаритного транспорта маршрут носит ориентировочный характер.
+                      Геоданные ©
+                      <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>.
                     </div>
                   </div>
                   
@@ -2874,6 +2877,11 @@
                 line-height: 1.45;
             }
 
+            .route-service-note a {
+                color: inherit;
+                text-decoration: underline;
+            }
+
             .route-source {
                 margin-top: 8px;
                 color: #69717e;
@@ -2968,6 +2976,8 @@
         </style>
         <script>
           window.YANDEX_MAPS_API_KEY = window.YANDEX_MAPS_API_KEY || "";
+          window.NOMINATIM_URL = window.NOMINATIM_URL || "https://nominatim.openstreetmap.org";
+          window.NOMINATIM_EMAIL = window.NOMINATIM_EMAIL || "";
         </script>
         <script src="./js/constants.js"></script>
         <script src="./js/calculations.js"></script>
