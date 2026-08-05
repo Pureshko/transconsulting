@@ -1567,10 +1567,6 @@
           background: var(--tes-red-dark) !important;
         }
 
-        .result-actions {
-          grid-template-columns: 1fr !important;
-        }
-
         .embedded-dolly-section {
           margin-top: 28px;
           padding-top: 26px;
@@ -1687,8 +1683,7 @@
           margin-bottom: 10px;
         }
 
-        .project-consultation-btn,
-        .calculation-help-btn {
+        .project-consultation-btn {
           width: 100%;
           margin-top: 14px;
           border: 0;
@@ -1697,8 +1692,7 @@
           background: var(--tes-red) !important;
         }
 
-        .project-consultation-btn:hover,
-        .calculation-help-btn:hover {
+        .project-consultation-btn:hover {
           background: var(--tes-red-dark) !important;
         }
 

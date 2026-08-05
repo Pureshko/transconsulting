@@ -2936,21 +2936,48 @@
             .result-actions {
                 grid-column: 1 / -1;
                 display: grid;
-                grid-template-columns: minmax(220px, .75fr) minmax(300px, 1.25fr);
-                gap: 16px;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                align-items: stretch;
+                gap: 12px;
             }
 
             .result-actions .download-report-btn,
+            .result-actions .calculation-help-btn,
             .contact-permit-btn {
+                width: 100%;
                 min-height: 54px;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 padding: 12px 24px;
-                border-radius: 7px;
+                margin: 0 !important;
+                border-radius: 8px;
                 font-weight: 700;
+                line-height: 1.35;
                 text-align: center;
                 text-decoration: none;
+            }
+
+            .result-actions .download-report-btn {
+                border: 1px solid var(--tes-red) !important;
+                color: #fff !important;
+                background: var(--tes-red) !important;
+            }
+
+            .result-actions .download-report-btn:hover {
+                border-color: var(--tes-red-dark) !important;
+                background: var(--tes-red-dark) !important;
+            }
+
+            .result-actions .calculation-help-btn {
+                border: 1px solid #138a72 !important;
+                color: #fff !important;
+                background: #138a72 !important;
+            }
+
+            .result-actions .calculation-help-btn:hover {
+                border-color: #0e6f5c !important;
+                background: #0e6f5c !important;
             }
 
             .contact-permit-btn {
@@ -2976,8 +3003,7 @@
                     display: none;
                 }
 
-                .step[data-spa-step="1"] .step-content.three > .form-container > .row,
-                .result-actions {
+                .step[data-spa-step="1"] .step-content.three > .form-container > .row {
                     grid-template-columns: 1fr;
                 }
 
@@ -2994,6 +3020,10 @@
 
                 .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
                     min-height: 280px;
+                }
+
+                .result-actions {
+                    grid-template-columns: 1fr;
                 }
             }
         </style>
