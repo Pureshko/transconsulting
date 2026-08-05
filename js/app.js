@@ -164,10 +164,10 @@
       .attr("src", guide)
       .attr("alt", `Схема: ${label}`);
 
-    $(".dimension-guide-image").each(function updateDimensionGuide(index) {
-      const source = index === 1 ? "guidance/vehicle-width.webp" : guide;
-      $(this).attr("src", source).attr("alt", `Габариты: ${label}`);
-    });
+    // $(".dimension-guide-image").each(function updateDimensionGuide(index) {
+    //   const source = index === 1 ? "guidance/vehicle-width.webp" : guide;
+    //   $(this).attr("src", source).attr("alt", `Габариты: ${label}`);
+    // });
   }
 
   function openStep($step) {
@@ -1598,19 +1598,6 @@
           padding: 0 !important;
         }
 
-        .vehicle-context-guide,
-        .weight-vehicle-guide {
-          display: block;
-          width: 100%;
-          max-width: 760px;
-          height: 240px;
-          margin: 0 auto 22px;
-          object-fit: contain;
-          border: 1px solid var(--tes-line);
-          border-radius: 12px;
-          background: #fff;
-        }
-
         .advanced-axle-options {
           margin: 10px 0 16px;
           border: 1px dashed #c6cbd2;
@@ -1658,8 +1645,19 @@
 
         .combined-dimensions-section .form-container,
         .combined-dimensions-section .form-group {
-          background: transparent !important;
+          background: #FDFDFD !important;
           box-shadow: none !important;
+        }
+
+        .combined-dimensions-section .form-container {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .combined-dimensions-section .form-group {
+          width: auto;
+          min-width: 0;
         }
 
         .intermediate-route-row {
@@ -1760,10 +1758,10 @@
         }),
     );
 
-    $(".step-content.three > .form-container").first().prepend(
+    $(".third-os-group > .os-container > .image-container").first().prepend(
       '<img class="vehicle-context-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема выбранного транспортного средства">',
     );
-    $('.step[data-spa-step="3"] .step-content.four > .form-container')
+    $('.three-os-weight-group > .image-container')
       .first()
       .prepend(
         '<img class="weight-vehicle-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема распределения нагрузки выбранного транспортного средства">',
