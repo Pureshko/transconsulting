@@ -7,8 +7,11 @@
     coverVehicleAssessment: null,
   };
   let yandexMap = null;
-  let yandexRoute = null;
+  let routeGeoObjects = null;
+  let routeRequestController = null;
   let waypointSequence = 0;
+  const PUBLIC_OSRM_URL = "https://router.project-osrm.org";
+  const OSRM_REQUEST_TIMEOUT_MS = 15000;
 
   function setDisabled(selector, disabled) {
     $(selector).toggleClass("disabled", Boolean(disabled));
@@ -1076,9 +1079,134 @@
     notifyParentHeight();
   }
 
-  function calculateYandexRoute() {
+  function geocodeRoutePoint(point) {
+    return window.ymaps.geocode(point, { results: 1 }).then((result) => {
+      const geoObject = result.geoObjects.get(0);
+
+      if (!geoObject) {
+        throw new Error(`Не удалось найти точку: ${point}`);
+      }
+
+      const coordinates = geoObject.geometry.getCoordinates();
+
+      if (
+        !Array.isArray(coordinates) ||
+        coordinates.length < 2 ||
+        !coordinates.every(Number.isFinite)
+      ) {
+        throw new Error(`Получены некорректные координаты: ${point}`);
+      }
+
+      return {
+        label: point,
+        coordinates,
+      };
+    });
+  }
+
+  function buildOsrmRouteUrl(geocodedPoints) {
+    const coordinates = geocodedPoints
+      .map(({ coordinates: [latitude, longitude] }) => `${longitude},${latitude}`)
+      .join(";");
+
+    return `${PUBLIC_OSRM_URL}/route/v1/driving/${coordinates}` +
+      "?alternatives=false&steps=false&overview=full&geometries=geojson";
+  }
+
+  async function fetchOsrmRoute(geocodedPoints, signal) {
+    const response = await window.fetch(buildOsrmRouteUrl(geocodedPoints), {
+      method: "GET",
+      headers: { Accept: "application/json" },
+      signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`OSRM вернул HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const route = data?.routes?.[0];
+
+    if (
+      data?.code !== "Ok" ||
+      !route ||
+      !Number.isFinite(route.distance) ||
+      !Array.isArray(route.geometry?.coordinates) ||
+      route.geometry.coordinates.length < 2
+    ) {
+      throw new Error(data?.message || "OSRM не смог построить маршрут");
+    }
+
+    return route;
+  }
+
+  function drawOsrmRoute(geocodedPoints, route) {
+    const routeCoordinates = route.geometry.coordinates
+      .filter(
+        (coordinate) =>
+          Array.isArray(coordinate) &&
+          coordinate.length >= 2 &&
+          coordinate.every(Number.isFinite),
+      )
+      .map(([longitude, latitude]) => [latitude, longitude]);
+
+    if (routeCoordinates.length < 2) {
+      throw new Error("OSRM вернул некорректную геометрию маршрута");
+    }
+
+    if (routeGeoObjects) {
+      yandexMap.geoObjects.remove(routeGeoObjects);
+    }
+
+    routeGeoObjects = new window.ymaps.GeoObjectCollection();
+    routeGeoObjects.add(
+      new window.ymaps.Polyline(
+        routeCoordinates,
+        {
+          hintContent: "Маршрут рассчитан OSRM",
+        },
+        {
+          strokeColor: "#c8102e",
+          strokeWidth: 5,
+          strokeOpacity: 0.82,
+        },
+      ),
+    );
+
+    geocodedPoints.forEach(({ label, coordinates }, index) => {
+      const isFirst = index === 0;
+      const isLast = index === geocodedPoints.length - 1;
+      const iconContent = isFirst ? "А" : isLast ? "Б" : String(index);
+
+      routeGeoObjects.add(
+        new window.ymaps.Placemark(
+          coordinates,
+          {
+            iconContent,
+            balloonContent: label,
+          },
+          {
+            preset: "islands#redStretchyIcon",
+          },
+        ),
+      );
+    });
+
+    yandexMap.geoObjects.add(routeGeoObjects);
+    const bounds = routeGeoObjects.getBounds();
+
+    if (bounds) {
+      yandexMap.setBounds(bounds, {
+        checkZoomRange: true,
+        zoomMargin: 36,
+      });
+    }
+  }
+
+  async function calculateHybridRoute() {
     const points = routePointValues();
     const $result = $("#result");
+    const $button = $("#calculateRoute");
 
     if (points.length < 2 || !$("#origin").val().trim() || !$("#destination").val().trim()) {
       window.alert("Пожалуйста, заполните точки отправления и назначения.");
@@ -1092,41 +1220,75 @@
       return;
     }
 
-    $result.show().text("Строим маршрут…");
-    window.ymaps.route(points, { mapStateAutoApply: true }).then(
-      (route) => {
-        if (yandexRoute) yandexMap.geoObjects.remove(yandexRoute);
-        yandexRoute = route;
-        yandexMap.geoObjects.add(route);
+    if (routeRequestController) {
+      routeRequestController.abort();
+    }
 
-        const distance = Number((route.getLength() / 1000).toFixed(1));
-        const durationMinutes = Math.max(1, Math.round(route.getTime() / 60));
+    const controller = new AbortController();
+    routeRequestController = controller;
+    const { signal } = controller;
+    const timeoutId = window.setTimeout(
+      () => controller.abort(),
+      OSRM_REQUEST_TIMEOUT_MS,
+    );
 
-        $('input[name="distance"]')
-          .val(distance)
-          .trigger("input");
-        $result.empty().append(
-          $("<div>")
-            .addClass("result-item")
-            .append("Маршрут: ", $("<b>").text(points.join(" – "))),
-          $("<div>")
-            .addClass("result-item")
-            .append("Дистанция: ", $("<b>").text(`${distance} км`)),
-          $("<div>")
-            .addClass("result-item")
-            .append(
-              "Ориентировочное время: ",
-              $("<b>").text(`${durationMinutes} мин.`),
-            ),
-        );
-      },
-      (error) => {
-        console.error("Не удалось построить маршрут в Яндекс Картах", error);
+    $button.prop("disabled", true).text("Рассчитываем…");
+    $result.show().text("Определяем координаты через Яндекс…");
+
+    try {
+      const geocodedPoints = await Promise.all(points.map(geocodeRoutePoint));
+
+      if (signal.aborted) return;
+
+      $result.text("Строим маршрут через OSRM…");
+      const route = await fetchOsrmRoute(geocodedPoints, signal);
+
+      if (signal.aborted) return;
+
+      drawOsrmRoute(geocodedPoints, route);
+
+      const distance = Number((route.distance / 1000).toFixed(1));
+      const durationMinutes = Math.max(1, Math.round(route.duration / 60));
+
+      $('input[name="distance"]')
+        .val(distance)
+        .trigger("input");
+      $result.empty().append(
+        $("<div>")
+          .addClass("result-item")
+          .append("Маршрут: ", $("<b>").text(points.join(" – "))),
+        $("<div>")
+          .addClass("result-item")
+          .append("Дистанция: ", $("<b>").text(`${distance} км`)),
+        $("<div>")
+          .addClass("result-item")
+          .append(
+            "Ориентировочное время: ",
+            $("<b>").text(`${durationMinutes} мин.`),
+          ),
+        $("<div>")
+          .addClass("result-item route-source")
+          .text("Маршрут рассчитан публичным сервисом OSRM."),
+      );
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        $result
+          .show()
+          .text("Сервис маршрутов не ответил вовремя. Введите расстояние вручную или повторите попытку.");
+      } else {
+        console.error("Не удалось построить маршрут через OSRM", error);
         $result
           .show()
           .text("Не удалось построить маршрут. Проверьте точки или введите расстояние вручную.");
-      },
-    );
+      }
+    } finally {
+      window.clearTimeout(timeoutId);
+
+      if (routeRequestController === controller) {
+        routeRequestController = null;
+        $button.prop("disabled", false).text("Рассчитать расстояние");
+      }
+    }
   }
 
   function applyDimensionPlaceholders() {
@@ -1675,7 +1837,7 @@
     $(".project-consultation-btn").on("click", handleProjectConsultationClick);
     $(".calculation-help-btn").on("click", handleCalculationHelpClick);
     $("#addIntermediateRoute").on("click", addIntermediateRoute);
-    $("#calculateRoute").on("click", calculateYandexRoute);
+    $("#calculateRoute").on("click", calculateHybridRoute);
     $("#intermediateRoutes").on(
       "click",
       ".remove-intermediate-route",
