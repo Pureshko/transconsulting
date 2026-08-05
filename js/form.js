@@ -49,8 +49,22 @@ function readFormData() {
   const fourthTrailer = readTrailerGroup("fourth");
   const fifthTrailer = readTrailerGroup("fifth");
 
+  const routePoints = [
+    $("#origin").val(),
+    ...$(".intermediate-route-input")
+      .map((_, input) => $(input).val())
+      .get(),
+    $("#destination").val(),
+  ]
+    .map((point) => String(point ?? "").trim())
+    .filter(Boolean);
+
   return {
     distance: numericValue('input[name="distance"]'),
+    routePoints,
+    routeLabel: routePoints.length >= 2
+      ? routePoints.join(" – ")
+      : "Маршрут не указан",
     atc_type: checkedId("calc-atc-type"),
 
     first_os: checkedId("first-os"),

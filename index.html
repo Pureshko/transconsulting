@@ -129,14 +129,13 @@
                 </div>
             </div>
             <div class="header-progress" aria-label="Прогресс расчета">
-                <span class="header-progress__label" id="headerStepLabel">Шаг 1 из 5</span>
+                <span class="header-progress__label" id="headerStepLabel">Шаг 1 из 4</span>
                 <span class="header-progress__line" aria-hidden="true">
                     <span class="header-progress__fill" id="headerProgressFill"></span>
                     <i data-progress-dot="1"></i>
                     <i data-progress-dot="2"></i>
                     <i data-progress-dot="3"></i>
                     <i data-progress-dot="4"></i>
-                    <i data-progress-dot="5"></i>
                 </span>
             </div>
             <a class="home-link" href="/" aria-label="Вернуться на главную">
@@ -155,20 +154,15 @@
                     <li class="stepper__item" data-nav-step="2">
                         <span class="stepper__number">2</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14l2 11H3L5 9Zm4 0V6a3 3 0 0 1 6 0v3"/><circle cx="12" cy="14" r="2"/></svg></span>
-                        <span><strong>Весовые параметры</strong><small>Укажите нагрузки по группам</small></span>
+                        <span><strong>Вес и габариты</strong><small>Нагрузки, длина, ширина и высота</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="3">
                         <span class="stepper__number">3</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4v10l-8 4-8-4V7Zm0 0 8 4 8-4m-8 4v10"/></svg></span>
-                        <span><strong>Габаритные параметры</strong><small>Длина, ширина и высота</small></span>
+                        <span><strong>Маршрут</strong><small>Точки маршрута и расстояние</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="4">
                         <span class="stepper__number">4</span>
-                        <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.4 7-12A7 7 0 1 0 5 9c0 6.6 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
-                        <span><strong>Маршрут</strong><small>Расстояние и сезонность</small></span>
-                    </li>
-                    <li class="stepper__item" data-nav-step="5">
-                        <span class="stepper__number">5</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h2m2 0h2m2 0h1M8 15h2m2 0h2m2 0h1M8 18h2m2 0h2m2 0h1"/></svg></span>
                         <span><strong>Расчет и результат</strong><small>Итоговая сумма сбора</small></span>
                     </li>
@@ -177,7 +171,7 @@
 
             <main class="calculator-main">
                 <div class="mobile-progress" aria-live="polite">
-                    <span id="mobileStepLabel">Шаг 1 из 5</span>
+                    <span id="mobileStepLabel">Шаг 1 из 4</span>
                     <span class="mobile-progress__track"><span id="mobileProgressBar"></span></span>
                 </div>
                 <div class="steps">
@@ -241,7 +235,7 @@
                         <div class="col mb-2 first-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Рулевая группа осей</div>
-                                <img class="axle-focus-image" src="guidance/axle-front.webp" alt="Подсветка рулевой группы осей">
+                                <img class="axle-focus-image" src="guidance/vehicle-steering-axle.webp" alt="Подсветка рулевой группы осей">
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-1os" data-kol-os="1" hidden>
                                     <img src="os/1os.webp" alt="">
@@ -282,7 +276,7 @@
                         <div class="col mb-2 second-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Ведущая группа осей</div>
-                                <img class="axle-focus-image" src="guidance/axle-rear.webp" alt="Подсветка ведущей группы осей">
+                                <img class="axle-focus-image" src="guidance/vehicle-drive-axle.webp" alt="Подсветка ведущей группы осей">
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-1os"  data-kol-os="1"hidden>
                                     <img src="os/1os.webp" alt="">
@@ -331,10 +325,10 @@
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Выбирайте только если все оси этой группы имеют двускатные колёса.">
-                                    <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-2skat" hidden>
+                                    <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-2skat" hidden checked>
                                     <img src="skat/2skat.webp" alt="">
                                     <span for="flexRadioDefault1" class="col-label  text-uppercase">Все оси двускатные</span>
-                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                    <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon"><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                             </div>
                         </div>
@@ -352,7 +346,7 @@
                                                 <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
-                                            <div class="btn col col-btn third-tral-type ml-2" data-tral-type="2" data-step="3" style="width:80px;height:100px;margin-left:10px">
+                                            <div class="btn col col-btn third-tral-type ml-2 d-none" data-tral-type="2" data-step="3" style="width:80px;height:100px;margin-left:10px" aria-hidden="true">
                                                 <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeModule" data-tral-type="2" hidden>
                                                 <img src="tral-type/module.webp" style="width: 100%; height:35%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
@@ -476,7 +470,7 @@
                                                 <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
-                                            <div class="btn col col-btn fourth-tral-type ml-2" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2">
+                                            <div class="btn col col-btn fourth-tral-type ml-2 d-none" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2" aria-hidden="true">
                                                 <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeModule" data-tral-type="2" hidden>
                                                 <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
@@ -590,7 +584,7 @@
                                                 <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                             </div>
-                                            <div class="btn col col-btn fifth-tral-type ml-2" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2">
+                                            <div class="btn col col-btn fifth-tral-type ml-2 d-none" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2" aria-hidden="true">
                                                 <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeModule" data-tral-type="2" hidden>
                                                 <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
                                                 <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
@@ -685,7 +679,7 @@
                         <div class="row my-2">
                             <div class="col">
                                 <label>Суммарная нагрузка на рулевую группу осей</label>
-                                <img class="weight-guide-image" src="guidance/axle-front.webp" alt="Рулевая группа осей выделена красным">
+                                <img class="weight-guide-image" src="guidance/vehicle-steering-axle.webp" alt="Рулевая группа осей выделена красным">
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control os-weight" id="first-os-weight" placeholder="0" min="0" step="0.01" inputmode="decimal">
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
@@ -693,7 +687,7 @@
                             </div>
                             <div class="col">
                                 <label>Суммарная нагрузка на ведущую группу осей</label>
-                                <img class="weight-guide-image" src="guidance/axle-rear.webp" alt="Ведущая группа осей выделена красным">
+                                <img class="weight-guide-image" src="guidance/vehicle-drive-axle.webp" alt="Ведущая группа осей выделена красным">
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control os-weight" id="second-os-weight" placeholder="0" min="0" step="0.01" inputmode="decimal">
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
@@ -721,7 +715,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-secondary mb-2">Введите суммарную фактическую нагрузку на каждую группу. При смешанной ошиновке выбирайте «односкатные или смешанные». Нагрузка долли вводится отдельно.</div>
+                        <div class="text-secondary mb-2">Введите суммарную фактическую нагрузку на каждую группу. При смешанной ошиновке выбирайте «односкатные или смешанные». Нагрузка передней распределительной тележки вводится отдельно.</div>
                     </div>
                     <div class="navigation-container">
                         <button class="step-four-btn next-btn disabled">Продолжить</button>
@@ -730,11 +724,11 @@
                 </div>
             </div>
             <div class="step minimized step-tesha d-none" data-spa-step="3" data-progress-step="2">
-                <div class="step-header">Долли (тёща)</div>
+                <div class="step-header">Передняя распределительная тележка (Jeep Dolly)</div>
                 <div class="step-content tesha">
 
                     <div class="container mb-2">
-                        <div class="step-label">Добавить долии (тёща) да/нет</div>
+                        <div class="step-label">Добавить переднюю распределительную тележку (Jeep Dolly)?</div>
                         <div class="container w-50 m-0">
                             <div class="row">
                                 <div class="btn col-btn d-flex flex-col col-md-auto m-2 mb-2 est-tesha-group" style="height:80px;" data-step="21">
@@ -751,7 +745,7 @@
 
                         </div>
                         <div class="tesha-row-container d-none">
-                            <div class="step-label">Ряды в долли</div>
+                            <div class="step-label">Ряды передней распределительной тележки</div>
                             <div class="row tesha-row-container">
                                 <div class="btn col col-btn d-flex flex-col col-md-auto m-2 mb-2 tesha-row-group" style="height:100px;" data-step="21">
                                     <input class="form-check tesha-row" type="radio" name="tesha-row-num" id="teshaRowNum-1" value="1" hidden>
@@ -784,10 +778,10 @@
                             <label class="text-dark" for="teshaOsDistance">Среднее расстояние между соседними осями</label>
                         </div>
                         <div class="tesha-weight-container d-none">
-                            <div class="step-label">Суммарная нагрузка на долли (тёщу)</div>
+                            <div class="step-label">Суммарная нагрузка на переднюю распределительную тележку</div>
                             <div class="form-floating">
                                 <input type="number" name="tesha-ves" class="form-control" id="teshaWeight" data-step="21" min="0" step="0.01" inputmode="decimal">
-                                <label for="tesha-ves">Суммарная нагрузка на долли, т</label>
+                                <label for="tesha-ves">Суммарная нагрузка на тележку, т</label>
                             </div>
                         </div>
                         <!-- <select name="est-tesha" id="estTesha" class="form-select mb-2" data-step="21">
@@ -880,7 +874,9 @@
                       <input type="text" id="destination" placeholder="Введите город или адрес назначения">
                     </div>
 
-                    <button onclick="calculateDistance()">Рассчитать расстояние</button>
+                    <div id="intermediateRoutes" class="intermediate-routes" aria-live="polite"></div>
+                    <button type="button" id="addIntermediateRoute" class="route-secondary-button">+ Добавить промежуточную точку</button>
+                    <button type="button" id="calculateRoute">Рассчитать расстояние</button>
 
                     <div id="result" class="result-box"></div>
                     <div id="map"></div>
@@ -900,7 +896,7 @@
                   </div>
                 </div>
               </div>
-            <div class="step minimized result-step" data-spa-step="6" data-progress-step="5">
+            <div class="step minimized result-step" data-spa-step="6" data-progress-step="4">
                 <div class="step-header">
                     <div class="header">Расчет и результат</div>
                 </div>
@@ -946,12 +942,14 @@
                             По введённым параметрам выполнено одно или несколько обязательных условий:
                         </div>
                         <ul id="coverVehicleReasons" class="cover-vehicle-notice__reasons"></ul>
+                        <button type="button" class="project-consultation-btn">Обсудить проект</button>
                     </div>
                     <div class="result-toolbar">
                         <button class="reset-btn" type="button">← Перерасчитать</button>
                     </div>
                     <div class="result-actions">
                         <button type="button" class="download-report-btn btn atc-def-btn">Скачать расчет TES</button>
+                        <button type="button" class="calculation-help-btn btn atc-def-btn">Получить помощь по этому расчету</button>
                         <a class="contact-permit-btn" href="https://te-solutions.kz/#contacts" target="_blank" rel="noopener noreferrer">Связаться с нами для оформления разрешения</a>
                     </div>
                 </div>
@@ -2717,11 +2715,10 @@
                 text-transform: uppercase;
             }
 
-            .step[data-progress-step="1"] .step-header::before { content: "Шаг 1 из 5"; }
-            .step[data-progress-step="2"] .step-header::before { content: "Шаг 2 из 5"; }
-            .step[data-progress-step="3"] .step-header::before { content: "Шаг 3 из 5"; }
-            .step[data-progress-step="4"] .step-header::before { content: "Шаг 4 из 5"; }
-            .step[data-progress-step="5"] .step-header::before { content: "Шаг 5 из 5"; }
+            .step[data-progress-step="1"] .step-header::before { content: "Шаг 1 из 4"; }
+            .step[data-progress-step="2"] .step-header::before { content: "Шаг 2 из 4"; }
+            .step[data-progress-step="3"] .step-header::before { content: "Шаг 3 из 4"; }
+            .step[data-progress-step="4"] .step-header::before { content: "Шаг 4 из 4"; }
 
             .step[data-spa-step="1"] .header::after {
                 content: "Сначала выберите тип транспортного средства, затем укажите конфигурацию его осей.";
@@ -2952,135 +2949,13 @@
                 }
             }
         </style>
+        <script>
+          window.YANDEX_MAPS_API_KEY = window.YANDEX_MAPS_API_KEY || "";
+        </script>
         <script src="./js/constants.js"></script>
         <script src="./js/calculations.js"></script>
         <script src="./js/form.js"></script>
         <script src="./js/app.js"></script>
-        <script>
-            let map;
-            let directionsService;
-            let directionsRenderer;
-            
-            // Сохраняем объекты Autocomplete в переменные
-            let originAutocomplete;
-            let destAutocomplete;
-
-            // Функция инициализации карты и подсказок
-            function initMap() {
-                // 1. Создаем экземпляры сервисов Google Maps
-                directionsService = new google.maps.DirectionsService();
-                directionsRenderer = new google.maps.DirectionsRenderer();
-
-                // 2. Инициализируем карту
-                map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 5,
-                center: { lat: 51.1694, lng: 71.4491 },
-                mapTypeControl: false
-                });
-
-                // 3. Привязываем отрисовщик маршрута к карте
-                directionsRenderer.setMap(map);
-
-                // 4. Подключаем автозаполнение адресов
-                const originInput = document.getElementById("origin");
-                const destInput = document.getElementById("destination");
-
-                // 💡 ОПТИМИЗАЦИЯ 1: Явно указываем только нужные поля (fields).
-                // Это предотвращает списание денег за неиспользуемые Contact/Atmosphere данные.
-                const autocompleteOptions = {
-                fields: ["place_id", "geometry", "formatted_address"],
-                types: ["geocode"], // Ограничиваем поиск гео-точками и адресами (без заведений)
-                };
-
-                originAutocomplete = new google.maps.places.Autocomplete(originInput, autocompleteOptions);
-                destAutocomplete = new google.maps.places.Autocomplete(destInput, autocompleteOptions);
-            }
-
-            // Расчет расстояния по нажатию на кнопку
-            function calculateDistance() {
-                const originText = document.getElementById("origin").value.trim();
-                const destText = document.getElementById("destination").value.trim();
-                const resultBox = document.getElementById("result");
-
-                if (!originText || !destText) {
-                alert("Пожалуйста, заполните обе точки!");
-                return;
-                }
-
-                // 💡 ОПТИМИЗАЦИЯ 2: Передаем placeId вместо текста, если пользователь выбрал вариант из автокомплита.
-                // Это избавляет Directions Service от необходимости повторно геокодировать строку.
-                const originPlace = originAutocomplete.getPlace();
-                const destPlace = destAutocomplete.getPlace();
-
-                const originRequest = (originPlace && originPlace.place_id) 
-                    ? { placeId: originPlace.place_id } 
-                    : originText;
-
-                const destRequest = (destPlace && destPlace.place_id) 
-                    ? { placeId: destPlace.place_id } 
-                    : destText;
-
-                // Запрос к Directions Service
-                directionsService.route(
-                {
-                    origin: originRequest,
-                    destination: destRequest,
-                    travelMode: google.maps.TravelMode.DRIVING
-                },
-                (response, status) => {
-                    if (status === "OK") {
-                        directionsRenderer.setDirections(response);
-
-                        const route = response.routes[0].legs[0];
-
-                        // 1. Дистанция
-                        const distanceInMeters = route.distance.value;
-                        const distanceInKm = distanceInMeters / 1000;
-                        $('input[name="distance"]').val(distanceInKm);
-
-                        const value = $('input[name="distance"]').val();
-                        const isToNumValid = typeof toNumber === "function" ? toNumber(value) > 0 : true;
-                        const valid = value !== "" && isToNumValid;
-
-                        $(".calc-btn").toggleClass("disabled", !valid);
-
-                        const distanceInKmFormatted = Number(distanceInKm.toFixed(1));
-
-                        // 2. Время
-                        const durationInSeconds = route.duration.value;
-                        const durationInMinutes = Math.round(durationInSeconds / 60);
-
-                        console.log("Дистанция числом (км):", distanceInKmFormatted);
-
-                        // Вывод результата
-                        resultBox.style.display = "block";
-                        resultBox.innerHTML = `
-                            <div class="result-item">Дистанция: <b>${distanceInKmFormatted} км</b></div>
-                            <div class="result-item">Время в пути: <b>${durationInMinutes} мин.</b></div>
-                        `;
-                    } else {
-                        resultBox.style.display = "block";
-                        resultBox.innerHTML = `<span style="color: red;">Ошибка: ${status}</span>`;
-                    }
-                }
-                );
-            }
-            </script>
-        <script>
-          (() => {
-            const apiKey = "AIzaSyA1SeimW2b7yIhOIRPd_6xnHqFNQubaG6E"; // window.GOOGLE_MAPS_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
-            if (!apiKey) {
-              console.warn("Google Maps is disabled: set window.GOOGLE_MAPS_API_KEY in the deployment environment.");
-              return;
-            }
-
-            const mapsScript = document.createElement("script");
-            mapsScript.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(apiKey) + "&libraries=places&callback=initMap";
-            mapsScript.async = true;
-            mapsScript.defer = true;
-            document.head.appendChild(mapsScript);
-          })();
-        </script>
 
 
     </body>

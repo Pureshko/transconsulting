@@ -6,6 +6,9 @@
     coefficient: 0,
     coverVehicleAssessment: null,
   };
+  let yandexMap = null;
+  let yandexRoute = null;
+  let waypointSequence = 0;
 
   function setDisabled(selector, disabled) {
     $(selector).toggleClass("disabled", Boolean(disabled));
@@ -42,15 +45,15 @@
       $item.toggleClass("is-complete", itemStep < visibleStep);
     });
 
-    $("#mobileStepLabel").text(`Шаг ${visibleStep} из 5`);
-    $("#headerStepLabel").text(`Шаг ${visibleStep} из 5`);
+    $("#mobileStepLabel").text(`Шаг ${visibleStep} из 4`);
+    $("#headerStepLabel").text(`Шаг ${visibleStep} из 4`);
     $("#mobileProgressBar").css(
       "width",
-      `${(visibleStep / 5) * 100}%`,
+      `${(visibleStep / 4) * 100}%`,
     );
     $("#headerProgressFill").css(
       "width",
-      `${((visibleStep - 1) / 4) * 100}%`,
+      `${((visibleStep - 1) / 3) * 100}%`,
     );
     $("[data-progress-dot]").each(function updateProgressDot() {
       const $dot = $(this);
@@ -129,6 +132,35 @@
       .attr("alt", vehicle.label);
   }
 
+  const VEHICLE_GUIDES = Object.freeze({
+    [VEHICLE_TYPE.SINGLE]: "guidance/vehicle-drive-axle.webp",
+    [VEHICLE_TYPE.SEMI_TRAILER]: "guidance/vehicle-semitrailer.webp",
+    [VEHICLE_TYPE.TRAILER]: "guidance/vehicle-trailer.webp",
+    [VEHICLE_TYPE.LOW_LOADER]: "calc-atc-type/trall.webp",
+  });
+
+  function applyVehicleDefaults(type) {
+    const isSingle = type === VEHICLE_TYPE.SINGLE;
+
+    $("#atc_length").val(isSingle ? 12 : 18);
+    $("#atc_width").val(2.55);
+    $("#atc_height").val(4);
+  }
+
+  function updateVehicleGuides(type) {
+    const guide = VEHICLE_GUIDES[type] || VEHICLE_GUIDES[VEHICLE_TYPE.SEMI_TRAILER];
+    const label = vehiclePresentation(type).label;
+
+    $(".vehicle-context-guide, .weight-vehicle-guide")
+      .attr("src", guide)
+      .attr("alt", `Схема: ${label}`);
+
+    $(".dimension-guide-image").each(function updateDimensionGuide(index) {
+      const source = index === 1 ? "guidance/vehicle-width.webp" : guide;
+      $(this).attr("src", source).attr("alt", `Габариты: ${label}`);
+    });
+  }
+
   function openStep($step) {
     if (!$step.length) return;
 
@@ -186,7 +218,10 @@
       $(".fifth-os-group .os-container").hide();
     }
 
+    applyVehicleDefaults(type);
+    updateVehicleGuides(type);
     syncOptionalWeightFields();
+    validateParametersStep();
   }
 
   function syncOptionalWeightFields() {
@@ -271,7 +306,7 @@
     return valid;
   }
 
-  function validateWeightStep() {
+  function isWeightStepValid() {
     const type = checkedId("calc-atc-type");
     const required = ["#first-os-weight", "#second-os-weight"];
 
@@ -292,18 +327,35 @@
     );
     const dollyValid =
       type !== VEHICLE_TYPE.LOW_LOADER || isDollySelectionValid();
-    const valid = weightsValid && dollyValid;
-    setDisabled(".step-four-btn.next-btn", !valid);
+    return weightsValid && dollyValid;
+  }
 
+  function isDimensionsStepValid() {
+    return ["#atc_height", "#atc_width", "#atc_length"].every(
+      (selector) => numericValue(selector) > 0,
+    );
+  }
+
+  function validateParametersStep() {
+    const weightsValid = isWeightStepValid();
+    const dimensionsValid = isDimensionsStepValid();
+    const valid = weightsValid && dimensionsValid;
+
+    setDisabled(".step-four-btn.next-btn", !weightsValid);
+    setDisabled(".step-five-btn.next-btn", !dimensionsValid);
+    setDisabled(".combined-params-btn.next-btn", !valid);
     return valid;
   }
 
-  function validateDimensionsStep() {
-    const valid = ["#atc_height", "#atc_width", "#atc_length"].every(
-      (selector) => numericValue(selector) > 0,
-    );
+  function validateWeightStep() {
+    validateParametersStep();
+    return isWeightStepValid();
+  }
 
-    setDisabled(".step-five-btn.next-btn", !valid);
+  function validateDimensionsStep() {
+    validateParametersStep();
+    const valid = isDimensionsStepValid();
+
     return valid;
   }
 
@@ -360,6 +412,28 @@
     validateDollyStep();
   }
 
+  const COMPANY_WHATSAPP = "77778088823";
+
+  function openCompanyWhatsapp(message) {
+    const url =
+      `https://api.whatsapp.com/send?phone=${COMPANY_WHATSAPP}` +
+      `&text=${encodeURIComponent(message)}`;
+
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  function handleProjectConsultationClick() {
+    openCompanyWhatsapp(
+      "Здравствуйте! Интересует организация перевозки крупногабаритного груза. Хотел(а) бы получить консультацию",
+    );
+  }
+
+  function handleCalculationHelpClick() {
+    openCompanyWhatsapp(
+      "Здравствуйте! Я выполнил расчет сбора на вашем сайте и хотел бы получить консультацию по организации перевозки.",
+    );
+  }
+
   function handleWhatsappClick() {
     const phone = $("#whatsappNumber").val().replace(/\D/g, "");
 
@@ -382,6 +456,7 @@
       `Нагрузки по группам осей: ${weightSummary.label}`,
       `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
       `Габариты (Д × Ш × В): ${form.length} × ${form.width} × ${form.height} м`,
+      `Маршрут: ${form.routeLabel}`,
       `Расстояние: ${form.distance} км`,
       ...(appState.coverVehicleAssessment?.required
         ? [
@@ -755,13 +830,13 @@
     const vehicle = vehiclePresentation(form.atc_type);
     const weightSummary = buildWeightSummary(form);
     const amount = formatNumber(appState.total.toFixed(2));
-    let logoImage;
+    let templateImage;
     let vehicleImage;
 
     try {
-      [logoImage, vehicleImage] = await Promise.all([
-        loadReportImage("images/logo.png"),
-        loadReportImage(vehicle.image),
+      [templateImage, vehicleImage] = await Promise.all([
+        loadReportImage("report/template.png"),
+        loadReportImage(VEHICLE_GUIDES[form.atc_type] || vehicle.image),
       ]);
     } catch (error) {
       console.error("Не удалось подготовить изображения отчета", error);
@@ -771,94 +846,84 @@
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
 
-    canvas.width = 1400;
-    canvas.height = 1900;
+    canvas.width = templateImage.naturalWidth || 1055;
+    canvas.height = templateImage.naturalHeight || 1491;
+    context.drawImage(templateImage, 0, 0, canvas.width, canvas.height);
 
-    context.fillStyle = "#f4f5f7";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    context.fillStyle = "#c20d0e";
-    context.fillRect(0, 0, canvas.width, 250);
-    context.fillStyle = "#ffffff";
-    context.fillRect(62, 42, 166, 166);
-    drawContainedImage(context, logoImage, 70, 50, 150, 150);
-
-    context.fillStyle = "#ffffff";
-    context.font = "700 58px Arial, sans-serif";
-    context.fillText("TRANSPORT ENGINEERING SOLUTIONS", 270, 110);
-    context.font = "400 31px Arial, sans-serif";
-    context.fillText("Расчет суммы сбора за проезд по территории РК", 270, 166);
-    context.font = "400 22px Arial, sans-serif";
+    context.fillStyle = "#1d232d";
+    context.font = "700 35px Arial, sans-serif";
+    context.fillText("Расчет суммы сбора за проезд", 92, 168);
+    context.font = "400 18px Arial, sans-serif";
     context.fillText(
       `Дата расчета: ${new Date().toLocaleDateString("ru-RU")}`,
-      270,
-      207,
+      92,
+      202,
     );
 
-    context.fillStyle = "#ffffff";
-    context.fillRect(62, 300, 1276, 1500);
+    context.font = "700 26px Arial, sans-serif";
+    context.fillText(vehicle.label, 92, 250);
+    drawContainedImage(context, vehicleImage, 92, 270, 870, 250);
 
-    context.fillStyle = "#1d232d";
-    context.font = "700 38px Arial, sans-serif";
-    context.fillText(vehicle.label, 110, 375);
-    drawContainedImage(context, vehicleImage, 110, 410, 1180, 430);
-
-    context.strokeStyle = "#e1e3e7";
+    context.fillStyle = "rgba(255, 255, 255, 0.96)";
+    context.fillRect(82, 535, 890, 355);
+    context.strokeStyle = "#d9dde3";
     context.lineWidth = 2;
-    context.strokeRect(110, 875, 1180, 430);
+    context.strokeRect(82, 535, 890, 355);
     context.fillStyle = "#1d232d";
-    context.font = "700 28px Arial, sans-serif";
-    context.fillText("Параметры расчета", 150, 930);
-    context.font = "400 25px Arial, sans-serif";
+    context.font = "700 24px Arial, sans-serif";
+    context.fillText("Параметры расчета", 112, 580);
+    context.font = "400 18px Arial, sans-serif";
 
     const details = [
       `Нагрузки по группам осей: ${weightSummary.label}`,
       `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
       `Габариты (Д × Ш × В): ${form.length} × ${form.width} × ${form.height} м`,
+      `Маршрут: ${form.routeLabel}`,
       `Расстояние маршрута: ${form.distance} км`,
       `Весенние ограничения: ${form.restrictionSeason ? "учтены" : "не применяются"}`,
     ];
 
-    details.forEach((detail, index) => {
-      context.fillText(detail, 150, 995 + index * 58);
+    let detailY = 620;
+    details.forEach((detail) => {
+      detailY = drawWrappedText(context, detail, 112, detailY, 830, 28) + 9;
     });
 
     context.fillStyle = "#c20d0e";
-    context.fillRect(110, 1345, 1180, 175);
+    context.fillRect(82, 915, 890, 125);
     context.fillStyle = "#ffffff";
-    context.font = "600 29px Arial, sans-serif";
-    context.fillText("Сумма сбора за проезд", 155, 1405);
-    context.font = "800 54px Arial, sans-serif";
-    context.fillText(`${amount} тенге`, 155, 1480);
+    context.font = "600 21px Arial, sans-serif";
+    context.fillText("Сумма сбора за проезд", 112, 955);
+    context.font = "800 40px Arial, sans-serif";
+    context.fillText(`${amount} тенге`, 112, 1012);
 
     if (appState.coverVehicleAssessment?.required) {
       context.fillStyle = "#fff3f3";
-      context.fillRect(110, 1555, 1180, 170);
+      context.fillRect(82, 1065, 890, 165);
       context.fillStyle = "#a70711";
-      context.font = "700 27px Arial, sans-serif";
-      context.fillText("Необходим автомобиль прикрытия", 150, 1605);
+      context.font = "700 21px Arial, sans-serif";
+      context.fillText("Необходим автомобиль прикрытия", 112, 1105);
       context.fillStyle = "#363c45";
-      context.font = "400 21px Arial, sans-serif";
-      let reasonY = 1650;
+      context.font = "400 16px Arial, sans-serif";
+      let reasonY = 1140;
 
       appState.coverVehicleAssessment.reasons.forEach((reason) => {
         reasonY = drawWrappedText(
           context,
           `• ${reason}`,
-          150,
+          112,
           reasonY,
-          1090,
-          30,
+          820,
+          23,
         );
       });
     }
 
     context.fillStyle = "#666e78";
-    context.font = "400 20px Arial, sans-serif";
+    context.font = "400 15px Arial, sans-serif";
     context.fillText(
       "Предварительный расчет. Для оформления специального разрешения свяжитесь с TES.",
-      110,
-      1770,
+      82,
+      1285,
     );
 
     const pdf = new JsPdf({
@@ -935,31 +1000,133 @@
     });
   }
 
-  function enableInternationalAutocomplete() {
-    let attempts = 0;
-    const timer = window.setInterval(() => {
-      attempts += 1;
+  function routePointValues() {
+    return [
+      $("#origin").val(),
+      ...$(".intermediate-route-input")
+        .map((_, input) => $(input).val())
+        .get(),
+      $("#destination").val(),
+    ]
+      .map((point) => String(point ?? "").trim())
+      .filter(Boolean);
+  }
 
-      try {
-        if (
-          typeof originAutocomplete !== "undefined" &&
-          typeof destAutocomplete !== "undefined" &&
-          originAutocomplete &&
-          destAutocomplete
-        ) {
-          originAutocomplete.setComponentRestrictions({});
-          destAutocomplete.setComponentRestrictions({});
-          window.clearInterval(timer);
-          return;
-        }
-      } catch (error) {
-        console.warn("Не удалось снять ограничение стран в автопоиске", error);
-      }
+  function attachYandexSuggest(inputId) {
+    if (window.ymaps?.SuggestView) {
+      new window.ymaps.SuggestView(inputId);
+    }
+  }
 
-      if (attempts >= 40) {
-        window.clearInterval(timer);
-      }
-    }, 250);
+  function initializeYandexMap() {
+    if (!window.ymaps || !document.getElementById("map")) return;
+
+    window.ymaps.ready(() => {
+      yandexMap = new window.ymaps.Map("map", {
+        center: [48.0196, 66.9237],
+        zoom: 5,
+        controls: ["zoomControl", "fullscreenControl"],
+      });
+      attachYandexSuggest("origin");
+      attachYandexSuggest("destination");
+    });
+  }
+
+  function loadYandexMaps() {
+    if (window.ymaps) {
+      initializeYandexMap();
+      return;
+    }
+
+    const script = document.createElement("script");
+    const key = String(window.YANDEX_MAPS_API_KEY || "").trim();
+    const keyQuery = key ? `&apikey=${encodeURIComponent(key)}` : "";
+
+    script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU${keyQuery}`;
+    script.async = true;
+    script.onload = initializeYandexMap;
+    script.onerror = () => {
+      $("#result")
+        .show()
+        .text("Яндекс Карты временно недоступны. Расстояние можно ввести вручную.");
+    };
+    document.head.appendChild(script);
+  }
+
+  function addIntermediateRoute() {
+    waypointSequence += 1;
+    const inputId = `intermediateRoute${waypointSequence}`;
+    const $row = $(
+      `<div class="intermediate-route-row">
+        <label for="${inputId}">Промежуточная точка</label>
+        <div class="intermediate-route-control">
+          <input class="intermediate-route-input" type="text" id="${inputId}" placeholder="Введите город или адрес">
+          <button class="remove-intermediate-route" type="button" aria-label="Удалить промежуточную точку">×</button>
+        </div>
+      </div>`,
+    );
+
+    $("#intermediateRoutes").append($row);
+    attachYandexSuggest(inputId);
+    notifyParentHeight();
+  }
+
+  function removeIntermediateRoute(event) {
+    $(event.currentTarget).closest(".intermediate-route-row").remove();
+    notifyParentHeight();
+  }
+
+  function calculateYandexRoute() {
+    const points = routePointValues();
+    const $result = $("#result");
+
+    if (points.length < 2 || !$("#origin").val().trim() || !$("#destination").val().trim()) {
+      window.alert("Пожалуйста, заполните точки отправления и назначения.");
+      return;
+    }
+
+    if (!window.ymaps || !yandexMap) {
+      $result
+        .show()
+        .text("Яндекс Карты еще загружаются. Повторите попытку или введите расстояние вручную.");
+      return;
+    }
+
+    $result.show().text("Строим маршрут…");
+    window.ymaps.route(points, { mapStateAutoApply: true }).then(
+      (route) => {
+        if (yandexRoute) yandexMap.geoObjects.remove(yandexRoute);
+        yandexRoute = route;
+        yandexMap.geoObjects.add(route);
+
+        const distance = Number((route.getLength() / 1000).toFixed(1));
+        const durationMinutes = Math.max(1, Math.round(route.getTime() / 60));
+
+        $('input[name="distance"]')
+          .val(distance)
+          .trigger("input");
+        $result.empty().append(
+          $("<div>")
+            .addClass("result-item")
+            .append("Маршрут: ", $("<b>").text(points.join(" – "))),
+          $("<div>")
+            .addClass("result-item")
+            .append("Дистанция: ", $("<b>").text(`${distance} км`)),
+          $("<div>")
+            .addClass("result-item")
+            .append(
+              "Ориентировочное время: ",
+              $("<b>").text(`${durationMinutes} мин.`),
+            ),
+        );
+      },
+      (error) => {
+        console.error("Не удалось построить маршрут в Яндекс Картах", error);
+        $result
+          .show()
+          .text("Не удалось построить маршрут. Проверьте точки или введите расстояние вручную.");
+      },
+    );
   }
 
   function applyDimensionPlaceholders() {
@@ -1206,6 +1373,112 @@
           padding: 0 !important;
         }
 
+        .vehicle-context-guide,
+        .weight-vehicle-guide {
+          display: block;
+          width: 100%;
+          max-width: 760px;
+          height: 240px;
+          margin: 0 auto 22px;
+          object-fit: contain;
+          border: 1px solid var(--tes-line);
+          border-radius: 12px;
+          background: #fff;
+        }
+
+        .advanced-axle-options {
+          margin: 10px 0 16px;
+          border: 1px dashed #c6cbd2;
+          border-radius: 10px;
+          background: #fafbfc;
+        }
+
+        .advanced-axle-options summary {
+          padding: 12px 14px;
+          color: var(--tes-muted);
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .advanced-axle-options[open] {
+          padding: 0 12px 12px;
+        }
+
+        .advanced-axle-options[open] summary {
+          margin: 0 -12px 12px;
+          border-bottom: 1px solid var(--tes-line);
+        }
+
+        .fourth-os-group,
+        .fifth-os-group {
+          flex: 0 0 100% !important;
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        .fourth-os-group { order: 20; }
+        .fifth-os-group { order: 21; }
+
+        .combined-dimensions-section {
+          margin-top: 30px;
+          padding-top: 26px;
+          border-top: 1px solid var(--tes-line);
+        }
+
+        .combined-dimensions-section > .step-label {
+          margin-bottom: 18px;
+          font-size: 22px;
+        }
+
+        .combined-dimensions-section .form-container,
+        .combined-dimensions-section .form-group {
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+
+        .intermediate-route-row {
+          margin-bottom: 14px;
+        }
+
+        .intermediate-route-control {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) 44px;
+          gap: 8px;
+        }
+
+        .remove-intermediate-route,
+        .route-secondary-button {
+          border: 1px solid #ccd1d8 !important;
+          color: #444b55 !important;
+          background: #fff !important;
+        }
+
+        .remove-intermediate-route {
+          width: 44px !important;
+          padding: 0 !important;
+          font-size: 24px !important;
+        }
+
+        .route-secondary-button {
+          margin-bottom: 10px;
+        }
+
+        .project-consultation-btn,
+        .calculation-help-btn {
+          width: 100%;
+          margin-top: 14px;
+          border: 0;
+          border-radius: 8px;
+          color: #fff;
+          background: var(--tes-red) !important;
+        }
+
+        .project-consultation-btn:hover,
+        .calculation-help-btn:hover {
+          background: var(--tes-red-dark) !important;
+        }
+
         @media (max-width: 899.98px) {
           .header-actions {
             gap: 7px;
@@ -1236,7 +1509,56 @@
     const $trailerGroupTitle = $(
       ".third-os-group > .os-container > .step-label",
     ).first();
-    $trailerGroupTitle.text("Группа осей на прицепе (трале)");
+    $trailerGroupTitle.text("Группы осей на прицепе (трале)");
+
+    const wrapAdvancedOptions = ($container, $options) => {
+      if (!$container.length || !$options.length) return;
+
+      const $details = $(
+        '<details class="advanced-axle-options"><summary>Сложная конструкция</summary></details>',
+      );
+      $details.append($options);
+      $container.append($details);
+    };
+
+    wrapAdvancedOptions(
+      $(".first-os-group .os-container").first(),
+      $(".first-2os-group, #first-2skat").map(function advancedSteering() {
+        return $(this).closest(".col-btn").get(0);
+      }),
+    );
+    wrapAdvancedOptions(
+      $(".second-os-group .os-container").first(),
+      $(".second-21os-group, .second-3os-group, .second-4os-group, #second-1skat")
+        .map(function advancedDrive() {
+          return $(this).closest(".col-btn").get(0);
+        }),
+    );
+
+    $(".step-content.three > .form-container").first().prepend(
+      '<img class="vehicle-context-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема выбранного транспортного средства">',
+    );
+    $('.step[data-spa-step="3"] .step-content.four > .form-container')
+      .first()
+      .prepend(
+        '<img class="weight-vehicle-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема распределения нагрузки выбранного транспортного средства">',
+      );
+
+    $(".step.step-tesha .step-header").text(
+      "Передняя распределительная тележка (Jeep Dolly)",
+    );
+    $(".step.step-tesha .step-label").first().text(
+      "Добавить переднюю распределительную тележку (Jeep Dolly)?",
+    );
+    $(".tesha-row-container > .step-label").first().text(
+      "Ряды передней распределительной тележки",
+    );
+    $(".tesha-weight-container .step-label").first().text(
+      "Суммарная нагрузка на переднюю распределительную тележку",
+    );
+    $("#teshaWeight").siblings("label").text(
+      "Суммарная нагрузка на тележку, т",
+    );
 
     const $homeLink = $(".home-link").first();
     const $contactLink = $(".contact-permit-btn").first();
@@ -1273,7 +1595,7 @@
       );
 
       $embeddedDolly.append(
-        '<div class="embedded-dolly-section__heading"><div class="step-label">Долли (тёща)</div><p>Укажите наличие и параметры долли для выбранного транспортного средства.</p></div>',
+        '<div class="embedded-dolly-section__heading"><div class="step-label">Передняя распределительная тележка (Jeep Dolly)</div><p>Укажите наличие и параметры тележки для выбранного транспортного средства.</p></div>',
         $dollyForm,
       );
       $embeddedDolly.insertBefore($weightNavigation);
@@ -1282,8 +1604,55 @@
         .find(".text-secondary")
         .last()
         .text(
-          "Введите суммарную фактическую нагрузку на каждую группу. При наличии долли укажите её параметры ниже.",
+          "Введите суммарную фактическую нагрузку на каждую группу. При наличии передней распределительной тележки укажите её параметры ниже.",
         );
+    }
+
+    const $noDolly = $("#est-tesha-0");
+    $noDolly.prop("checked", true);
+    $noDolly.closest(".col-btn").find("svg").removeAttr("hidden");
+    $("#est-tesha-1").siblings("img").after(
+      '<span class="col-label text-uppercase">Да</span>',
+    );
+    $noDolly.siblings("img").after(
+      '<span class="col-label text-uppercase">Нет</span>',
+    );
+
+    const $dimensionStep = $('.step[data-spa-step="4"]').first();
+    const $weightContent = $('.step[data-spa-step="3"]')
+      .not(".step-tesha")
+      .find(".step-content.four")
+      .first();
+
+    if ($dimensionStep.length && $weightContent.length) {
+      const $dimensionForm = $dimensionStep
+        .find(".step-content.five > .form-container")
+        .first()
+        .detach();
+      const $dimensionNavigation = $dimensionStep
+        .find(".navigation-container")
+        .first()
+        .detach();
+      const $weightNavigation = $weightContent
+        .children(".navigation-container")
+        .last();
+      const $dimensionSection = $(
+        '<section class="combined-dimensions-section"><div class="step-label">Габаритные параметры</div></section>',
+      );
+
+      $dimensionSection.append($dimensionForm);
+      $dimensionSection.insertBefore($weightNavigation);
+      $dimensionNavigation
+        .find(".next-btn")
+        .removeClass("step-five-btn")
+        .addClass("combined-params-btn");
+      $weightNavigation.replaceWith($dimensionNavigation);
+      $dimensionStep.remove();
+
+      $('.step[data-spa-step="3"] .step-header .header')
+        .first()
+        .text("Весовые и габаритные параметры");
+      $('.step[data-spa-step="5"]').attr("data-progress-step", "3");
     }
   }
 
@@ -1303,6 +1672,15 @@
     $("#axleResetButton").on("click", handleAxleResetClick);
     $(".download-report-btn").on("click", handleDownloadReport);
     $(".send-otchet-to-whatsapp-btn").on("click", handleWhatsappClick);
+    $(".project-consultation-btn").on("click", handleProjectConsultationClick);
+    $(".calculation-help-btn").on("click", handleCalculationHelpClick);
+    $("#addIntermediateRoute").on("click", addIntermediateRoute);
+    $("#calculateRoute").on("click", calculateYandexRoute);
+    $("#intermediateRoutes").on(
+      "click",
+      ".remove-intermediate-route",
+      removeIntermediateRoute,
+    );
   }
 
   function initialize() {
@@ -1320,7 +1698,7 @@
     loadJsPdf().catch((error) => {
       console.warn("Предварительная загрузка jsPDF не удалась", error);
     });
-    enableInternationalAutocomplete();
+    loadYandexMaps();
     applyDimensionPlaceholders();
     validateAll();
     updateSchemePreview();
