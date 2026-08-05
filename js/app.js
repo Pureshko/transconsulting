@@ -1745,7 +1745,7 @@
     };
 
     wrapAdvancedOptions(
-      $(".first-os-group .os-container").first(),
+      $(".first-os-group .os-container > .wrap-advanced-axles").first(),
       $(".first-2os-group").map(function advancedSteeringAxles() {
         return $(this).closest(".col-btn").get(0);
       }),
@@ -1753,7 +1753,7 @@
       "Сложная конструкция — группы осей",
     );
     wrapAdvancedOptions(
-      $(".first-os-group .os-container").first(),
+      $(".first-os-group .os-container > .wrap-advanced-tyres").first(),
       $("#first-2skat").map(function advancedSteeringTires() {
         return $(this).closest(".col-btn").get(0);
       }),
@@ -1761,7 +1761,7 @@
       "Сложная конструкция — ошиновка",
     );
     wrapAdvancedOptions(
-      $(".second-os-group .os-container").first(),
+      $(".second-os-group .os-container > .wrap-advanced-axles").first(),
       $(".second-21os-group, .second-3os-group, .second-4os-group")
         .map(function advancedDriveAxles() {
           return $(this).closest(".col-btn").get(0);
@@ -1770,7 +1770,7 @@
       "Сложная конструкция — группы осей",
     );
     wrapAdvancedOptions(
-      $(".second-os-group .os-container").first(),
+      $(".second-os-group .os-container > .wrap-advanced-tyres").first(),
       $("#second-1skat").map(function advancedDriveTires() {
         return $(this).closest(".col-btn").get(0);
       }),
