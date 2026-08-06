@@ -217,6 +217,10 @@
     updateSpaProgress($step);
     notifyParentHeight();
 
+    if ($step.find("#map").length) {
+      window.requestAnimationFrame(refreshYandexMapSize);
+    }
+
     if (options.scrollToTop !== false) {
       scrollPageToTop();
     }
@@ -1466,7 +1470,22 @@
         zoom: 5,
         controls: ["zoomControl", "fullscreenControl"],
       });
+      refreshYandexMapSize();
     });
+  }
+
+  function refreshYandexMapSize() {
+    if (!window.ymaps || !yandexMap) return;
+
+    try {
+      const result = yandexMap.container.fitToViewport();
+
+      if (result && typeof result.then === "function") {
+        result.catch(() => {});
+      }
+    } catch (error) {
+      // Игнорируем ошибки изменения размеров карты.
+    }
   }
 
   function loadYandexMaps() {
@@ -2107,9 +2126,24 @@
           gap: 16px;
         }
 
+        @media (max-width: 1279.98px) {
+          .combined-dimensions-section .form-container {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
         .combined-dimensions-section .form-group {
           width: auto;
           min-width: 0;
+        }
+
+        .combined-dimensions-section .form-floating > label,
+        .step-content.four .form-floating > label,
+        .step-content.one .form-floating > label,
+        .embedded-dolly-section .form-floating > label {
+          max-width: calc(100% - 1.5rem);
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .intermediate-route-row {
@@ -2162,6 +2196,10 @@
             padding: 0 12px !important;
             font-size: 12px !important;
           }
+
+          .combined-dimensions-section .form-container {
+            grid-template-columns: 1fr;
+          }
         }
 
         @media (max-width: 559.98px) {
@@ -2171,8 +2209,60 @@
             white-space: normal;
           }
 
+          .brand {
+            gap: 7px;
+          }
+
+          .brand img {
+            width: 46px !important;
+            height: 46px !important;
+          }
+
+          .brand__wordmark strong {
+            font-size: 23px;
+          }
+
+          .header-actions {
+            gap: 6px;
+          }
+
+          .header-contact-link {
+            max-width: 96px !important;
+            padding: 0 10px !important;
+            font-size: 11px !important;
+          }
+
+          .home-link {
+            padding: 0 10px !important;
+          }
+
           .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
             min-height: 280px !important;
+          }
+        }
+
+        @media (max-width: 379.98px) {
+          .brand img {
+            width: 42px !important;
+            height: 42px !important;
+          }
+
+          .brand__wordmark strong {
+            font-size: 20px;
+          }
+
+          .header-actions {
+            gap: 5px;
+          }
+
+          .header-contact-link {
+            max-width: 90px !important;
+            padding: 0 8px !important;
+            font-size: 10.5px !important;
+          }
+
+          .home-link {
+            padding: 0 8px !important;
           }
         }
       `;
@@ -2454,6 +2544,10 @@
     }
 
     window.addEventListener("load", notifyParentHeight);
+
+    window.addEventListener("resize", () => {
+      window.requestAnimationFrame(refreshYandexMapSize);
+    });
   }
   
   $(initialize);
