@@ -163,11 +163,19 @@
     $(".vehicle-context-guide, .weight-vehicle-guide")
       .attr("src", guide)
       .attr("alt", `Схема: ${label}`);
+    const steeringGuide = type === VEHICLE_TYPE.LOW_LOADER ? "guidance/axle-front.webp" : "guidance/vehicle-steering-axle.webp";
+    const driveGuide = type === VEHICLE_TYPE.LOW_LOADER ? "guidance/axle-rear.webp" : "guidance/vehicle-drive-axle.webp";
+    $(".steering-context-guide").each(function updateSteeringGuide() {
+      $(this)
+        .attr("src", steeringGuide)
+        .attr("alt", `Схема: ${label}`);
+    });
 
-    // $(".dimension-guide-image").each(function updateDimensionGuide(index) {
-    //   const source = index === 1 ? "guidance/vehicle-width.webp" : guide;
-    //   $(this).attr("src", source).attr("alt", `Габариты: ${label}`);
-    // });
+    $(".drive-context-guide").each(function updateDriveGuide() {
+      $(this)
+        .attr("src", driveGuide)
+        .attr("alt", `Схема: ${label}`);
+    });
   }
 
   function openStep($step) {
@@ -1739,6 +1747,30 @@
     };
 
     wrapAdvancedOptions(
+      $(".third-os-tral-container > .container > .wrap-advanced-tral").first(),
+      $(".third-tral-module").map(function advancedTrailerAxles() {
+        return $(this).closest(".col-btn").get(0);
+      }),
+      "axles",
+      "Сложная конструкция — группы осей на прицепе (трале)",
+    );
+    wrapAdvancedOptions(
+      $(".fourth-os-tral-container > .container > .wrap-advanced-tral").first(),
+      $(".fourth-tral-module").map(function advancedTrailerAxles() {
+        return $(this).closest(".col-btn").get(0);
+      }),
+      "axles",
+      "Сложная конструкция — группы осей на прицепе (трале)",
+    );
+    wrapAdvancedOptions(
+      $(".fifth-os-tral-container > .container > .wrap-advanced-tral").first(),
+      $(".fifth-tral-module").map(function advancedTrailerAxles() {
+        return $(this).closest(".col-btn").get(0);
+      }),
+      "axles",
+      "Сложная конструкция — группы осей на прицепе (трале)",
+    );
+    wrapAdvancedOptions(
       $(".first-os-group .os-container > .wrap-advanced-axles").first(),
       $(".first-2os-group").map(function advancedSteeringAxles() {
         return $(this).closest(".col-btn").get(0);
@@ -1771,6 +1803,17 @@
       "tires",
       "Сложная конструкция — ошиновка",
     );
+    $(".steering-image-container").each(function addSteeringGuide() {
+      $(this).prepend(
+        '<img class="steering-context-guide weight-image-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема выбранного транспортного средства">',
+      );
+    });
+
+    $(".drive-image-container").each(function addDriveGuide() {
+      $(this).prepend(
+        '<img class="drive-context-guide weight-image-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема выбранного транспортного средства">',
+      );
+    });
 
     $(".third-os-group > .os-container > .image-container").first().prepend(
       '<img class="vehicle-context-guide" src="guidance/vehicle-semitrailer.webp" alt="Схема выбранного транспортного средства">',

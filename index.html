@@ -235,7 +235,8 @@
                         <div class="col mb-2 first-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Рулевая группа осей</div>
-                                <img class="axle-focus-image" src="guidance/vehicle-steering-axle.webp" alt="Подсветка рулевой группы осей">
+                                <div class="steering-image-container"></div>
+                                <!-- <img class="axle-focus-image" src="guidance/vehicle-steering-axle.webp" alt="Подсветка рулевой группы осей"> -->
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-1os" data-kol-os="1" hidden>
                                     <img src="os/1os.webp" alt="">
@@ -278,7 +279,8 @@
                         <div class="col mb-2 second-os-group">
                             <div class="os-container">
                                 <div class="step-label mb-2">Ведущая группа осей</div>
-                                <img class="axle-focus-image" src="guidance/vehicle-drive-axle.webp" alt="Подсветка ведущей группы осей">
+                                <div class="drive-image-container"></div>
+                                <!-- <img class="axle-focus-image" src="guidance/vehicle-drive-axle.webp" alt="Подсветка ведущей группы осей"> -->
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-1os"  data-kol-os="1"hidden>
                                     <img src="os/1os.webp" alt="">
@@ -350,13 +352,15 @@
                                             <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                             <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                         </div>
+                                        <div class="btn col col-btn d-flex flex-row justify-content-center third-tral-type third-tral-module" data-tral-type="2" data-step="3" aria-hidden="true">
+                                            <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeModule" data-tral-type="2" hidden>
+                                            <img src="tral-type/module.webp" style="width: 100%; height:35%;" alt="">
+                                            <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
+                                            <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                        </div>
+                                        <div class="wrap-advanced-tral"></div>
                                         <!-- <div class="row">
-                                            <div class="btn col col-btn third-tral-type ml-2 d-none" data-tral-type="2" data-step="3" style="width:80px;height:100px;margin-left:10px" aria-hidden="true">
-                                                <input class="form-check third-tral-type" type="radio" name="third-tral-type" id="thirdTralTypeModule" data-tral-type="2" hidden>
-                                                <img src="tral-type/module.webp" style="width: 100%; height:35%;" alt="">
-                                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
-                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
-                                            </div>
+                                            
                                         </div> -->
                                     </div>
                                     <div class="form-floating os-tral mb-2 d-none">
@@ -387,6 +391,7 @@
                                             <option value="7">7</option>
                                             <option value="8">8</option>
                                             <option value="9">9</option>
+                                            <option value="10">10</option>
                                             <option value="11">11</option>
                                             <option value="12">12</option>
                                             <option value="13">13</option>
@@ -476,15 +481,13 @@
                                             <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                             <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                         </div>
-                                        <!-- <div class="row">
-                                            
-                                            <div class="btn col col-btn fourth-tral-type ml-2 d-none" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2" aria-hidden="true">
-                                                <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeModule" data-tral-type="2" hidden>
-                                                <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
-                                                <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
-                                                <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
-                                            </div>
-                                        </div> -->
+                                        <div class="btn col col-btn d-flex flex-row justify-content-center fourth-tral-type fourth-tral-module" data-step="3" data-tral-type="2" aria-hidden="true">
+                                            <input class="form-check fourth-tral-type" type="radio" name="fourth-tral-type" id="fourthTralTypeModule" data-tral-type="2" hidden>
+                                            <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
+                                            <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
+                                            <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                        </div>
+                                        <div class="wrap-advanced-tral"></div>
 
                                     </div>
                                     <div class="form-floating os-tral mb-2 d-none">
@@ -513,6 +516,7 @@
                                             <option value="7">7</option>
                                             <option value="8">8</option>
                                             <option value="9">9</option>
+                                            <option value="10">10</option>
                                             <option value="11">11</option>
                                             <option value="12">12</option>
                                             <option value="13">13</option>
@@ -593,6 +597,13 @@
                                             <span for="flexRadioDefault1" class="col-label text-uppercase">Обычный</span>
                                             <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                         </div>
+                                        <div class="btn col col-btn d-flex flex-row justify-content-center fifth-tral-type fifth-tral-module" data-step="3" data-tral-type="2" aria-hidden="true">
+                                            <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeModule" data-tral-type="2" hidden>
+                                            <img src="tral-type/module.webp" style="width: 100%; height:30%;" alt="">
+                                            <span for="flexRadioDefault1" class="col-label  text-uppercase">Модульный</span>
+                                            <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
+                                        </div>
+                                        <div class="wrap-advanced-tral"></div>
                                         <!-- <div class="row">
                                             <div class="btn col col-btn fifth-tral-type ml-2 d-none" data-step="3" style="width:80px;height:100px;margin-left:10px" data-tral-type="2" aria-hidden="true">
                                                 <input class="form-check fifth-tral-type" type="radio" name="fifth-tral-type" id="fifthTralTypeModule" data-tral-type="2" hidden>
@@ -628,6 +639,7 @@
                                             <option value="7">7</option>
                                             <option value="8">8</option>
                                             <option value="9">9</option>
+                                            <option value="10">10</option>
                                             <option value="11">11</option>
                                             <option value="12">12</option>
                                             <option value="13">13</option>
@@ -689,7 +701,8 @@
                         <div class="row my-2">
                             <div class="col">
                                 <label>Суммарная нагрузка на рулевую группу осей</label>
-                                <img class="weight-guide-image" src="guidance/vehicle-steering-axle.webp" alt="Рулевая группа осей выделена красным">
+                                <!-- <img class="weight-guide-image" src="guidance/vehicle-steering-axle.webp" alt="Рулевая группа осей выделена красным"> -->
+                                <div class="steering-image-container"></div>
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control os-weight" id="first-os-weight" placeholder="0" min="0" step="0.01" inputmode="decimal">
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
@@ -697,7 +710,8 @@
                             </div>
                             <div class="col">
                                 <label>Суммарная нагрузка на ведущую группу осей</label>
-                                <img class="weight-guide-image" src="guidance/vehicle-drive-axle.webp" alt="Ведущая группа осей выделена красным">
+                                <div class="drive-image-container"></div>
+                                <!-- <img class="weight-guide-image" src="guidance/vehicle-drive-axle.webp" alt="Ведущая группа осей выделена красным"> -->
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control os-weight" id="second-os-weight" placeholder="0" min="0" step="0.01" inputmode="decimal">
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
@@ -2835,6 +2849,8 @@
 
             .axle-focus-image,
             .vehicle-context-guide,
+            .drive-context-guide,
+            .steering-context-guide,
             .weight-vehicle-guide,
             .weight-guide-image,
             .dimension-guide-image {
@@ -2846,7 +2862,10 @@
             }
 
             .step[data-spa-step="1"] .step-content.three .axle-focus-image,
-            .step[data-spa-step="1"] .step-content.three .vehicle-context-guide {
+            .step[data-spa-step="1"] .step-content.three .vehicle-context-guide,
+            .step[data-spa-step="1"] .step-content.three .drive-context-guide,
+            .step[data-spa-step="1"] .step-content.three .steering-context-guide
+            {
                 width: 100%;
                 max-width: none;
                 height: 118px;
@@ -2855,7 +2874,8 @@
             }
 
             .weight-guide-image,
-            .weight-vehicle-guide {
+            .weight-vehicle-guide,
+            .weight-image-guide {
                 height: 150px;
                 margin: 10px 0 14px;
             }
