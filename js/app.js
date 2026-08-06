@@ -11,11 +11,22 @@
   let routeRequestController = null;
   let waypointSequence = 0;
   const PUBLIC_OSRM_URL = "https://router.project-osrm.org";
+  const PUBLIC_PHOTON_URL = String(
+    window.PHOTON_URL || "https://photon.komoot.io",
+  ).replace(/\/$/, "");
   const PUBLIC_NOMINATIM_URL = String(
     window.NOMINATIM_URL || "https://nominatim.openstreetmap.org",
   ).replace(/\/$/, "");
   const ROUTE_REQUEST_TIMEOUT_MS = 30000;
+  const PHOTON_REQUEST_TIMEOUT_MS = 10000;
+  const PHOTON_DEBOUNCE_MS = 400;
+  const PHOTON_MIN_QUERY_LENGTH = 3;
+  const PHOTON_MAX_RESULTS = 5;
   const NOMINATIM_MIN_INTERVAL_MS = 1100;
+  const photonSuggestionCache = new Map();
+  const photonSuggestionStates = new WeakMap();
+  const photonSelectedPoints = new WeakMap();
+  const photonSuggestInputs = new Set();
   const nominatimCache = new Map();
   let lastNominatimRequestAt = 0;
 
@@ -1018,21 +1029,409 @@
   }
 
   function routePointValues() {
-    return [
-      $("#origin").val(),
-      ...$(".intermediate-route-input")
-        .map((_, input) => $(input).val())
-        .get(),
-      $("#destination").val(),
-    ]
-      .map((point) => String(point ?? "").trim())
-      .filter(Boolean);
+    const inputs = [
+      document.getElementById("origin"),
+      ...document.querySelectorAll(".intermediate-route-input"),
+      document.getElementById("destination"),
+    ];
+
+    return inputs
+      .filter(Boolean)
+      .map((input) => {
+        const label = String(input.value ?? "").trim();
+        const selectedPoint = photonSelectedPoints.get(input);
+        const hasSelectedCoordinates =
+          selectedPoint && selectedPoint.value === label;
+
+        return {
+          label,
+          coordinates: hasSelectedCoordinates
+            ? [...selectedPoint.coordinates]
+            : null,
+        };
+      })
+      .filter(({ label }) => Boolean(label));
   }
 
-  function attachYandexSuggest(inputId) {
-    if (window.ymaps?.SuggestView) {
-      new window.ymaps.SuggestView(inputId);
+  function uniqueAddressParts(parts) {
+    const seen = new Set();
+
+    return parts.reduce((result, part) => {
+      const value = String(part ?? "").trim();
+      const key = value.toLocaleLowerCase("ru-RU");
+
+      if (value && !seen.has(key)) {
+        seen.add(key);
+        result.push(value);
+      }
+
+      return result;
+    }, []);
+  }
+
+  function normalizePhotonFeature(feature) {
+    const properties = feature?.properties || {};
+    const rawCoordinates = feature?.geometry?.coordinates;
+    const longitude = Number(rawCoordinates?.[0]);
+    const latitude = Number(rawCoordinates?.[1]);
+
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+      return null;
     }
+
+    const streetLine = [properties.street, properties.housenumber]
+      .filter(Boolean)
+      .join(" ")
+      .trim();
+    const primary = String(
+      properties.name ||
+      streetLine ||
+      properties.city ||
+      properties.town ||
+      properties.village ||
+      properties.state ||
+      properties.country ||
+      "Адрес",
+    ).trim();
+    const detailParts = uniqueAddressParts([
+      streetLine,
+      properties.district,
+      properties.locality,
+      properties.city,
+      properties.town,
+      properties.village,
+      properties.county,
+      properties.state,
+      properties.postcode,
+      properties.country,
+    ]).filter(
+      (part) =>
+        part.toLocaleLowerCase("ru-RU") !==
+        primary.toLocaleLowerCase("ru-RU"),
+    );
+    const value = uniqueAddressParts([primary, ...detailParts]).join(", ");
+
+    return {
+      primary,
+      detail: detailParts.join(", "),
+      value,
+      coordinates: [latitude, longitude],
+    };
+  }
+
+  function setPhotonExpanded(state, expanded) {
+    state.input.setAttribute("aria-expanded", String(expanded));
+    state.panel.hidden = !expanded;
+  }
+
+  function closePhotonSuggestions(state) {
+    state.activeIndex = -1;
+    state.input.removeAttribute("aria-activedescendant");
+    setPhotonExpanded(state, false);
+  }
+
+  function updatePhotonActiveOption(state, nextIndex) {
+    const buttons = [...state.panel.querySelectorAll(".photon-suggestion")];
+
+    if (!buttons.length) return;
+
+    const normalizedIndex = (nextIndex + buttons.length) % buttons.length;
+    state.activeIndex = normalizedIndex;
+    state.input.setAttribute(
+      "aria-activedescendant",
+      buttons[normalizedIndex].id,
+    );
+    buttons.forEach((button, index) => {
+      const active = index === normalizedIndex;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+    buttons[normalizedIndex].scrollIntoView({ block: "nearest" });
+  }
+
+  function selectPhotonSuggestion(state, index) {
+    const suggestion = state.items[index];
+
+    if (!suggestion) return;
+
+    state.input.value = suggestion.value;
+    photonSelectedPoints.set(state.input, {
+      value: suggestion.value,
+      coordinates: [...suggestion.coordinates],
+    });
+    closePhotonSuggestions(state);
+    state.input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  function renderPhotonMessage(state, message) {
+    state.items = [];
+    state.activeIndex = -1;
+    state.input.removeAttribute("aria-activedescendant");
+    state.panel.replaceChildren();
+
+    const messageElement = document.createElement("div");
+    messageElement.className = "photon-suggestion-message";
+    messageElement.setAttribute("role", "status");
+    messageElement.textContent = message;
+    state.panel.appendChild(messageElement);
+    setPhotonExpanded(state, true);
+  }
+
+  function renderPhotonSuggestions(state, suggestions) {
+    state.items = suggestions;
+    state.activeIndex = -1;
+    state.input.removeAttribute("aria-activedescendant");
+    state.panel.replaceChildren();
+
+    if (!suggestions.length) {
+      renderPhotonMessage(state, "Подходящие адреса не найдены");
+      return;
+    }
+
+    suggestions.forEach((suggestion, index) => {
+      const button = document.createElement("button");
+      const primary = document.createElement("span");
+
+      button.type = "button";
+      button.className = "photon-suggestion";
+      button.id = `${state.panel.id}-option-${index}`;
+      button.setAttribute("role", "option");
+      button.setAttribute("aria-selected", "false");
+      button.dataset.suggestionIndex = String(index);
+
+      primary.className = "photon-suggestion__primary";
+      primary.textContent = suggestion.primary;
+      button.appendChild(primary);
+
+      if (suggestion.detail) {
+        const detail = document.createElement("span");
+        detail.className = "photon-suggestion__detail";
+        detail.textContent = suggestion.detail;
+        button.appendChild(detail);
+      }
+
+      state.panel.appendChild(button);
+    });
+
+    setPhotonExpanded(state, true);
+  }
+
+  async function fetchPhotonSuggestions(query, signal) {
+    const cacheKey = query.toLocaleLowerCase("ru-RU");
+    const cachedSuggestions = photonSuggestionCache.get(cacheKey);
+
+    if (cachedSuggestions) return cachedSuggestions;
+
+    const url = new URL(`${PUBLIC_PHOTON_URL}/api/`);
+    url.searchParams.set("q", query);
+    url.searchParams.set("limit", String(PHOTON_MAX_RESULTS));
+    url.searchParams.set("lat", "48.0196");
+    url.searchParams.set("lon", "66.9237");
+
+    const response = await window.fetch(url.toString(), {
+      method: "GET",
+      headers: { Accept: "application/geo+json, application/json" },
+      referrerPolicy: "strict-origin-when-cross-origin",
+      signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Photon вернул HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const suggestions = (Array.isArray(data?.features) ? data.features : [])
+      .map(normalizePhotonFeature)
+      .filter(Boolean)
+      .filter((suggestion, index, items) =>
+        items.findIndex((item) => item.value === suggestion.value) === index,
+      )
+      .slice(0, PHOTON_MAX_RESULTS);
+
+    if (photonSuggestionCache.size >= 100) {
+      photonSuggestionCache.delete(photonSuggestionCache.keys().next().value);
+    }
+    photonSuggestionCache.set(cacheKey, suggestions);
+
+    return suggestions;
+  }
+
+  function requestPhotonSuggestions(state, query) {
+    if (state.controller) state.controller.abort();
+
+    const controller = new AbortController();
+    const requestNumber = state.requestNumber + 1;
+    let requestTimedOut = false;
+    state.controller = controller;
+    state.requestNumber = requestNumber;
+
+    const timeoutId = window.setTimeout(
+      () => {
+        requestTimedOut = true;
+        controller.abort();
+      },
+      PHOTON_REQUEST_TIMEOUT_MS,
+    );
+
+    renderPhotonMessage(state, "Ищем адрес…");
+
+    fetchPhotonSuggestions(query, controller.signal)
+      .then((suggestions) => {
+        if (
+          controller.signal.aborted ||
+          state.requestNumber !== requestNumber ||
+          state.input.value.trim() !== query
+        ) {
+          return;
+        }
+
+        renderPhotonSuggestions(state, suggestions);
+      })
+      .catch((error) => {
+        const isCurrentRequest =
+          state.requestNumber === requestNumber &&
+          state.input.value.trim() === query;
+
+        if (!isCurrentRequest) return;
+
+        if (error?.name === "AbortError" && !requestTimedOut) return;
+
+        if (error?.name !== "AbortError") {
+          console.warn("Подсказки Photon временно недоступны", error);
+        }
+        renderPhotonMessage(
+          state,
+          "Подсказки временно недоступны — введите адрес вручную",
+        );
+      })
+      .finally(() => {
+        window.clearTimeout(timeoutId);
+        if (state.controller === controller) state.controller = null;
+      });
+  }
+
+  function schedulePhotonSuggestions(state) {
+    const query = state.input.value.trim();
+    const selectedPoint = photonSelectedPoints.get(state.input);
+
+    if (selectedPoint && selectedPoint.value !== query) {
+      photonSelectedPoints.delete(state.input);
+    }
+
+    window.clearTimeout(state.debounceTimer);
+    if (state.controller) state.controller.abort();
+
+    if (query.length < PHOTON_MIN_QUERY_LENGTH) {
+      closePhotonSuggestions(state);
+      return;
+    }
+
+    state.debounceTimer = window.setTimeout(
+      () => requestPhotonSuggestions(state, query),
+      PHOTON_DEBOUNCE_MS,
+    );
+  }
+
+  function attachPhotonSuggest(inputOrId) {
+    const input = typeof inputOrId === "string"
+      ? document.getElementById(inputOrId)
+      : inputOrId;
+
+    if (!input || photonSuggestionStates.has(input)) return;
+
+    if (!input.id) {
+      input.id = `routePoint${Date.now()}${photonSuggestInputs.size}`;
+    }
+
+    const wrapper = document.createElement("div");
+    const panel = document.createElement("div");
+    const parent = input.parentNode;
+
+    wrapper.className = "address-suggest-field";
+    parent.insertBefore(wrapper, input);
+    wrapper.appendChild(input);
+
+    panel.className = "photon-suggestions";
+    panel.id = `${input.id}-photon-suggestions`;
+    panel.setAttribute("role", "listbox");
+    panel.hidden = true;
+    wrapper.appendChild(panel);
+
+    input.setAttribute("autocomplete", "off");
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-controls", panel.id);
+    input.setAttribute("aria-expanded", "false");
+
+    const state = {
+      input,
+      panel,
+      wrapper,
+      items: [],
+      activeIndex: -1,
+      controller: null,
+      debounceTimer: null,
+      requestNumber: 0,
+    };
+
+    photonSuggestionStates.set(input, state);
+    photonSuggestInputs.add(input);
+
+    input.addEventListener("input", () => schedulePhotonSuggestions(state));
+    input.addEventListener("focus", () => {
+      const query = input.value.trim();
+      const cachedSuggestions = photonSuggestionCache.get(
+        query.toLocaleLowerCase("ru-RU"),
+      );
+
+      if (query.length >= PHOTON_MIN_QUERY_LENGTH && cachedSuggestions) {
+        renderPhotonSuggestions(state, cachedSuggestions);
+      }
+    });
+    input.addEventListener("keydown", (event) => {
+      if (panel.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) {
+        schedulePhotonSuggestions(state);
+        return;
+      }
+
+      if (panel.hidden) return;
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        updatePhotonActiveOption(state, state.activeIndex + 1);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        updatePhotonActiveOption(
+          state,
+          state.activeIndex < 0 ? -1 : state.activeIndex - 1,
+        );
+      } else if (event.key === "Enter" && state.activeIndex >= 0) {
+        event.preventDefault();
+        selectPhotonSuggestion(state, state.activeIndex);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        closePhotonSuggestions(state);
+      }
+    });
+    panel.addEventListener("pointerdown", (event) => event.preventDefault());
+    panel.addEventListener("click", (event) => {
+      const button = event.target.closest(".photon-suggestion");
+      if (!button) return;
+
+      selectPhotonSuggestion(state, Number(button.dataset.suggestionIndex));
+      input.focus();
+    });
+  }
+
+  function destroyPhotonSuggest(input) {
+    const state = photonSuggestionStates.get(input);
+
+    if (!state) return;
+
+    window.clearTimeout(state.debounceTimer);
+    if (state.controller) state.controller.abort();
+    photonSuggestionStates.delete(input);
+    photonSelectedPoints.delete(input);
+    photonSuggestInputs.delete(input);
   }
 
   function initializeYandexMap() {
@@ -1044,8 +1443,6 @@
         zoom: 5,
         controls: ["zoomControl", "fullscreenControl"],
       });
-      attachYandexSuggest("origin");
-      attachYandexSuggest("destination");
     });
   }
 
@@ -1084,12 +1481,16 @@
     );
 
     $("#intermediateRoutes").append($row);
-    attachYandexSuggest(inputId);
+    attachPhotonSuggest(inputId);
     notifyParentHeight();
   }
 
   function removeIntermediateRoute(event) {
-    $(event.currentTarget).closest(".intermediate-route-row").remove();
+    const $row = $(event.currentTarget).closest(".intermediate-route-row");
+    const input = $row.find(".intermediate-route-input").get(0);
+
+    destroyPhotonSuggest(input);
+    $row.remove();
     notifyParentHeight();
   }
 
@@ -1115,7 +1516,14 @@
   }
 
   async function geocodeRoutePoint(point, signal) {
-    const cacheKey = point.trim().toLocaleLowerCase("ru-RU");
+    if (Array.isArray(point.coordinates)) {
+      return {
+        label: point.label,
+        coordinates: [...point.coordinates],
+      };
+    }
+
+    const cacheKey = point.label.trim().toLocaleLowerCase("ru-RU");
     const cachedPoint = nominatimCache.get(cacheKey);
 
     if (cachedPoint) return cachedPoint;
@@ -1127,7 +1535,7 @@
     );
 
     const url = new URL(`${PUBLIC_NOMINATIM_URL}/search`);
-    url.searchParams.set("q", point);
+    url.searchParams.set("q", point.label);
     url.searchParams.set("format", "jsonv2");
     url.searchParams.set("limit", "1");
     url.searchParams.set("addressdetails", "0");
@@ -1154,11 +1562,11 @@
     const longitude = Number(result?.lon);
 
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-      throw new Error(`Nominatim не смог найти точку: ${point}`);
+      throw new Error(`Nominatim не смог найти точку: ${point.label}`);
     }
 
     const geocodedPoint = {
-      label: point,
+      label: point.label,
       coordinates: [latitude, longitude],
     };
     nominatimCache.set(cacheKey, geocodedPoint);
@@ -1295,15 +1703,29 @@
     );
 
     $button.prop("disabled", true).text("Рассчитываем…");
-    $result.show().text("Определяем координаты через Nominatim…");
+    const pointsWithoutCoordinates = points.filter(
+      ({ coordinates }) => !Array.isArray(coordinates),
+    ).length;
+
+    $result
+      .show()
+      .text(
+        pointsWithoutCoordinates
+          ? "Уточняем координаты введённых адресов…"
+          : "Используем координаты выбранных подсказок…",
+      );
 
     try {
       const geocodedPoints = [];
+      let geocodedManuallyEnteredPoints = 0;
 
       for (let index = 0; index < points.length; index += 1) {
-        $result.text(
-          `Определяем координаты через Nominatim (${index + 1}/${points.length})…`,
-        );
+        if (!Array.isArray(points[index].coordinates)) {
+          geocodedManuallyEnteredPoints += 1;
+          $result.text(
+            `Уточняем координаты через Nominatim (${geocodedManuallyEnteredPoints}/${pointsWithoutCoordinates})…`,
+          );
+        }
         geocodedPoints.push(
           await geocodeRoutePoint(points[index], signal),
         );
@@ -1327,7 +1749,10 @@
       $result.empty().append(
         $("<div>")
           .addClass("result-item")
-          .append("Маршрут: ", $("<b>").text(points.join(" – "))),
+          .append(
+            "Маршрут: ",
+            $("<b>").text(points.map(({ label }) => label).join(" – ")),
+          ),
         $("<div>")
           .addClass("result-item")
           .append("Дистанция: ", $("<b>").text(`${distance} км`)),
@@ -1961,6 +2386,15 @@
       ".remove-intermediate-route",
       removeIntermediateRoute,
     );
+    $(document).on("pointerdown", (event) => {
+      photonSuggestInputs.forEach((input) => {
+        const state = photonSuggestionStates.get(input);
+
+        if (state && !state.wrapper.contains(event.target)) {
+          closePhotonSuggestions(state);
+        }
+      });
+    });
   }
 
   function initialize() {
@@ -1974,6 +2408,8 @@
 
     applyCustomerLayoutPolish();
     bindEvents();
+    attachPhotonSuggest("origin");
+    attachPhotonSuggest("destination");
     $(".download-report-btn").text("Скачать расчет TES (PDF)");
     loadJsPdf().catch((error) => {
       console.warn("Предварительная загрузка jsPDF не удалась", error);
