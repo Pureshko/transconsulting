@@ -178,7 +178,26 @@
     });
   }
 
-  function openStep($step) {
+  function scrollPageToTop() {
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      window.scrollTo(0, 0);
+    }
+
+    try {
+      if (window.self !== window.top) {
+        window.parent.postMessage(
+          { type: "transconsulting-scroll-to-top" },
+          "*",
+        );
+      }
+    } catch (error) {
+      // Кросс-доменный доступ к родительскому окну недоступен.
+    }
+  }
+
+  function openStep($step, options = {}) {
     if (!$step.length) return;
 
     $(".step").not($step).addClass("minimized");
@@ -186,6 +205,10 @@
     appState.currentStep = $step.get(0);
     updateSpaProgress($step);
     notifyParentHeight();
+
+    if (options.scrollToTop !== false) {
+      scrollPageToTop();
+    }
   }
 
   function completeCurrentStep($step) {
@@ -1982,7 +2005,7 @@
     applyDimensionPlaceholders();
     validateAll();
     updateSchemePreview();
-    openStep($firstStep);
+    openStep($firstStep, { scrollToTop: false });
     notifyParentHeight();
 
     if ("ResizeObserver" in window) {
