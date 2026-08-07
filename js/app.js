@@ -11,24 +11,22 @@
   let routeRequestController = null;
   let waypointSequence = 0;
   const PUBLIC_OSRM_URL = "https://router.project-osrm.org";
-  const PUBLIC_PHOTON_URL = String(
-    window.PHOTON_URL || "https://photon.komoot.io",
+  const GEOAPIFY_API_URL = String(
+    window.GEOAPIFY_API_URL || "https://api.geoapify.com",
   ).replace(/\/$/, "");
-  const PUBLIC_NOMINATIM_URL = String(
-    window.NOMINATIM_URL || "https://nominatim.openstreetmap.org",
-  ).replace(/\/$/, "");
+  const GEOAPIFY_API_KEY = String(window.GEOAPIFY_API_KEY || "").trim();
+  const GEOAPIFY_LANGUAGE = String(window.GEOAPIFY_LANGUAGE || "ru").trim();
   const ROUTE_REQUEST_TIMEOUT_MS = 30000;
-  const PHOTON_REQUEST_TIMEOUT_MS = 10000;
-  const PHOTON_DEBOUNCE_MS = 400;
-  const PHOTON_MIN_QUERY_LENGTH = 3;
-  const PHOTON_MAX_RESULTS = 5;
-  const NOMINATIM_MIN_INTERVAL_MS = 1100;
-  const photonSuggestionCache = new Map();
-  const photonSuggestionStates = new WeakMap();
-  const photonSelectedPoints = new WeakMap();
-  const photonSuggestInputs = new Set();
-  const nominatimCache = new Map();
-  let lastNominatimRequestAt = 0;
+  const GEOAPIFY_REQUEST_TIMEOUT_MS = 10000;
+  const GEOAPIFY_DEBOUNCE_MS = 350;
+  const GEOAPIFY_MIN_QUERY_LENGTH = 3;
+  const GEOAPIFY_MAX_RESULTS = 5;
+  const GEOAPIFY_KAZAKHSTAN_CENTER = [66.9237, 48.0196];
+  const geoapifySuggestionCache = new Map();
+  const geoapifySuggestionStates = new WeakMap();
+  const geoapifySelectedPoints = new WeakMap();
+  const geoapifySuggestInputs = new Set();
+  const geoapifyGeocodeCache = new Map();
 
   function setDisabled(selector, disabled) {
     $(selector).toggleClass("disabled", Boolean(disabled));
@@ -1066,7 +1064,7 @@
       .filter(Boolean)
       .map((input) => {
         const label = String(input.value ?? "").trim();
-        const selectedPoint = photonSelectedPoints.get(input);
+        const selectedPoint = geoapifySelectedPoints.get(input);
         const hasSelectedCoordinates =
           selectedPoint && selectedPoint.value === label;
 
@@ -1096,11 +1094,11 @@
     }, []);
   }
 
-  function normalizePhotonFeature(feature) {
+  function normalizeGeoapifyFeature(feature) {
     const properties = feature?.properties || {};
     const rawCoordinates = feature?.geometry?.coordinates;
-    const longitude = Number(rawCoordinates?.[0]);
-    const latitude = Number(rawCoordinates?.[1]);
+    const longitude = Number(properties.lon ?? rawCoordinates?.[0]);
+    const latitude = Number(properties.lat ?? rawCoordinates?.[1]);
 
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
       return null;
@@ -1111,54 +1109,71 @@
       .join(" ")
       .trim();
     const primary = String(
+      properties.address_line1 ||
       properties.name ||
       streetLine ||
       properties.city ||
-      properties.town ||
-      properties.village ||
       properties.state ||
       properties.country ||
       "Адрес",
     ).trim();
-    const detailParts = uniqueAddressParts([
-      streetLine,
+    const fallbackDetailParts = uniqueAddressParts([
+      properties.suburb,
       properties.district,
-      properties.locality,
       properties.city,
-      properties.town,
-      properties.village,
       properties.county,
       properties.state,
       properties.postcode,
       properties.country,
-    ]).filter(
-      (part) =>
-        part.toLocaleLowerCase("ru-RU") !==
-        primary.toLocaleLowerCase("ru-RU"),
+    ]).filter((part) =>
+      part.toLocaleLowerCase("ru-RU") !== primary.toLocaleLowerCase("ru-RU")
     );
-    const value = uniqueAddressParts([primary, ...detailParts]).join(", ");
+    const detail = String(
+      properties.address_line2 || fallbackDetailParts.join(", "),
+    ).trim();
+    const value = String(
+      properties.formatted || uniqueAddressParts([primary, detail]).join(", "),
+    ).trim();
 
     return {
       primary,
-      detail: detailParts.join(", "),
+      detail,
       value,
       coordinates: [latitude, longitude],
     };
   }
 
-  function setPhotonExpanded(state, expanded) {
+  function buildGeoapifyUrl(endpoint, query, limit) {
+    if (!GEOAPIFY_API_KEY) {
+      throw new Error("Не задан GEOAPIFY_API_KEY");
+    }
+
+    const url = new URL(`${GEOAPIFY_API_URL}/v1/geocode/${endpoint}`);
+    url.searchParams.set("text", query);
+    url.searchParams.set("lang", GEOAPIFY_LANGUAGE || "ru");
+    url.searchParams.set("limit", String(limit));
+    url.searchParams.set("apiKey", GEOAPIFY_API_KEY);
+    url.searchParams.set(
+      "bias",
+      `proximity:${GEOAPIFY_KAZAKHSTAN_CENTER.join(",")}`,
+    );
+
+    return url;
+  }
+
+  function setGeoapifyExpanded(state, expanded) {
     state.input.setAttribute("aria-expanded", String(expanded));
     state.panel.hidden = !expanded;
   }
 
-  function closePhotonSuggestions(state) {
+  function closeGeoapifySuggestions(state) {
     state.activeIndex = -1;
     state.input.removeAttribute("aria-activedescendant");
-    setPhotonExpanded(state, false);
+    setGeoapifyExpanded(state, false);
   }
 
-  function updatePhotonActiveOption(state, nextIndex) {
-    const buttons = [...state.panel.querySelectorAll(".photon-suggestion")];
+  function updateGeoapifyActiveOption(state, nextIndex) {
+    const buttons = [...state.panel.querySelectorAll(".geoapify-suggestion")];
 
     if (!buttons.length) return;
 
@@ -1176,42 +1191,42 @@
     buttons[normalizedIndex].scrollIntoView({ block: "nearest" });
   }
 
-  function selectPhotonSuggestion(state, index) {
+  function selectGeoapifySuggestion(state, index) {
     const suggestion = state.items[index];
 
     if (!suggestion) return;
 
     state.input.value = suggestion.value;
-    photonSelectedPoints.set(state.input, {
+    geoapifySelectedPoints.set(state.input, {
       value: suggestion.value,
       coordinates: [...suggestion.coordinates],
     });
-    closePhotonSuggestions(state);
+    closeGeoapifySuggestions(state);
     state.input.dispatchEvent(new Event("change", { bubbles: true }));
   }
 
-  function renderPhotonMessage(state, message) {
+  function renderGeoapifyMessage(state, message) {
     state.items = [];
     state.activeIndex = -1;
     state.input.removeAttribute("aria-activedescendant");
     state.panel.replaceChildren();
 
     const messageElement = document.createElement("div");
-    messageElement.className = "photon-suggestion-message";
+    messageElement.className = "geoapify-suggestion-message";
     messageElement.setAttribute("role", "status");
     messageElement.textContent = message;
     state.panel.appendChild(messageElement);
-    setPhotonExpanded(state, true);
+    setGeoapifyExpanded(state, true);
   }
 
-  function renderPhotonSuggestions(state, suggestions) {
+  function renderGeoapifySuggestions(state, suggestions) {
     state.items = suggestions;
     state.activeIndex = -1;
     state.input.removeAttribute("aria-activedescendant");
     state.panel.replaceChildren();
 
     if (!suggestions.length) {
-      renderPhotonMessage(state, "Подходящие адреса не найдены");
+      renderGeoapifyMessage(state, "Подходящие адреса не найдены");
       return;
     }
 
@@ -1220,19 +1235,19 @@
       const primary = document.createElement("span");
 
       button.type = "button";
-      button.className = "photon-suggestion";
+      button.className = "geoapify-suggestion";
       button.id = `${state.panel.id}-option-${index}`;
       button.setAttribute("role", "option");
       button.setAttribute("aria-selected", "false");
       button.dataset.suggestionIndex = String(index);
 
-      primary.className = "photon-suggestion__primary";
+      primary.className = "geoapify-suggestion__primary";
       primary.textContent = suggestion.primary;
       button.appendChild(primary);
 
       if (suggestion.detail) {
         const detail = document.createElement("span");
-        detail.className = "photon-suggestion__detail";
+        detail.className = "geoapify-suggestion__detail";
         detail.textContent = suggestion.detail;
         button.appendChild(detail);
       }
@@ -1240,20 +1255,20 @@
       state.panel.appendChild(button);
     });
 
-    setPhotonExpanded(state, true);
+    setGeoapifyExpanded(state, true);
   }
 
-  async function fetchPhotonSuggestions(query, signal) {
+  async function fetchGeoapifySuggestions(query, signal) {
     const cacheKey = query.toLocaleLowerCase("ru-RU");
-    const cachedSuggestions = photonSuggestionCache.get(cacheKey);
+    const cachedSuggestions = geoapifySuggestionCache.get(cacheKey);
 
     if (cachedSuggestions) return cachedSuggestions;
 
-    const url = new URL(`${PUBLIC_PHOTON_URL}/api/`);
-    url.searchParams.set("q", query);
-    url.searchParams.set("limit", String(PHOTON_MAX_RESULTS));
-    url.searchParams.set("lat", "48.0196");
-    url.searchParams.set("lon", "66.9237");
+    const url = buildGeoapifyUrl(
+      "autocomplete",
+      query,
+      GEOAPIFY_MAX_RESULTS,
+    );
 
     const response = await window.fetch(url.toString(), {
       method: "GET",
@@ -1263,27 +1278,27 @@
     });
 
     if (!response.ok) {
-      throw new Error(`Photon вернул HTTP ${response.status}`);
+      throw new Error(`Geoapify вернул HTTP ${response.status}`);
     }
 
     const data = await response.json();
     const suggestions = (Array.isArray(data?.features) ? data.features : [])
-      .map(normalizePhotonFeature)
+      .map(normalizeGeoapifyFeature)
       .filter(Boolean)
       .filter((suggestion, index, items) =>
         items.findIndex((item) => item.value === suggestion.value) === index,
       )
-      .slice(0, PHOTON_MAX_RESULTS);
+      .slice(0, GEOAPIFY_MAX_RESULTS);
 
-    if (photonSuggestionCache.size >= 100) {
-      photonSuggestionCache.delete(photonSuggestionCache.keys().next().value);
+    if (geoapifySuggestionCache.size >= 100) {
+      geoapifySuggestionCache.delete(geoapifySuggestionCache.keys().next().value);
     }
-    photonSuggestionCache.set(cacheKey, suggestions);
+    geoapifySuggestionCache.set(cacheKey, suggestions);
 
     return suggestions;
   }
 
-  function requestPhotonSuggestions(state, query) {
+  function requestGeoapifySuggestions(state, query) {
     if (state.controller) state.controller.abort();
 
     const controller = new AbortController();
@@ -1297,12 +1312,12 @@
         requestTimedOut = true;
         controller.abort();
       },
-      PHOTON_REQUEST_TIMEOUT_MS,
+      GEOAPIFY_REQUEST_TIMEOUT_MS,
     );
 
-    renderPhotonMessage(state, "Ищем адрес…");
+    renderGeoapifyMessage(state, "Ищем адрес…");
 
-    fetchPhotonSuggestions(query, controller.signal)
+    fetchGeoapifySuggestions(query, controller.signal)
       .then((suggestions) => {
         if (
           controller.signal.aborted ||
@@ -1312,7 +1327,7 @@
           return;
         }
 
-        renderPhotonSuggestions(state, suggestions);
+        renderGeoapifySuggestions(state, suggestions);
       })
       .catch((error) => {
         const isCurrentRequest =
@@ -1324,11 +1339,13 @@
         if (error?.name === "AbortError" && !requestTimedOut) return;
 
         if (error?.name !== "AbortError") {
-          console.warn("Подсказки Photon временно недоступны", error);
+          console.warn("Подсказки Geoapify временно недоступны", error);
         }
-        renderPhotonMessage(
+        renderGeoapifyMessage(
           state,
-          "Подсказки временно недоступны — введите адрес вручную",
+          !GEOAPIFY_API_KEY
+            ? "Для поиска адресов нужно настроить ключ Geoapify"
+            : "Подсказки временно недоступны — введите адрес вручную",
         );
       })
       .finally(() => {
@@ -1337,37 +1354,37 @@
       });
   }
 
-  function schedulePhotonSuggestions(state) {
+  function scheduleGeoapifySuggestions(state) {
     const query = state.input.value.trim();
-    const selectedPoint = photonSelectedPoints.get(state.input);
+    const selectedPoint = geoapifySelectedPoints.get(state.input);
 
     if (selectedPoint && selectedPoint.value !== query) {
-      photonSelectedPoints.delete(state.input);
+      geoapifySelectedPoints.delete(state.input);
     }
 
     window.clearTimeout(state.debounceTimer);
     if (state.controller) state.controller.abort();
 
-    if (query.length < PHOTON_MIN_QUERY_LENGTH) {
-      closePhotonSuggestions(state);
+    if (query.length < GEOAPIFY_MIN_QUERY_LENGTH) {
+      closeGeoapifySuggestions(state);
       return;
     }
 
     state.debounceTimer = window.setTimeout(
-      () => requestPhotonSuggestions(state, query),
-      PHOTON_DEBOUNCE_MS,
+      () => requestGeoapifySuggestions(state, query),
+      GEOAPIFY_DEBOUNCE_MS,
     );
   }
 
-  function attachPhotonSuggest(inputOrId) {
+  function attachGeoapifySuggest(inputOrId) {
     const input = typeof inputOrId === "string"
       ? document.getElementById(inputOrId)
       : inputOrId;
 
-    if (!input || photonSuggestionStates.has(input)) return;
+    if (!input || geoapifySuggestionStates.has(input)) return;
 
     if (!input.id) {
-      input.id = `routePoint${Date.now()}${photonSuggestInputs.size}`;
+      input.id = `routePoint${Date.now()}${geoapifySuggestInputs.size}`;
     }
 
     const wrapper = document.createElement("div");
@@ -1378,8 +1395,8 @@
     parent.insertBefore(wrapper, input);
     wrapper.appendChild(input);
 
-    panel.className = "photon-suggestions";
-    panel.id = `${input.id}-photon-suggestions`;
+    panel.className = "geoapify-suggestions";
+    panel.id = `${input.id}-geoapify-suggestions`;
     panel.setAttribute("role", "listbox");
     panel.hidden = true;
     wrapper.appendChild(panel);
@@ -1400,23 +1417,23 @@
       requestNumber: 0,
     };
 
-    photonSuggestionStates.set(input, state);
-    photonSuggestInputs.add(input);
+    geoapifySuggestionStates.set(input, state);
+    geoapifySuggestInputs.add(input);
 
-    input.addEventListener("input", () => schedulePhotonSuggestions(state));
+    input.addEventListener("input", () => scheduleGeoapifySuggestions(state));
     input.addEventListener("focus", () => {
       const query = input.value.trim();
-      const cachedSuggestions = photonSuggestionCache.get(
+      const cachedSuggestions = geoapifySuggestionCache.get(
         query.toLocaleLowerCase("ru-RU"),
       );
 
-      if (query.length >= PHOTON_MIN_QUERY_LENGTH && cachedSuggestions) {
-        renderPhotonSuggestions(state, cachedSuggestions);
+      if (query.length >= GEOAPIFY_MIN_QUERY_LENGTH && cachedSuggestions) {
+        renderGeoapifySuggestions(state, cachedSuggestions);
       }
     });
     input.addEventListener("keydown", (event) => {
       if (panel.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) {
-        schedulePhotonSuggestions(state);
+        scheduleGeoapifySuggestions(state);
         return;
       }
 
@@ -1424,41 +1441,41 @@
 
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        updatePhotonActiveOption(state, state.activeIndex + 1);
+        updateGeoapifyActiveOption(state, state.activeIndex + 1);
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
-        updatePhotonActiveOption(
+        updateGeoapifyActiveOption(
           state,
           state.activeIndex < 0 ? -1 : state.activeIndex - 1,
         );
       } else if (event.key === "Enter" && state.activeIndex >= 0) {
         event.preventDefault();
-        selectPhotonSuggestion(state, state.activeIndex);
+        selectGeoapifySuggestion(state, state.activeIndex);
       } else if (event.key === "Escape") {
         event.preventDefault();
-        closePhotonSuggestions(state);
+        closeGeoapifySuggestions(state);
       }
     });
     panel.addEventListener("pointerdown", (event) => event.preventDefault());
     panel.addEventListener("click", (event) => {
-      const button = event.target.closest(".photon-suggestion");
+      const button = event.target.closest(".geoapify-suggestion");
       if (!button) return;
 
-      selectPhotonSuggestion(state, Number(button.dataset.suggestionIndex));
+      selectGeoapifySuggestion(state, Number(button.dataset.suggestionIndex));
       input.focus();
     });
   }
 
-  function destroyPhotonSuggest(input) {
-    const state = photonSuggestionStates.get(input);
+  function destroyGeoapifySuggest(input) {
+    const state = geoapifySuggestionStates.get(input);
 
     if (!state) return;
 
     window.clearTimeout(state.debounceTimer);
     if (state.controller) state.controller.abort();
-    photonSuggestionStates.delete(input);
-    photonSelectedPoints.delete(input);
-    photonSuggestInputs.delete(input);
+    geoapifySuggestionStates.delete(input);
+    geoapifySelectedPoints.delete(input);
+    geoapifySuggestInputs.delete(input);
   }
 
   function initializeYandexMap() {
@@ -1523,7 +1540,7 @@
     );
 
     $("#intermediateRoutes").append($row);
-    attachPhotonSuggest(inputId);
+    attachGeoapifySuggest(inputId);
     notifyParentHeight();
   }
 
@@ -1531,30 +1548,9 @@
     const $row = $(event.currentTarget).closest(".intermediate-route-row");
     const input = $row.find(".intermediate-route-input").get(0);
 
-    destroyPhotonSuggest(input);
+    destroyGeoapifySuggest(input);
     $row.remove();
     notifyParentHeight();
-  }
-
-  function waitForRequestInterval(delay, signal) {
-    if (signal.aborted) {
-      return Promise.reject(new DOMException("Запрос отменён", "AbortError"));
-    }
-
-    if (delay <= 0) return Promise.resolve();
-
-    return new Promise((resolve, reject) => {
-      const handleAbort = () => {
-        window.clearTimeout(timeoutId);
-        reject(new DOMException("Запрос отменён", "AbortError"));
-      };
-      const timeoutId = window.setTimeout(() => {
-        signal.removeEventListener("abort", handleAbort);
-        resolve();
-      }, delay);
-
-      signal.addEventListener("abort", handleAbort, { once: true });
-    });
   }
 
   async function geocodeRoutePoint(point, signal) {
@@ -1566,52 +1562,34 @@
     }
 
     const cacheKey = point.label.trim().toLocaleLowerCase("ru-RU");
-    const cachedPoint = nominatimCache.get(cacheKey);
+    const cachedPoint = geoapifyGeocodeCache.get(cacheKey);
 
     if (cachedPoint) return cachedPoint;
 
-    const elapsed = Date.now() - lastNominatimRequestAt;
-    await waitForRequestInterval(
-      Math.max(0, NOMINATIM_MIN_INTERVAL_MS - elapsed),
-      signal,
-    );
-
-    const url = new URL(`${PUBLIC_NOMINATIM_URL}/search`);
-    url.searchParams.set("q", point.label);
-    url.searchParams.set("format", "jsonv2");
-    url.searchParams.set("limit", "1");
-    url.searchParams.set("addressdetails", "0");
-    url.searchParams.set("accept-language", "ru");
-
-    const contactEmail = String(window.NOMINATIM_EMAIL || "").trim();
-    if (contactEmail) url.searchParams.set("email", contactEmail);
-
-    lastNominatimRequestAt = Date.now();
+    const url = buildGeoapifyUrl("search", point.label, 1);
     const response = await window.fetch(url.toString(), {
       method: "GET",
-      headers: { Accept: "application/json" },
+      headers: { Accept: "application/geo+json, application/json" },
       referrerPolicy: "strict-origin-when-cross-origin",
       signal,
     });
 
     if (!response.ok) {
-      throw new Error(`Nominatim вернул HTTP ${response.status}`);
+      throw new Error(`Geoapify вернул HTTP ${response.status}`);
     }
 
-    const results = await response.json();
-    const result = Array.isArray(results) ? results[0] : null;
-    const latitude = Number(result?.lat);
-    const longitude = Number(result?.lon);
+    const data = await response.json();
+    const result = normalizeGeoapifyFeature(data?.features?.[0]);
 
-    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-      throw new Error(`Nominatim не смог найти точку: ${point.label}`);
+    if (!result) {
+      throw new Error(`Geoapify не смог найти точку: ${point.label}`);
     }
 
     const geocodedPoint = {
       label: point.label,
-      coordinates: [latitude, longitude],
+      coordinates: [...result.coordinates],
     };
-    nominatimCache.set(cacheKey, geocodedPoint);
+    geoapifyGeocodeCache.set(cacheKey, geocodedPoint);
 
     return geocodedPoint;
   }
@@ -1765,7 +1743,7 @@
         if (!Array.isArray(points[index].coordinates)) {
           geocodedManuallyEnteredPoints += 1;
           $result.text(
-            `Уточняем координаты через Nominatim (${geocodedManuallyEnteredPoints}/${pointsWithoutCoordinates})…`,
+            `Уточняем координаты через Geoapify (${geocodedManuallyEnteredPoints}/${pointsWithoutCoordinates})…`,
           );
         }
         geocodedPoints.push(
@@ -1813,8 +1791,12 @@
         $result
           .show()
           .text("Сервис маршрутов не ответил вовремя. Введите расстояние вручную или повторите попытку.");
+      } else if (!GEOAPIFY_API_KEY) {
+        $result
+          .show()
+          .text("Не настроен ключ Geoapify. Укажите GEOAPIFY_API_KEY или введите расстояние вручную.");
       } else {
-        console.error("Не удалось построить маршрут через OSRM", error);
+        console.error("Не удалось построить маршрут", error);
         $result
           .show()
           .text("Не удалось построить маршрут. Проверьте точки или введите расстояние вручную.");
@@ -2500,11 +2482,11 @@
       removeIntermediateRoute,
     );
     $(document).on("pointerdown", (event) => {
-      photonSuggestInputs.forEach((input) => {
-        const state = photonSuggestionStates.get(input);
+      geoapifySuggestInputs.forEach((input) => {
+        const state = geoapifySuggestionStates.get(input);
 
         if (state && !state.wrapper.contains(event.target)) {
-          closePhotonSuggestions(state);
+          closeGeoapifySuggestions(state);
         }
       });
     });
@@ -2521,8 +2503,8 @@
 
     applyCustomerLayoutPolish();
     bindEvents();
-    attachPhotonSuggest("origin");
-    attachPhotonSuggest("destination");
+    attachGeoapifySuggest("origin");
+    attachGeoapifySuggest("destination");
     $(".download-report-btn").text("Скачать расчет TES (PDF)");
     loadJsPdf().catch((error) => {
       console.warn("Предварительная загрузка jsPDF не удалась", error);
