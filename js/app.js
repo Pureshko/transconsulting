@@ -156,7 +156,7 @@
     [VEHICLE_TYPE.SINGLE]: "guidance/vehicle-drive-axle.webp",
     [VEHICLE_TYPE.SEMI_TRAILER]: "guidance/vehicle-semitrailer.webp",
     [VEHICLE_TYPE.TRAILER]: "guidance/vehicle-trailer.webp",
-    [VEHICLE_TYPE.LOW_LOADER]: "calc-atc-type/trall.webp",
+    [VEHICLE_TYPE.LOW_LOADER]: "guidance/vehicle-tral-axle.webp",
   });
 
   function applyVehicleDefaults(type) {
