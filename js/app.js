@@ -1,5 +1,5 @@
 (function ($) {
-
+//ass
   const appState = {
     currentStep: null,
     total: 0,
