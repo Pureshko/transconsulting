@@ -1150,13 +1150,13 @@
 
     const url = new URL(`${GEOAPIFY_API_URL}/v1/geocode/${endpoint}`);
     url.searchParams.set("text", query);
-    // url.searchParams.set("lang", GEOAPIFY_LANGUAGE || "ru");
+    url.searchParams.set("lang", GEOAPIFY_LANGUAGE || "ru");
     url.searchParams.set("limit", String(limit));
     url.searchParams.set("apiKey", GEOAPIFY_API_KEY);
-    // url.searchParams.set(
-    //   "bias",
-    //   `proximity:${GEOAPIFY_KAZAKHSTAN_CENTER.join(",")}`,
-    // );
+    url.searchParams.set(
+      "bias",
+      `proximity:${GEOAPIFY_KAZAKHSTAN_CENTER.join(",")}`,
+    );
 
     return url;
   }
