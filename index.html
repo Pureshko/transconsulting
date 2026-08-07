@@ -1823,11 +1823,16 @@
                 display: grid;
                 grid-template-columns: repeat(3, minmax(220px, 1fr));
                 gap: 16px;
+                margin: 0;
             }
 
             .step-content.four .row > .col {
                 width: auto;
                 min-width: 0;
+                padding: 22px;
+                background: #FDFDFD;
+                border: 1px solid var(--tes-line);
+                border-radius: 10px;
             }
 
             .step-content.five .form-container {
@@ -2151,7 +2156,7 @@
                 }
 
                 .os-container,
-                .step-content.four .form-container,
+                .step-content.four .row > .col,
                 .step-content.five .form-container,
                 .step-content.one > .form-floating,
                 .step-content.tesha > .container,
@@ -2548,7 +2553,7 @@
             }
 
             .step-content.three .col-label {
-                font-size: 12px;
+                font-size: 13px;
                 text-align: center;
             }
 
@@ -2558,7 +2563,7 @@
 
             .step-content.three .form-select {
                 min-height: 54px;
-                font-size: 12px;
+                font-size: 14px;
             }
 
             .step-content.three .form-floating > label {
@@ -2566,7 +2571,7 @@
                 padding: .55rem .7rem;
                 overflow: hidden;
                 white-space: normal;
-                font-size: 12px;
+                font-size: 13px;
                 line-height: 1.15;
             }
 
@@ -2885,7 +2890,15 @@
             }
 
             .step-content.four .form-container{
-                background: #FDFDFD !important;
+                padding: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                background: transparent !important;
+            }
+
+            .step-content.four .form-container > .text-secondary {
+                margin-top: 18px;
             }
 
             .image-container{
