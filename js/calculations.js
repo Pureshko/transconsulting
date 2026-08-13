@@ -185,14 +185,15 @@ function getSingleVehicleAllowedMass(input) {
      * single vehicle when the driven axles are dual-tyred and each
      * axle does not exceed 9.5 t.
      *
-     * The old form only provides the total driven-group load.
-     * We preserve the previous approximation: total group load <= 19 t.
+     * The form only provides the total driven-group load, so it cannot
+     * infer the per-axle condition from the total. The 26 t exception is
+     * therefore applied only after an explicit user confirmation.
      */
     const hasThreeAxleBonus =
       Number(input.secondOsCount) === 2 &&
       tyreTypeFromId(input.second_os_skat) ===
         "dualTyre" &&
-      Number(input.Y) <= 19;
+      input.singleThreeAxleBonusConfirmed === true;
 
     return hasThreeAxleBonus ? MASSES.O21 : MASSES.O2;
   }
