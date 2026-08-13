@@ -149,22 +149,22 @@
                     <li class="stepper__item is-active" data-nav-step="1">
                         <span class="stepper__number">1</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7zM6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></svg></span>
-                        <span><strong>Тип ТС и колесная формула</strong><small>Выберите автопоезд и конфигурацию осей</small></span>
+                        <span><strong>Тип транспортного средства и колесная формула</strong><small>Выберите транспортное средство и конфигурацию осей</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="2">
                         <span class="stepper__number">2</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 9h14l2 11H3L5 9Zm4 0V6a3 3 0 0 1 6 0v3"/><circle cx="12" cy="14" r="2"/></svg></span>
-                        <span><strong>Вес и габариты</strong><small>Нагрузки, длина, ширина и высота</small></span>
+                        <span><strong>Вес и габариты транспортного средства</strong><small>Нагрузки, длина, ширина и высота</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="3">
                         <span class="stepper__number">3</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m4 7 8-4 8 4v10l-8 4-8-4V7Zm0 0 8 4 8-4m-8 4v10"/></svg></span>
-                        <span><strong>Маршрут</strong><small>Точки маршрута и расстояние</small></span>
+                        <span><strong>Маршрут перевозки</strong><small>Точки маршрута и расстояние</small></span>
                     </li>
                     <li class="stepper__item" data-nav-step="4">
                         <span class="stepper__number">4</span>
                         <span class="stepper__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M8 7h8M8 11h2m2 0h2m2 0h1M8 15h2m2 0h2m2 0h1M8 18h2m2 0h2m2 0h1"/></svg></span>
-                        <span><strong>Расчет и результат</strong><small>Итоговая сумма сбора</small></span>
+                        <span><strong>Расчет суммы сбора за проезд</strong><small>Итоговая сумма сбора</small></span>
                     </li>
                 </ol>
             </aside>
@@ -187,8 +187,8 @@
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="trall" hidden>
                                 <img src="calc-atc-type/trall.webp" alt="">
-                                <span class="col-label text-uppercase">Тягач + трал</span>
-                                <span class="vehicle-card__description">Для перевозки тяжелой и негабаритной техники</span>
+                                <span class="col-label text-uppercase">Тягач + трал (модульный трал)</span>
+                                <span class="vehicle-card__description">Для перевозки тяжелой и негабаритной техники, включая модульные тралы</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -207,7 +207,7 @@
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="pricep" hidden>
                                 <img src="calc-atc-type/pricep.webp" alt="">
-                                <span class="col-label text-uppercase">Тягач + прицеп</span>
+                                <span class="col-label text-uppercase">Фургон + прицеп</span>
                                 <span class="vehicle-card__description">Перевозка грузов с отдельным прицепом</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
@@ -215,9 +215,9 @@
                         <div class="col mb-2">
                             <div class="btn col-btn d-flex flex-row justify-content-center" data-step="2">
                                 <input class="form-check calc-atc-type" type="radio" name="calc-atc-type" id="single" hidden>
-                                <img src="calc-atc-type/single.webp" alt="">
+                                <img class="single-vehicle-carousel" src="calc-atc-type/single.webp" alt="Грузовой автомобиль без прицепа">
                                 <span class="col-label text-uppercase">Одиночный автомобиль</span>
-                                <span class="vehicle-card__description">Грузовой автомобиль без прицепа</span>
+                                <span class="vehicle-card__description">Грузовой автомобиль без прицепа или спецтехника (автокраны, миксеры и другие)</span>
                                 <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                             </div>
                         </div>
@@ -240,13 +240,13 @@
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-1os" data-kol-os="1" hidden>
                                     <img src="os/1os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 first-2os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os" id="first-2os" data-kol-os="2" hidden>
                                     <img src="os/2os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="wrap-advanced-axles"></div>
@@ -264,13 +264,13 @@
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Если в группе есть односкатные и двускатные оси, выберите этот вариант.">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os-skat" id="first-1skat" hidden checked>
                                     <img src="skat/1skat.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатные или смешанные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатная или смешанная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon"><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Выбирайте только если все оси этой группы имеют двускатные колёса.">
                                     <input class="form-check calc-atc-type" type="radio" name="first-os-skat" id="first-2skat" hidden>
                                     <img src="skat/2skat.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Все оси двускатные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Двухскатная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="wrap-advanced-tyres"></div>
@@ -284,31 +284,31 @@
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-1os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-1os"  data-kol-os="1"hidden>
                                     <img src="os/1os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-2os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-2os"  data-kol-os="2"hidden>
                                     <img src="os/2os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-21os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-21os" data-kol-os="2" hidden>
                                     <img src="os/21os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные с ленивцом</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенная с ленивцем</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-3os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-3os"  data-kol-os="3" hidden>
                                     <img src="os/3os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2 second-4os-group" data-step="3">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os" id="second-4os"  data-kol-os="4" hidden>
                                     <img src="os/4os.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="wrap-advanced-axles"></div>
@@ -326,13 +326,13 @@
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Если в группе есть односкатные и двускатные оси, выберите этот вариант.">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-1skat" hidden>
                                     <img src="skat/1skat.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатные или смешанные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Односкатная или смешанная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3" title="Выбирайте только если все оси этой группы имеют двускатные колёса.">
                                     <input class="form-check calc-atc-type" type="radio" name="second-os-skat" id="second-2skat" hidden checked>
                                     <img src="skat/2skat.webp" alt="">
-                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Все оси двускатные</span>
+                                    <span for="flexRadioDefault1" class="col-label  text-uppercase">Двухскатная</span>
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon"><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="wrap-advanced-tyres"></div>
@@ -410,25 +410,25 @@
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-1os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-1os" data-kol-os="1" hidden>
                                         <img src="os/1os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-2os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-2os" data-kol-os="2" hidden>
                                         <img src="os/2os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-3os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-3os" data-kol-os="3" hidden>
                                         <img src="os/3os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 third-4os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os" id="third-4os" data-kol-os="4" hidden>
                                         <img src="os/4os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Четырехосная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="wrap-advanced-axles"></div>
@@ -448,13 +448,13 @@
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os-skat" id="third-1skat" hidden>
                                         <img src="skat/1skat.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные или смешанные</span>
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатная или смешанная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="third-os-skat" id="third-2skat" hidden>
                                         <img src="skat/2skat.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Все оси двускатные</span>
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Двухскатная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="wrap-advanced-tyres"></div>
@@ -464,8 +464,9 @@
 
                         <div class="col mb-2 fourth-os-group">
                             <div class="btn add-os-btn fourth">
-                                Добавить вторую группу осей на прицепе...
+                                Добавить отдельную ось / вторую группу осей на прицепе...
                             </div>
+                            <p class="trailer-separated-axle-hint d-none">Если расстояние между соседними осями прицепа больше 2 м, следующая ось считается отдельной — добавьте её этой кнопкой.</p>
                             <div class="os-container" style="display: none;">
                                 <div class="fourth-os-tral-container form-container d-none">
                                     <div class="mb-2 container">
@@ -532,23 +533,23 @@
                                     </div>
                                 </div>
                                 <div class="fourth-os-group-container">
-                                    <div class="step-label mb-2">Вторая группа осей на прицепе</div>
+                                    <div class="step-label mb-2">Отдельная ось / вторая группа осей на прицепе</div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-1os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-1os" data-kol-os="1" hidden>
                                         <img src="os/1os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Одиночная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-2os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-2os" data-kol-os="2" hidden>
                                         <img src="os/2os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Сдвоенная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2 fourth-3os-group" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os" id="fourth-3os" data-kol-os="3" hidden>
                                         <img src="os/3os.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенные</span>
+                                        <span for="flexRadioDefault1" class="col-label  text-uppercase">Строенная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="wrap-advanced-axles"></div>
@@ -569,13 +570,13 @@
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os-skat" id="fourth-1skat" hidden>
                                         <img src="skat/1skat.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные или смешанные</span>
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатная или смешанная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fourth-os-skat" id="fourth-2skat" hidden>
                                         <img src="skat/2skat.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Все оси двускатные</span>
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Двухскатная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="wrap-advanced-tyres"></div>
@@ -670,13 +671,13 @@
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fifth-os-skat" id="fifth-1skat" hidden>
                                         <img src="skat/1skat.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатные или смешанные</span>
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Односкатная или смешанная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                     <div class="btn col-btn d-flex flex-row justify-content-center mb-2" data-step="3">
                                         <input class="form-check calc-atc-type" type="radio" name="fifth-os-skat" id="fifth-2skat" hidden>
                                         <img src="skat/2skat.webp" alt="">
-                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Все оси двускатные</span>
+                                        <span for="flexRadioDefault1" class="col-label text-uppercase">Двухскатная</span>
                                         <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                     </div>
                                 </div>
@@ -725,6 +726,17 @@
                                     <label for="floatingInput">Введите суммарную нагрузку, т</label>
                                 </div>
                             </div>
+                            <div class="col single-three-axle-exception d-none">
+                                <div class="single-three-axle-exception__card">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="singleThreeAxleBonusConfirmed">
+                                        <label class="form-check-label" for="singleThreeAxleBonusConfirmed">
+                                            Подтверждаю: обе ведущие оси имеют двухскатную ошиновку, и нагрузка на каждую из них не превышает 9,5 т
+                                        </label>
+                                    </div>
+                                    <small>Только при одновременном выполнении этих условий допустимая масса трёхосного одиночного автомобиля повышается с 25 до 26 т.</small>
+                                </div>
+                            </div>
                             <div class="col four-os-weight-group">
                                 <label>Суммарная нагрузка на четвертую группу осей</label>
                                 <div class="form-floating mb-3">
@@ -758,12 +770,12 @@
                             <div class="row">
                                 <div class="btn col-btn d-flex flex-col col-md-auto m-2 mb-2 est-tesha-group" style="height:80px;" data-step="21">
                                     <input class="form-check est-tesha" type="radio" name="est-tesha" id="est-tesha-1" value="1" hidden>
-                                    <img src="tesha/0ryad.png" class="mx-2 my-auto" style="width:50px;height: 82%;" alt="">
+                                    <img src="guidance/dolly-correct.webp" class="dolly-choice-image" alt="Правильное расположение передней распределительной тележки Jeep Dolly">
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                                 <div class="btn col-btn d-flex flex-col col-md-auto m-2 mb-2 est-tesha-group" style="height:80px;" data-step="21">
                                     <input class="form-check est-tesha" type="radio" name="est-tesha" id="est-tesha-0" value="0" hidden>
-                                    <img src="tesha/noryad.png" class="mx-2 my-auto" style="width:50px;height:85%;" alt="">
+                                    <img src="guidance/dolly-incorrect.webp" class="dolly-choice-image" alt="Транспортное средство без передней распределительной тележки Jeep Dolly">
                                     <svg class="my-auto" style="width:25px;height:25px;" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon" hidden><path fill="var(--primary-color)" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>
                                 </div>
                             </div>
@@ -2878,16 +2890,73 @@
             {
                 width: 100%;
                 max-width: none;
-                height: 118px;
+                height: 160px;
                 max-height: none;
                 margin: 0 0 12px;
+                padding: 10px;
+                border: 1px solid #e4e7eb;
             }
 
             .weight-guide-image,
             .weight-vehicle-guide,
             .weight-image-guide {
-                height: 150px;
+                height: 180px;
                 margin: 10px 0 14px;
+                padding: 10px;
+                border: 1px solid #e4e7eb;
+            }
+
+            .single-three-axle-exception {
+                flex: 0 0 100%;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .single-three-axle-exception__card,
+            .trailer-separated-axle-hint {
+                border: 1px solid #efc8c8;
+                border-radius: 10px;
+                background: #fff7f7;
+            }
+
+            .single-three-axle-exception__card {
+                padding: 16px 18px;
+            }
+
+            .single-three-axle-exception__card label {
+                color: #24282e;
+                font-weight: 700;
+                line-height: 1.45;
+            }
+
+            .embedded-dolly-section .est-tesha-group {
+                flex: 1 1 300px;
+                height: auto !important;
+                min-height: 190px;
+            }
+
+            .embedded-dolly-section .dolly-choice-image {
+                width: 100% !important;
+                height: 130px !important;
+                margin: 0 0 8px !important;
+                object-fit: contain;
+                border-radius: 7px;
+                background: #fff;
+            }
+
+            .single-three-axle-exception__card small {
+                display: block;
+                margin: 8px 0 0 26px;
+                color: #666e7a;
+                line-height: 1.4;
+            }
+
+            .trailer-separated-axle-hint {
+                margin: 10px 0 14px;
+                padding: 12px 14px;
+                color: #4c3131;
+                font-size: 14px;
+                line-height: 1.45;
             }
 
             .step-content.four > .form-container{
@@ -2907,8 +2976,10 @@
             }
 
             .dimension-guide-image {
-                height: 150px;
+                height: 180px;
                 margin: 10px 0 14px;
+                padding: 10px;
+                border: 1px solid #e4e7eb;
             }
 
             .field-hint {
@@ -3173,7 +3244,7 @@
         </style>
         <script>
           window.YANDEX_MAPS_API_KEY = window.YANDEX_MAPS_API_KEY || "";
-          window.GEOAPIFY_API_KEY = "510ef81f03a2449ba3f830e4b47f6e5a";
+          window.GEOAPIFY_API_KEY = window.GEOAPIFY_API_KEY || "";
           window.GEOAPIFY_API_URL = window.GEOAPIFY_API_URL || "https://api.geoapify.com";
           window.GEOAPIFY_LANGUAGE = window.GEOAPIFY_LANGUAGE || "ru";
         </script>

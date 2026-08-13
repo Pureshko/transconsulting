@@ -86,8 +86,8 @@
     const vehicleLabels = {
       [VEHICLE_TYPE.SINGLE]: "Одиночный автомобиль",
       [VEHICLE_TYPE.SEMI_TRAILER]: "Тягач + полуприцеп",
-      [VEHICLE_TYPE.TRAILER]: "Тягач + прицеп",
-      [VEHICLE_TYPE.LOW_LOADER]: "Тягач + трал",
+      [VEHICLE_TYPE.TRAILER]: "Фургон + прицеп",
+      [VEHICLE_TYPE.LOW_LOADER]: "Тягач + трал (модульный трал)",
     };
     const vehicleType = checkedId("calc-atc-type");
     const groups = ["first", "second", "third", "fourth", "fifth"]
@@ -130,11 +130,11 @@
         image: "calc-atc-type/polupricep.webp",
       },
       [VEHICLE_TYPE.TRAILER]: {
-        label: "Тягач + прицеп",
+        label: "Фургон + прицеп",
         image: "calc-atc-type/pricep.webp",
       },
       [VEHICLE_TYPE.LOW_LOADER]: {
-        label: "Тягач + трал",
+        label: "Тягач + трал (модульный трал)",
         image: "calc-atc-type/trall.webp",
       },
     };
@@ -150,19 +150,81 @@
       .attr("alt", vehicle.label);
   }
 
+  function initializeSingleVehicleCarousel() {
+    const $image = $(".single-vehicle-carousel").first();
+    const slides = [
+      {
+        source: "calc-atc-type/single.webp",
+        alt: "Грузовой автомобиль без прицепа",
+      },
+      {
+        source: "calc-atc-type/single-crane.webp",
+        alt: "Одиночный автомобиль — автокран",
+      },
+      {
+        source: "calc-atc-type/single-mixer.webp",
+        alt: "Одиночный автомобиль — автобетоносмеситель",
+      },
+    ];
+
+    if (!$image.length) return;
+
+    slides.forEach(({ source }) => {
+      const preload = new Image();
+      preload.src = source;
+    });
+
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let index = 0;
+    window.setInterval(() => {
+      index = (index + 1) % slides.length;
+      $image
+        .addClass("is-changing")
+        .attr("src", slides[index].source)
+        .attr("alt", slides[index].alt);
+      window.setTimeout(() => $image.removeClass("is-changing"), 180);
+    }, 4000);
+  }
+
   const VEHICLE_GUIDES = Object.freeze({
-    [VEHICLE_TYPE.SINGLE]: "guidance/vehicle-drive-axle.webp",
+    [VEHICLE_TYPE.SINGLE]: "calc-atc-type/single.webp",
     [VEHICLE_TYPE.SEMI_TRAILER]: "guidance/vehicle-semitrailer.webp",
     [VEHICLE_TYPE.TRAILER]: "guidance/vehicle-trailer.webp",
-    [VEHICLE_TYPE.LOW_LOADER]: "guidance/vehicle-tral-axle.jpeg",
+    [VEHICLE_TYPE.LOW_LOADER]: "calc-atc-type/trall.webp",
   });
 
-  function applyVehicleDefaults(type) {
-    const isSingle = type === VEHICLE_TYPE.SINGLE;
+  function clearVehicleDimensionDefaults() {
+    $("#atc_length, #atc_width, #atc_height").val("");
+  }
 
-    $("#atc_length").val(isSingle ? 12 : 18);
-    $("#atc_width").val(2.55);
-    $("#atc_height").val(4);
+  function syncSingleThreeAxleException() {
+    const type = checkedId("calc-atc-type");
+    const isEligibleConfiguration =
+      type === VEHICLE_TYPE.SINGLE &&
+      selectedAxleCount("first-os") + selectedAxleCount("second-os") === 3 &&
+      selectedAxleCount("second-os") === 2 &&
+      checkedId("second-os-skat") === "second-2skat";
+
+    setHidden(".single-three-axle-exception", !isEligibleConfiguration);
+
+    if (!isEligibleConfiguration) {
+      $("#singleThreeAxleBonusConfirmed").prop("checked", false);
+    }
+  }
+
+  function syncTrailerSpacingRule(type) {
+    const trailer = type === VEHICLE_TYPE.TRAILER;
+    const optionText = trailer
+      ? "свыше 1,8 метра до 2 метров включительно"
+      : "свыше 1,8 метра до 2,5 метра включительно";
+
+    $("#thirdOsDistance, #fourthOsDistance")
+      .find('option[value="4"]')
+      .text(optionText);
+    setHidden(".trailer-separated-axle-hint", !trailer);
   }
 
   function updateVehicleGuides(type) {
@@ -233,6 +295,28 @@
     const trailer = type === VEHICLE_TYPE.TRAILER;
     const semiTrailer = type === VEHICLE_TYPE.SEMI_TRAILER;
     const single = type === VEHICLE_TYPE.SINGLE;
+    const thirdGroupTitle = lowLoader
+      ? "Модульный трал"
+      : semiTrailer
+        ? "Группы осей на полуприцепе"
+        : trailer
+          ? "Первая ось / группа осей на прицепе"
+          : "Третья группа осей";
+    const optionalFourthLabel = lowLoader
+      ? "Добавить вторую группу осей на трале..."
+      : "Добавить отдельную ось / вторую группу осей на прицепе...";
+
+    $(".third-os-group > .os-container > .step-label")
+      .first()
+      .text(thirdGroupTitle);
+    $(".third-os-group-container > .step-label")
+      .first()
+      .text(thirdGroupTitle);
+    $(".add-os-btn.fourth").data("add-label", optionalFourthLabel);
+
+    if (!$(".add-os-btn.fourth").hasClass("os-active")) {
+      $(".add-os-btn.fourth").text(optionalFourthLabel);
+    }
 
     setVisible(".first-os-group", true);
     setVisible(".second-os-group", true);
@@ -271,7 +355,9 @@
       $(".fifth-os-group .os-container").hide();
     }
 
-    applyVehicleDefaults(type);
+    clearVehicleDimensionDefaults();
+    syncSingleThreeAxleException();
+    syncTrailerSpacingRule(type);
     updateVehicleGuides(type);
     syncOptionalWeightFields();
     validateParametersStep();
@@ -508,6 +594,11 @@
       `Тип ТС: ${vehiclePresentation(form.atc_type).label}`,
       `Нагрузки по группам осей: ${weightSummary.label}`,
       `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
+      ...(form.atc_type === VEHICLE_TYPE.SINGLE
+        ? [
+            `Условие лимита 26 т: ${form.singleThreeAxleBonusConfirmed ? "подтверждено" : "не подтверждено; применяется лимит 25 т"}`,
+          ]
+        : []),
       `Габариты (Д × Ш × В): ${form.length} × ${form.width} × ${form.height} м`,
       `Маршрут: ${form.routeLabel}`,
       `Расстояние: ${form.distance} км`,
@@ -558,6 +649,10 @@
 
     if (/^(first|second|third|fourth|fifth)-os$/.test(name)) {
       updateStandardAxleDistance(name, $input.attr("id"));
+    }
+
+    if (/^(first|second)-os(?:-skat)?$/.test(name)) {
+      syncSingleThreeAxleException();
     }
 
     const trailerGroupMatch = name.match(
@@ -930,6 +1025,11 @@
     const details = [
       `Нагрузки по группам осей: ${weightSummary.label}`,
       `Общая фактическая масса: ${weightSummary.total.toFixed(2)} т`,
+      ...(form.atc_type === VEHICLE_TYPE.SINGLE
+        ? [
+            `Условие лимита 26 т: ${form.singleThreeAxleBonusConfirmed ? "подтверждено" : "не подтверждено; применяется лимит 25 т"}`,
+          ]
+        : []),
       `Габариты (Д × Ш × В): ${form.length} × ${form.width} × ${form.height} м`,
       `Маршрут: ${form.routeLabel}`,
       `Расстояние маршрута: ${form.distance} км`,
@@ -1981,6 +2081,11 @@
           width: 100% !important;
           height: 185px !important;
           object-fit: contain !important;
+          transition: opacity 180ms ease;
+        }
+
+        .step[data-spa-step="1"] .vehicle-selection .btn.col-btn > img.is-changing {
+          opacity: 0.35;
         }
 
         .step-content.three .btn.col-btn {
@@ -2254,7 +2359,7 @@
     const $trailerGroupTitle = $(
       ".third-os-group > .os-container > .step-label",
     ).first();
-    $trailerGroupTitle.text("Группы осей на прицепе (трале)");
+    $trailerGroupTitle.text("Первая ось / группа осей на прицепе");
 
     const wrapAdvancedOptions = ($container, $options, type, label) => {
       if (!$container.length || !$options.length) return;
@@ -2272,7 +2377,7 @@
         return $(this).closest(".col-btn").get(0);
       }),
       "axles",
-      "Сложная конструкция — группы осей на прицепе (трале)",
+      "Модульный трал",
     );
     wrapAdvancedOptions(
       $(".fourth-os-tral-container > .container > .wrap-advanced-tral").first(),
@@ -2280,7 +2385,7 @@
         return $(this).closest(".col-btn").get(0);
       }),
       "axles",
-      "Сложная конструкция — группы осей на прицепе (трале)",
+      "Модульный трал",
     );
     wrapAdvancedOptions(
       $(".fifth-os-tral-container > .container > .wrap-advanced-tral").first(),
@@ -2288,7 +2393,7 @@
         return $(this).closest(".col-btn").get(0);
       }),
       "axles",
-      "Сложная конструкция — группы осей на прицепе (трале)",
+      "Модульный трал",
     );
     wrapAdvancedOptions(
       $(".first-os-group .os-container > .wrap-advanced-axles").first(),
@@ -2467,6 +2572,7 @@
     $(".step-one-form").on("input", validateDistanceStep);
     $("#finalDistance").on("input", handleFinalDistanceInput);
     $("#teshaWeight").on("input", validateDollyStep);
+    $("#singleThreeAxleBonusConfirmed").on("change", validateParametersStep);
     $(".add-os-btn").on("click", handleOptionalAxleToggle);
     $(".reset-btn").on("click", handleResetClick);
     $("#axleResetButton").on("click", handleAxleResetClick);
@@ -2502,6 +2608,7 @@
     });
 
     applyCustomerLayoutPolish();
+    initializeSingleVehicleCarousel();
     bindEvents();
     attachGeoapifySuggest("origin");
     attachGeoapifySuggest("destination");

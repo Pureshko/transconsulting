@@ -103,6 +103,9 @@ function readFormData() {
     y4: fifthActive ? numericValue("#fifth-os-weight") : 0,
 
     restrictionSeason: $("#restrictionSeason").is(":checked"),
+    singleThreeAxleBonusConfirmed: $(
+      "#singleThreeAxleBonusConfirmed",
+    ).is(":checked"),
     height: numericValue("#atc_height"),
     width: numericValue("#atc_width"),
     length: numericValue("#atc_length"),
