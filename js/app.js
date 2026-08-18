@@ -234,8 +234,8 @@
     $(".vehicle-context-guide, .weight-vehicle-guide")
       .attr("src", guide)
       .attr("alt", `Схема: ${label}`);
-    const steeringGuide = type === VEHICLE_TYPE.LOW_LOADER ? "guidance/axle-front.webp" : "guidance/vehicle-steering-axle.webp";
-    const driveGuide = type === VEHICLE_TYPE.LOW_LOADER ? "guidance/axle-rear.webp" : "guidance/vehicle-drive-axle.webp";
+    const steeringGuide = type === VEHICLE_TYPE.LOW_LOADER || VEHICLE_TYPE.SEMI_TRAILER ? "guidance/axle-front.webp" : "guidance/vehicle-steering-axle.webp";
+    const driveGuide = type === VEHICLE_TYPE.LOW_LOADER || VEHICLE_TYPE.SEMI_TRAILER ? "guidance/axle-rear.webp" : "guidance/vehicle-drive-axle.webp";
     $(".steering-context-guide").each(function updateSteeringGuide() {
       $(this)
         .attr("src", steeringGuide)
@@ -296,7 +296,7 @@
     const semiTrailer = type === VEHICLE_TYPE.SEMI_TRAILER;
     const single = type === VEHICLE_TYPE.SINGLE;
     const thirdGroupTitle = lowLoader
-      ? "Модульный трал"
+      ? "Группа осей на полуприцеп"
       : semiTrailer
         ? "Группы осей на полуприцепе"
         : trailer
@@ -2377,7 +2377,7 @@
         return $(this).closest(".col-btn").get(0);
       }),
       "axles",
-      "Модульный трал",
+      "Группа осей на полуприцеп",
     );
     wrapAdvancedOptions(
       $(".fourth-os-tral-container > .container > .wrap-advanced-tral").first(),
@@ -2385,7 +2385,7 @@
         return $(this).closest(".col-btn").get(0);
       }),
       "axles",
-      "Модульный трал",
+      "Группа осей на полуприцеп",
     );
     wrapAdvancedOptions(
       $(".fifth-os-tral-container > .container > .wrap-advanced-tral").first(),
@@ -2393,7 +2393,7 @@
         return $(this).closest(".col-btn").get(0);
       }),
       "axles",
-      "Модульный трал",
+      "Группа осей на полуприцеп",
     );
     wrapAdvancedOptions(
       $(".first-os-group .os-container > .wrap-advanced-axles").first(),
