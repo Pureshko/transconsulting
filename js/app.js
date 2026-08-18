@@ -234,8 +234,8 @@
     $(".vehicle-context-guide, .weight-vehicle-guide")
       .attr("src", guide)
       .attr("alt", `Схема: ${label}`);
-    const steeringGuide = type === VEHICLE_TYPE.LOW_LOADER || VEHICLE_TYPE.SEMI_TRAILER ? "guidance/axle-front.webp" : "guidance/vehicle-steering-axle.webp";
-    const driveGuide = type === VEHICLE_TYPE.LOW_LOADER || VEHICLE_TYPE.SEMI_TRAILER ? "guidance/axle-rear.webp" : "guidance/vehicle-drive-axle.webp";
+    const steeringGuide = type === VEHICLE_TYPE.LOW_LOADER || type === VEHICLE_TYPE.SEMI_TRAILER ? "guidance/axle-front.webp" : "guidance/vehicle-steering-axle.webp";
+    const driveGuide = type === VEHICLE_TYPE.LOW_LOADER || type === VEHICLE_TYPE.SEMI_TRAILER ? "guidance/axle-rear.webp" : "guidance/vehicle-drive-axle.webp";
     $(".steering-context-guide").each(function updateSteeringGuide() {
       $(this)
         .attr("src", steeringGuide)
