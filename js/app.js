@@ -87,7 +87,7 @@
       [VEHICLE_TYPE.SINGLE]: "Одиночный автомобиль",
       [VEHICLE_TYPE.SEMI_TRAILER]: "Тягач + полуприцеп",
       [VEHICLE_TYPE.TRAILER]: "Фургон + прицеп",
-      [VEHICLE_TYPE.LOW_LOADER]: "Тягач + трал (модульный трал)",
+      [VEHICLE_TYPE.LOW_LOADER]: "Тягач + трал \n(модульный трал)",
     };
     const vehicleType = checkedId("calc-atc-type");
     const groups = ["first", "second", "third", "fourth", "fifth"]
