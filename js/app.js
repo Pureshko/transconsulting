@@ -2352,6 +2352,317 @@
             padding: 0 8px !important;
           }
         }
+
+        /* Responsive hardening for tablets, phones and narrow windows. */
+        html {
+          overflow-x: hidden;
+        }
+
+        body {
+          width: 100% !important;
+          padding: 0 !important;
+        }
+
+        .calculator-main,
+        .steps,
+        .step,
+        .step-content,
+        .form-container,
+        .form-group,
+        .form-floating,
+        .input-group {
+          min-width: 0;
+        }
+
+        @media (min-width: 900px) and (max-width: 1279.98px) {
+          .calculator-shell {
+            grid-template-columns: 250px minmax(0, 1fr) !important;
+          }
+
+          .calculator-sidebar {
+            padding-right: 14px !important;
+            padding-left: 18px !important;
+          }
+
+          .calculator-main {
+            padding-right: clamp(20px, 3vw, 34px) !important;
+            padding-left: clamp(20px, 3vw, 34px) !important;
+          }
+
+          .stepper__item {
+            grid-template-columns: 32px 38px minmax(0, 1fr) !important;
+          }
+
+          .stepper__icon {
+            width: 38px !important;
+            height: 38px !important;
+          }
+        }
+
+        @media (min-width: 900px) and (max-width: 1199.98px) {
+          body[data-current-step]:not([data-current-step="1"]) .calculator-header {
+            grid-template-columns: auto minmax(220px, 1fr) auto !important;
+          }
+
+          body[data-current-step]:not([data-current-step="1"]) .calculator-header__title {
+            display: none;
+          }
+
+          body[data-current-step]:not([data-current-step="1"]) .header-progress {
+            width: 100%;
+            min-width: 0 !important;
+          }
+
+          body[data-current-step]:not([data-current-step="1"]) .header-progress__line {
+            width: 100%;
+          }
+        }
+
+        @media (min-width: 600px) and (max-width: 899.98px) {
+          .step[data-spa-step="1"] .vehicle-selection > .form-container,
+          .step[data-spa-step="1"] .vehicle-selection.form-container {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 16px !important;
+          }
+
+          .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
+            min-height: 270px !important;
+            padding: 18px !important;
+          }
+
+          .step[data-spa-step="1"] .vehicle-selection .btn.col-btn > img {
+            height: 125px !important;
+            margin: 8px 0 10px !important;
+          }
+        }
+
+        @media (max-width: 899.98px) {
+          .calculator-header {
+            gap: 12px !important;
+          }
+
+          .calculator-main {
+            padding: 22px clamp(16px, 4vw, 28px) 38px !important;
+          }
+
+          .steps {
+            min-height: 0;
+          }
+
+          .step-header {
+            margin-bottom: 20px;
+          }
+
+          .step-header .header {
+            font-size: clamp(24px, 5vw, 30px) !important;
+            overflow-wrap: anywhere;
+          }
+
+          .step-header .header::after,
+          .text-secondary,
+          .embedded-dolly-section__heading p {
+            font-size: 14px !important;
+            line-height: 1.45 !important;
+          }
+
+          .os-container,
+          .step-content.four .row > .col,
+          .step-content.five .form-container,
+          .step-content.one > .form-floating,
+          .step-content.tesha > .container,
+          .result-content {
+            padding: 18px !important;
+          }
+
+          .step-content.three > .form-container > .row,
+          .step-content.four .row,
+          .combined-dimensions-section .form-container {
+            gap: 14px !important;
+          }
+
+          .embedded-dolly-section,
+          .combined-dimensions-section {
+            margin-top: 22px;
+            padding-top: 20px;
+          }
+
+          .embedded-dolly-section__heading .step-label,
+          .combined-dimensions-section > .step-label {
+            font-size: 19px;
+          }
+
+          .result-content {
+            gap: 18px !important;
+          }
+
+          .final-text {
+            padding: 20px;
+          }
+        }
+
+        @media (max-width: 559.98px) {
+          .calculator-header {
+            min-height: 68px !important;
+            padding: 9px 12px !important;
+          }
+
+          .calculator-main {
+            padding: 16px 12px 30px !important;
+          }
+
+          .mobile-progress {
+            gap: 10px;
+            margin-bottom: 17px;
+          }
+
+          .step-header {
+            margin-bottom: 16px;
+          }
+
+          .step-header .header {
+            font-size: clamp(22px, 7vw, 27px) !important;
+            letter-spacing: -0.45px;
+          }
+
+          .step[data-spa-step="1"] .vehicle-selection .btn.col-btn {
+            min-height: 210px !important;
+            padding: 14px 16px !important;
+          }
+
+          .step[data-spa-step="1"] .vehicle-selection .btn.col-btn > img {
+            height: 100px !important;
+            margin: 2px 0 7px !important;
+          }
+
+          .step[data-spa-step="1"] .vehicle-selection .col-label {
+            min-height: 0 !important;
+            font-size: 16px !important;
+          }
+
+          .vehicle-card__description {
+            min-height: 0;
+            margin-top: 5px;
+            font-size: 13px;
+            line-height: 1.4;
+          }
+
+          .vehicle-card__axles {
+            margin-top: 10px;
+            padding: 6px 10px;
+            font-size: 12px;
+          }
+
+          .selection-help {
+            margin-top: 18px;
+          }
+
+          .btn.col-btn,
+          .step-content.three .btn.col-btn {
+            min-height: 68px !important;
+            gap: 10px;
+            padding: 11px !important;
+          }
+
+          .step-content.three .btn.col-btn img:not(.axle-focus-image) {
+            max-width: 88px !important;
+            height: 52px !important;
+            max-height: 52px !important;
+          }
+
+          .advanced-axle-options summary {
+            padding: 11px 12px;
+            font-size: 13px;
+          }
+
+          .navigation-container {
+            flex-direction: column-reverse !important;
+            align-items: stretch !important;
+            gap: 10px !important;
+            margin-top: 22px;
+            padding-top: 18px;
+          }
+
+          .navigation-container > .next-btn,
+          .navigation-container > .calc-btn,
+          .navigation-container > .prev-btn {
+            width: 100% !important;
+            min-height: 48px;
+          }
+
+          .intermediate-route-control {
+            grid-template-columns: minmax(0, 1fr) 42px;
+          }
+
+          .remove-intermediate-route {
+            width: 42px !important;
+          }
+
+          #map {
+            height: 280px !important;
+          }
+
+          .result-content,
+          .final-text,
+          .cover-vehicle-notice {
+            padding: 15px !important;
+          }
+
+          #totalSum {
+            font-size: clamp(25px, 9vw, 34px);
+            overflow-wrap: anywhere;
+          }
+
+          .result-actions {
+            gap: 10px;
+          }
+
+          .result-actions > *,
+          .result-toolbar > * {
+            width: 100% !important;
+          }
+
+          .modal-dialog {
+            margin: 10px;
+          }
+
+          .modal-footer {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+          }
+
+          .modal-footer > * {
+            width: 100%;
+            margin: 0 !important;
+          }
+        }
+
+        @media (max-width: 379.98px) {
+          .brand__wordmark strong {
+            font-size: 19px !important;
+          }
+
+          .header-contact-link {
+            max-width: 84px !important;
+            min-height: 40px !important;
+            padding: 0 7px !important;
+            font-size: 10px !important;
+          }
+
+          .home-link {
+            min-width: 40px;
+            min-height: 40px !important;
+          }
+
+          .os-container,
+          .step-content.four .row > .col,
+          .step-content.five .form-container,
+          .step-content.one > .form-floating,
+          .step-content.tesha > .container,
+          .result-content {
+            padding: 13px !important;
+          }
+        }
       `;
       document.head.appendChild(style);
     }
