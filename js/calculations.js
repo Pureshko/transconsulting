@@ -181,21 +181,16 @@ function getSingleVehicleAllowedMass(input) {
 
   if (totalAxles === 3) {
     /*
-     * The 2026 edition keeps the 26 t exception for a three-axle
-     * single vehicle when the driven axles are dual-tyred and each
-     * axle does not exceed 9.5 t.
+     * The standard limit is 25 t. The 26 t exception depends on facts
+     * that this calculator cannot verify from a grouped axle load:
+     * which axles are driven and the load on every driven axle.
      *
-     * The form only provides the total driven-group load, so it cannot
-     * infer the per-axle condition from the total. The 26 t exception is
-     * therefore applied only after an explicit user confirmation.
+     * Applying the exception from the tyre type or a grouped average
+     * undercharges vehicles such as the QY25K 5 from permit 04006644,
+     * whose official calculation uses 25 t. Keep the verifiable 25 t
+     * limit until individual driven-axle data is available.
      */
-    const hasThreeAxleBonus =
-      Number(input.secondOsCount) === 2 &&
-      tyreTypeFromId(input.second_os_skat) ===
-        "dualTyre" &&
-      input.singleThreeAxleBonusConfirmed === true;
-
-    return hasThreeAxleBonus ? MASSES.O21 : MASSES.O2;
+    return MASSES.O2;
   }
 
   if (totalAxles === 4) return MASSES.O3;

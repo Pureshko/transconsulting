@@ -16,6 +16,10 @@ function calculate(input) {
   return vm.runInContext("calculateCharge(testInput)", context);
 }
 
+function evaluate(expression) {
+  return vm.runInContext(expression, context);
+}
+
 function closeTo(actual, expected, tolerance = 0.01) {
   assert.ok(
     Math.abs(actual - expected) <= tolerance,
@@ -43,13 +47,71 @@ const craneCase = {
 const craneWithoutConfirmation = calculate(craneCase);
 closeTo(craneWithoutConfirmation.coefficient, 0.0056, 0.0000001);
 closeTo(craneWithoutConfirmation.amount, 32236.82);
+assert.equal(Math.round(craneWithoutConfirmation.amount), 32237);
 
 const craneWithConfirmation = calculate({
   ...craneCase,
   singleThreeAxleBonusConfirmed: true,
 });
-closeTo(craneWithConfirmation.coefficient, 0.0012, 0.0000001);
-closeTo(craneWithConfirmation.amount, 6907.89);
+closeTo(craneWithConfirmation.coefficient, 0.0056, 0.0000001);
+closeTo(craneWithConfirmation.amount, 32236.82);
+
+const overloadBoundaries = [
+  [-1, 0],
+  [0, 0],
+  [0.01, 0.011],
+  [10, 0.011],
+  [10.01, 0.014],
+  [20, 0.014],
+  [20.01, 0.19],
+  [30, 0.19],
+  [30.01, 0.38],
+  [40, 0.38],
+  [40.01, 0.5],
+  [50, 0.5],
+  [50.01, 1],
+];
+
+for (const [percent, expectedRate] of overloadBoundaries) {
+  closeTo(
+    evaluate(`overloadCoefficient(${percent})`),
+    expectedRate,
+    0.0000001,
+  );
+}
+
+closeTo(
+  evaluate('dimensionCoefficient(4, 2.55, 12, 12)'),
+  0,
+  0.0000001,
+);
+closeTo(
+  evaluate('dimensionCoefficient(4.5, 3, 12.3, 12)'),
+  0.0192,
+  0.0000001,
+);
+closeTo(
+  evaluate('dimensionCoefficient(5, 3.75, 13, 12)'),
+  0.041,
+  0.0000001,
+);
+
+assert.equal(
+  evaluate('getAxleGroupLimit(1, 0, "first-1skat")'),
+  10.5,
+);
+assert.equal(
+  evaluate('getAxleGroupLimit(2, 3, "second-2skat")'),
+  18,
+);
+assert.equal(
+  evaluate('getAxleGroupLimit(3, 4, "third-1skat")'),
+  25,
+);
+assert.equal(
+  evaluate('getAxleGroupLimit(4, 2, "fourth-2skat")'),
+  28,
+);
 
 const trailerBase = {
   atc_type: "pricep",
